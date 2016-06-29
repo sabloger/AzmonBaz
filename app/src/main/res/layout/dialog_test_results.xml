@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_radius_gray"
+    android:minWidth="280dp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal|end"
+        android:paddingTop="0dp"
+        android:textColor="@color/darkGray"
+        android:textSize="18sp" />
+
+    <com.kokabi.p.azmonbaz.Components.CTextViewSans
+        android:id="@+id/sub_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_tv"
+        android:layout_gravity="center_horizontal|end"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/mediumGray"
+        android:textSize="14sp" />
+
+    <com.kokabi.p.azmonbaz.Components.CTextViewSans
+        android:id="@+id/results_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sub_title_tv"
+        android:layout_gravity="center_horizontal|end"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/mediumGray"
+        android:textSize="14sp" />
+
+
+    <com.kokabi.p.azmonbaz.Components.CButton
+        android:id="@+id/seeResults_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/results_tv"
+        android:layout_marginStart="8dp"
+        android:background="@color/transparent"
+        android:padding="8dp"
+        android:text="@string/seeResults"
+        android:textColor="@color/mediumGray"
+        android:textSize="14sp" />
+
+</RelativeLayout>

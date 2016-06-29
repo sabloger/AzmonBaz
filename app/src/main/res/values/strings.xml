@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">آزمون باز</string>
+
+    <string name="drawer_opened">Opened</string>
+    <string name="drawer_closed">Closed</string>
+
+    <!--CoursesTest Activity-->
+    <string name="firstChoice">گزینه ۱</string>
+    <string name="secondChoice">گزینه ۲</string>
+    <string name="thirdChoice">گزینه ۳</string>
+    <string name="fourthChoice">گزینه ۴</string>
+    <string name="next">بعدی</string>
+    <string name="previous">قبلی</string>
+    <string name="seeResults">مشاهده جواب ها</string>
+</resources>

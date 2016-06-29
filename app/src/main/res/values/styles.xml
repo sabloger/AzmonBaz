@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base" />
+
+    <!-- Base application theme. -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="colorControlNormal">@color/primaryColor</item>
+        <item name="colorControlActivated">@color/darkPrimaryColor</item>
+        <item name="colorControlHighlight">@color/darkPrimaryColor</item>
+    </style>
+
+    <!--Linear ProgressView-->
+    <style name="LinearProgress" parent="Material.Drawable.LinearProgress.Determinate">
+            <item name="lpd_strokeColor">@color/accentColor</item>
+            <item name="lpd_strokeSecondaryColor">@color/lightPrimaryColor</item>
+    </style>
+
+    <!--Circular ProgressView-->
+    <style name="CircularProgress" parent="Material.Drawable.CircularProgress.Determinate">
+        <item name="cpd_strokeColor">@color/accentColor</item>
+        <item name="cpd_strokeSize">2dp</item>
+    </style>
+
+</resources>

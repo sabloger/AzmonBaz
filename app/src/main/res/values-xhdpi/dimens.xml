@@ -1,0 +1,17 @@
+<resources>
+
+    <!--Drawer-->
+    <dimen name="drawerWidth">280dp</dimen>
+
+    <!--Calender-->
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!--Edit Text-->
+    <dimen name="editTextPaddingRight">5dp</dimen>
+    <dimen name="editTextPaddingLeft">5dp</dimen>
+    <dimen name="editTextPaddingTop">16dp</dimen>
+    <dimen name="editTextPaddingBottom">16dp</dimen>
+    <dimen name="marginTop">8dp</dimen>
+    <dimen name="gridViewHeight">104dp</dimen>
+
+</resources>
