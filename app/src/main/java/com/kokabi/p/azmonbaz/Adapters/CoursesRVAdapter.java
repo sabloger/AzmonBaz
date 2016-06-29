@@ -1,8 +1,12 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -12,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -24,12 +30,10 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
     Context context;
     GestureDetector mGestureDetector;
     private OnItemClickListener mListener;
-    ArrayList<String> coursesTitle = new ArrayList<>();
-    ArrayList<Integer> coursesIcon = new ArrayList<>();
+    ArrayList<CategoryObj> courses = new ArrayList<>();
 
-    public CoursesRVAdapter(ArrayList<String> dataInput, ArrayList<Integer> iconInput) {
-        coursesTitle = dataInput;
-        coursesIcon = iconInput;
+    public CoursesRVAdapter(ArrayList<CategoryObj> dataInput) {
+        courses = dataInput;
     }
 
     public CoursesRVAdapter(Context context, OnItemClickListener listener) {
@@ -44,6 +48,7 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public CardView course_cav;
         public FrameLayout course_fr;
         public TextView courseTitle_tv;
         public AppCompatImageView courseIcon_imgv;
@@ -51,6 +56,8 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
+
+            course_cav = (CardView) itemView.findViewById(R.id.course_cav);
 
             course_fr = (FrameLayout) itemView.findViewById(R.id.course_fr);
 
@@ -70,25 +77,21 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        switch (position) {
-            case 0:
-                holder.course_fr.setBackgroundResource(R.drawable.bg_gradiant_math);
-                break;
-            case 1:
-                holder.course_fr.setBackgroundResource(R.drawable.bg_gradiant_physics);
-                break;
-            case 2:
-                holder.course_fr.setBackgroundResource(R.drawable.bg_gradiant_chemistry);
-                holder.courseTitle_tv.setTextColor(Color.parseColor("#777777"));
-                break;
+        holder.course_cav.setCardBackgroundColor(Color.parseColor(courses.get(position).getBackColor()));
+        holder.course_fr.setBackgroundResource(courses.get(position).getBackImage());
+        holder.courseTitle_tv.setText(courses.get(position).getCatName());
+        holder.courseTitle_tv.setTextColor(Color.parseColor(courses.get(position).getTextColor()));
+        File imgFile = new File(Environment.getExternalStorageDirectory().getPath() + "azmonbaz/test.png");
+        if (imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            holder.courseIcon_imgv.setImageBitmap(myBitmap);
+
         }
-        holder.courseTitle_tv.setText(coursesTitle.get(position));
-        holder.courseIcon_imgv.setImageResource(coursesIcon.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return coursesTitle.size();
+        return courses.size();
     }
 
     @Override

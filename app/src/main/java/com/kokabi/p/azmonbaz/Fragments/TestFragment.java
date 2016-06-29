@@ -8,13 +8,20 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.Adapters.CoursesRVAdapter;
+import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,8 +34,6 @@ public class TestFragment extends Fragment {
 
     /*Fragment Values*/
     CoursesRVAdapter rvAdapter;
-    ArrayList<String> coursesTitle = new ArrayList<>();
-    ArrayList<Integer> coursesIcon = new ArrayList<>();
 
     @Nullable
     @Override
@@ -46,15 +51,7 @@ public class TestFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         coursesRecycleView.setHasFixedSize(true);
 
-        coursesTitle.add("ریاضی");
-        coursesTitle.add("فیزیک");
-        coursesTitle.add("شیمی");
-
-        coursesIcon.add(R.drawable.icon_math);
-        coursesIcon.add(R.drawable.icon_physics);
-        coursesIcon.add(R.drawable.ic_chemistry);
-
-        rvAdapter = new CoursesRVAdapter(coursesTitle, coursesIcon);
+        rvAdapter = new CoursesRVAdapter(pageMaker());
         coursesRecycleView.setAdapter(rvAdapter);
 
         coursesRecycleView.addOnItemTouchListener(new CoursesRVAdapter(context, new CoursesRVAdapter.OnItemClickListener() {
@@ -65,6 +62,33 @@ public class TestFragment extends Fragment {
         }));
 
         return v;
+    }
+
+    private ArrayList<CategoryObj> pageMaker() {
+        ArrayList<CategoryObj> result = new ArrayList<>();
+        try {
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.categories)).getJSONArray("categories");
+
+            int length = categoryArray.length();
+            for (int i = 0; i < length; ++i) {
+                JSONObject event = categoryArray.getJSONObject(i);
+
+                int idCat = event.getInt("idCat");
+                String catName = event.getString("catName");
+                String backColor = event.getString("backColor");
+                String textColor = event.getString("textColor");
+                int backImage = event.getInt("backImage");
+                String resIcon = event.getString("resIcon");
+                int categoryOrder = event.getInt("categoryOrder");
+                int idParent = event.getInt("idParent");
+
+                result.add(new CategoryObj(idCat, catName, backColor, textColor, backImage, resIcon, categoryOrder, idParent));
+            }
+
+        } catch (JSONException e) {
+            Log.e(TestFragment.class.getName(), e.getMessage());
+        }
+        return result;
     }
 
     private void findViews(View v) {

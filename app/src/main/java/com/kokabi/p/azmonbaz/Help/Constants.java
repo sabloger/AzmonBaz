@@ -19,6 +19,11 @@ public class Constants {
     /*Setting Parameters*/
     public static Boolean isShortcutCreated = false;
 
+    //Config
+    public final static String appFolder = "/AzmonBaz";
+    public final static String catFolder = "/Categories";
+    public final static String iconFolder = "/Icons";
+
     /*Fonts*/
     public final static String FONT_SANS = "fonts/sans.ttf";
     public final static String FONT_SANS_MEDIUM = "fonts/sans_medium.ttf";

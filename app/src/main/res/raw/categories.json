@@ -1,0 +1,34 @@
+{
+  "categories": [
+    {
+      "idCat": 1,
+      "catName": "ریاضی",
+      "backColor": "#FF2E62",
+      "textColor": "#FFFFFF",
+      "backImage": 0,
+      "resIcon": "icon_math.xml",
+      "categoryOrder": 1,
+      "idParent": 0
+    },
+    {
+      "idCat": 2,
+      "catName": "فیزیک",
+      "backColor": "#02AAFF",
+      "textColor": "#FFFFFF",
+      "backImage": 0,
+      "resIcon": "icon_physics.xml",
+      "categoryOrder": 2,
+      "idParent": 0
+    },
+    {
+      "idCat": 3,
+      "catName": "شیمی",
+      "backColor": "#FFEC63",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "ic_chemistry.xml",
+      "categoryOrder": 3,
+      "idParent": 0
+    }
+  ]
+}

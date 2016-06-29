@@ -38,6 +38,8 @@ dependencies {
     compile 'com.android.support:design:24.0.0'
     /*Material Elements Library*/
     compile(name: 'material-1.2.2', ext: 'aar')
+    /*Material Ripple*/
+    compile 'com.balysv:material-ripple:1.0.2'
     /*Zoomable Image*/
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
 }
