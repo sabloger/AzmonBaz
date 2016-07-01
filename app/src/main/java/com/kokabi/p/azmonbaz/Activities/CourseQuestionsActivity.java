@@ -3,11 +3,9 @@ package com.kokabi.p.azmonbaz.Activities;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -26,7 +24,6 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
-import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.R;
@@ -36,7 +33,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -69,7 +67,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     ArrayList<Integer> correctAnsweredList = new ArrayList<>();
     ArrayList<Integer> unAnsweredList = new ArrayList<>();
     ArrayList<Integer> inCorrectAnsweredList = new ArrayList<>();
-    private boolean isNot = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,10 +97,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
                 pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
                         , pageMaker().get(i).getQuestionImages(), pageMaker().get(i).getAnswerImages(), pageMaker().get(i).getKeys()
                         , pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
-            } else {
-                // TODO Remove when Project is finished
-                isNot = true;
-                finish();
             }
         }
 
@@ -112,16 +105,13 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         progressBar.setProgress(0f);
         progressBar.start();
 
-        // TODO Remove when Project is finished
-        if (!isNot) {
-            totalQuestion = pageTest.getQuestionNo() - 1;
+        totalQuestion = pageTest.getQuestionNo() - 1;
 
 
-            showQuestions(0);
-            questionZoomable = new PhotoViewAttacher(question_imgv);
+        showQuestions(0);
+        questionZoomable = new PhotoViewAttacher(question_imgv);
 
-            numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
-        }
+        numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
     }
 
     @Override
@@ -361,14 +351,22 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
 
     private void showQuestions(int position) {
         /*get path of saved file to show the backImages*/
-        File root = android.os.Environment.getExternalStorageDirectory();
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionImages().get(position));
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            question_imgv.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
+        }
+/*        File root = android.os.Environment.getExternalStorageDirectory();
         File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
                 + Constants.testFolder + Constants.questionsFolder + "/" + pageTest.getQuestionImages().get(position));
         if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
             question_imgv.setImageDrawable(drawable);
-        }
+        }*/
     }
 
     private void addAnswer() {
@@ -417,7 +415,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
             public void onClick(View view) {
                 dialogResults.dismiss();
                 finish();
-                startActivity(new Intent(context, CourseAnswersActivity.class));
+//                startActivity(new Intent(context, CourseAnswersActivity.class));
             }
         });
 

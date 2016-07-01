@@ -6,7 +6,7 @@
       "backColor": "#FF2E62",
       "textColor": "#FFFFFF",
       "backImage": 0,
-      "resIcon": "icon_math",
+      "resIcon": "ic_math",
       "categoryOrder": "3",
       "idParent": 0
     },
@@ -16,7 +16,7 @@
       "backColor": "#02AAFF",
       "textColor": "#FFFFFF",
       "backImage": 0,
-      "resIcon": "icon_physics",
+      "resIcon": "ic_physics",
       "categoryOrder": "1",
       "idParent": 0
     },
