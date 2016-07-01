@@ -47,10 +47,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
-                if (ActivityCompat.checkSelfPermission(context, mPermission[0]) != MockPackageManager.PERMISSION_GRANTED ||
-                        ActivityCompat.checkSelfPermission(context, mPermission[1]) != MockPackageManager.PERMISSION_GRANTED ||
-                        ActivityCompat.checkSelfPermission(context, mPermission[2]) != MockPackageManager.PERMISSION_GRANTED ||
-                        ActivityCompat.checkSelfPermission(context, mPermission[3]) != MockPackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(context, mPermission[0]) != MockPackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, mPermission, REQUEST_CODE_PERMISSIONS);
                 } else {
                     welcomeScreen();
@@ -89,36 +86,60 @@ public class SplashActivity extends AppCompatActivity {
         /*Initial Crash Reporter*/
 //        Mint.initAndStartSession(SplashActivity.this, "1ec437c9");
 
-/*        if (!Constants.isShortcutCreated) {
-            AddShortcut();
-        }*/
-
-        /*Create Directory*/
-        File root = android.os.Environment.getExternalStorageDirectory();
-
-        File dir = new File(root.getAbsolutePath() + Constants.appFolder); //root directory
-
-        File categories = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder);
-
-        File icons = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder + Constants.iconFolder);
-
-        try {
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            if (!categories.exists()) {
-                categories.mkdirs();
-            }
-            if (!icons.exists()) {
-                icons.mkdirs();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
+        /*Create Shortcut on home screen*/
+        if (!Constants.isShortcutCreated) {
+            addShortcut();
         }
 
-        final int welcomeScreenDisplay = 1000;
+        /*Create Directory*/
+        if (!Constants.isDirectoriesCreated) {
+            File root = android.os.Environment.getExternalStorageDirectory();
+
+            File dir = new File(root.getAbsolutePath() + Constants.appFolder); //root directory
+
+            File categories = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder);
+            File testDefinition = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder);
+
+            File icons = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder + Constants.iconFolder);
+            File tests = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder + Constants.testFolder);
+
+            File questions = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
+                    + Constants.testFolder + Constants.questionsFolder);
+            File answers = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
+                    + Constants.testFolder + Constants.answersFolder);
+
+            try {
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                if (!categories.exists()) {
+                    categories.mkdirs();
+                }
+                if (!testDefinition.exists()) {
+                    testDefinition.mkdirs();
+                }
+                if (!icons.exists()) {
+                    icons.mkdirs();
+                }
+                if (!tests.exists()) {
+                    tests.mkdirs();
+                }
+                if (!questions.exists()) {
+                    questions.mkdirs();
+                }
+                if (!answers.exists()) {
+                    answers.mkdirs();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            Constants.isDirectoriesCreated = true;
+            Constants.savePreferences();
+        }
+
+        final int welcomeScreenDisplay = 0;
         Thread welcomeThread = new Thread() {
             int wait = 0;
 
@@ -144,14 +165,14 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     /*Create ShortCut In Home Page*/
-    /*private void AddShortcut() {
+    private void addShortcut() {
         Intent shortcutIntent = new Intent(getApplicationContext(), SplashActivity.class);
 
         shortcutIntent.setAction(Intent.ACTION_MAIN);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "تاریخ بان");
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, R.string.app_name);
         shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
         int flags = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT;
@@ -162,5 +183,5 @@ public class SplashActivity extends AppCompatActivity {
         Constants.isShortcutCreated = true;
         Constants.savePreferences();
 
-    }*/
+    }
 }

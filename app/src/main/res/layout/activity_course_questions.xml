@@ -33,22 +33,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="center"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/close_ripple"
                 android:padding="8dp"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/close_ripple"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toEndOf="@+id/timer_tv"
-                android:layout_toStartOf="@+id/close_imgbtn"
-                android:gravity="right|center_vertical"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
+                app:mrl_rippleColor="@color/white">
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/close_imgbtn"
@@ -60,6 +57,8 @@
                 android:scaleType="centerInside"
                 android:tint="@color/gray"
                 app:srcCompat="@drawable/ic_clear" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
 
         </RelativeLayout>
 
@@ -85,9 +84,9 @@
                 <ImageView
                     android:id="@+id/question_imgv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/questionHeight"
                     android:padding="8dp"
-                    android:scaleType="centerInside" />
+                    android:scaleType="centerCrop" />
 
                 <View
                     android:layout_width="match_parent"

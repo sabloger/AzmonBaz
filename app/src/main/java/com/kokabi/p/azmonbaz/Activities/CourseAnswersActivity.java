@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Help.AppController;
-import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.R;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -47,7 +46,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
         title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
 
-        answer_imgv.setImageResource(Constants.answerList[answer]);
+//        answer_imgv.setImageResource(Constants.answerList[answer]);
         answerZoomable = new PhotoViewAttacher(answer_imgv);
 
     }
@@ -61,7 +60,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             case R.id.nextQuestion_ly:
                 if (answer < totalAnswer) {
                     answer++;
-                    answer_imgv.setImageResource(Constants.answerList[answer]);
+//                    answer_imgv.setImageResource(Constants.answerList[answer]);
                     answerZoomable.update();
                     title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
                 }
@@ -69,7 +68,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             case R.id.previousQuestion_ly:
                 if (answer > 0) {
                     answer--;
-                    answer_imgv.setImageResource(Constants.answerList[answer]);
+//                    answer_imgv.setImageResource(Constants.answerList[answer]);
                     answerZoomable.update();
                     title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
                 }

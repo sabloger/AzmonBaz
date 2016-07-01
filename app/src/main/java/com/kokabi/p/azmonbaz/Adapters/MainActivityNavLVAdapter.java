@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.kokabi.p.azmonbaz.Objects.MainActivityNavObj;
 import com.kokabi.p.azmonbaz.R;
 
@@ -48,7 +49,7 @@ public class MainActivityNavLVAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_nav_list, null);
             holder = new ViewHolder();
 
-            holder.item_rly = (RelativeLayout) convertView.findViewById(R.id.item_rly);
+            holder.item_ripple = (MaterialRippleLayout) convertView.findViewById(R.id.item_ripple);
 
             holder.mainContent = (RelativeLayout) convertView.findViewById(R.id.mainContent);
             holder.underline_rly = (RelativeLayout) convertView.findViewById(R.id.underline_rly);
@@ -68,7 +69,7 @@ public class MainActivityNavLVAdapter extends BaseAdapter {
 
             holder.mainContent.setVisibility(View.GONE);
             holder.underline_rly.setVisibility(View.VISIBLE);
-            holder.item_rly.setEnabled(false);
+            holder.item_ripple.setEnabled(false);
         } else {
             holder.mainContent.setVisibility(View.VISIBLE);
             holder.underline_rly.setVisibility(View.GONE);
@@ -81,7 +82,8 @@ public class MainActivityNavLVAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        RelativeLayout item_rly,mainContent, underline_rly;
+        MaterialRippleLayout item_ripple;
+        RelativeLayout mainContent, underline_rly;
         TextView navTitle;
         ImageView navIcon;
     }

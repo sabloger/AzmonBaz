@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="visible">
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                android:id="@+id/testTitle_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/testTime_tv"
+                android:gravity="center_vertical|right"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp" />
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                android:id="@+id/testTime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center_vertical|right"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp" />
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                android:id="@+id/testDesc_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/testTitle_tv"
+                android:gravity="center_vertical|right"
+                android:padding="8dp"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp" />
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                android:id="@+id/testCount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/testDesc_tv"
+                android:gravity="center_vertical|right"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/darkGray"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <com.kokabi.p.azmonbaz.Components.CTextViewSans
+            android:id="@+id/negativePoint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/negative_point"
+            android:clickable="false"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:text="@string/hasNegativePoint"
+            android:textColor="@color/darkGray"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

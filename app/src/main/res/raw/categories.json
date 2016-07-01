@@ -6,8 +6,8 @@
       "backColor": "#FF2E62",
       "textColor": "#FFFFFF",
       "backImage": 0,
-      "resIcon": "icon_math.xml",
-      "categoryOrder": 1,
+      "resIcon": "icon_math",
+      "categoryOrder": "3",
       "idParent": 0
     },
     {
@@ -16,8 +16,8 @@
       "backColor": "#02AAFF",
       "textColor": "#FFFFFF",
       "backImage": 0,
-      "resIcon": "icon_physics.xml",
-      "categoryOrder": 2,
+      "resIcon": "icon_physics",
+      "categoryOrder": "1",
       "idParent": 0
     },
     {
@@ -26,9 +26,79 @@
       "backColor": "#FFEC63",
       "textColor": "#404040",
       "backImage": 0,
-      "resIcon": "ic_chemistry.xml",
-      "categoryOrder": 3,
+      "resIcon": "ic_chemistry",
+      "categoryOrder": "2",
       "idParent": 0
+    },
+    {
+      "idCat": 4,
+      "catName": "ریاضی ۲",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "2",
+      "idParent": 1
+    },
+    {
+      "idCat": 5,
+      "catName": "ریاضی ۱",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "1",
+      "idParent": 1
+    },
+    {
+      "idCat": 6,
+      "catName": "ریاضی ۳",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "3",
+      "idParent": 1
+    },
+    {
+      "idCat": 7,
+      "catName": "حسابان",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "2",
+      "idParent": 6
+    },
+    {
+      "idCat": 8,
+      "catName": "جبر",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "1",
+      "idParent": 6
+    },
+    {
+      "idCat": 9,
+      "catName": "فیزیک ۱",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "1",
+      "idParent": 2
+    },
+    {
+      "idCat": 10,
+      "catName": "دیفرانسیل",
+      "backColor": "#EDEDED",
+      "textColor": "#404040",
+      "backImage": 0,
+      "resIcon": "",
+      "categoryOrder": "4",
+      "idParent": 1
     }
   ]
 }

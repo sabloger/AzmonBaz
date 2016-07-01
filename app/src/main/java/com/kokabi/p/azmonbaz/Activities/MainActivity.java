@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Adapters.MainActivityNavLVAdapter;
 import com.kokabi.p.azmonbaz.Fragments.AboutFragment;
-import com.kokabi.p.azmonbaz.Fragments.TestFragment;
+import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainActivityNavLVAdapter = new MainActivityNavLVAdapter(context, listMainActivityNavObj);
         lvNav.setAdapter(mainActivityNavLVAdapter);
 
-        listFragments.add(new TestFragment());
+        listFragments.add(new CoursesFragment());
         listFragments.add(new AboutFragment());
 
         /*Load first fragment as default*/

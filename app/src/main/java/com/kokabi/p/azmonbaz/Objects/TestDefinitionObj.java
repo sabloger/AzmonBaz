@@ -1,12 +1,27 @@
 package com.kokabi.p.azmonbaz.Objects;
 
+import java.util.ArrayList;
+
 /**
  * Created by P.Kokabi on 6/29/16.
  */
 public class TestDefinitionObj {
 
-    int idTest, questionNo, questionImage, answerImage, key, percentage;
+    int idTest, questionNo, percentage;
     String level;
+    ArrayList<String> questionImages = new ArrayList<>();
+    ArrayList<String> answerImages = new ArrayList<>();
+    ArrayList<Integer> keys = new ArrayList<>();
+
+    public TestDefinitionObj(int idTest, int questionNo, ArrayList<String> questionImages, ArrayList<String> answerImages, ArrayList<Integer> keys, int percentage, String level) {
+        this.idTest = idTest;
+        this.questionNo = questionNo;
+        this.questionImages = questionImages;
+        this.answerImages = answerImages;
+        this.keys = keys;
+        this.percentage = percentage;
+        this.level = level;
+    }
 
     public int getIdTest() {
         return idTest;
@@ -24,30 +39,6 @@ public class TestDefinitionObj {
         this.questionNo = questionNo;
     }
 
-    public int getQuestionImage() {
-        return questionImage;
-    }
-
-    public void setQuestionImage(int questionImage) {
-        this.questionImage = questionImage;
-    }
-
-    public int getAnswerImage() {
-        return answerImage;
-    }
-
-    public void setAnswerImage(int answerImage) {
-        this.answerImage = answerImage;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
-    }
-
     public int getPercentage() {
         return percentage;
     }
@@ -62,5 +53,29 @@ public class TestDefinitionObj {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public ArrayList<String> getQuestionImages() {
+        return questionImages;
+    }
+
+    public void setQuestionImages(ArrayList<String> questionImages) {
+        this.questionImages = questionImages;
+    }
+
+    public ArrayList<String> getAnswerImages() {
+        return answerImages;
+    }
+
+    public void setAnswerImages(ArrayList<String> answerImages) {
+        this.answerImages = answerImages;
+    }
+
+    public ArrayList<Integer> getKeys() {
+        return keys;
+    }
+
+    public void setKeys(ArrayList<Integer> keys) {
+        this.keys = keys;
     }
 }

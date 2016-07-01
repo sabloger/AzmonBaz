@@ -17,4 +17,8 @@
     <string name="permissionDeniedTitle">عدم دسترسی</string>
     <string name="permissionAction">باشه</string>
     <string name="permissionDeniedSubTitle">متاسفانه به دلیل عدم تایید دسترسی، آزمون باز قادر به انجام درخواست شما نیست؛ در صورت تمایل دسترسی‌ را دوباره تنظیم کنید.</string>
+
+    <!--Test Activity-->
+    <string name="hasNegativePoint">نمره منفی دارد</string>
+
 </resources>

@@ -4,6 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -20,11 +24,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +51,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     Dialog dialogResults;
 
     CoordinatorLayout mainContent;
-    TextView title_tv, timer_tv, numberOfQuestions_tv;
+    TextView timer_tv, numberOfQuestions_tv;
     AppCompatImageButton close_imgbtn;
     ProgressView progressBar;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
@@ -50,13 +62,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     /*Activity Values*/
     PhotoViewAttacher questionZoomable;
     CountDownTimer countDownTimer;
-    int question = 0, totalQuestion = 9, whichAnswer = 0;
+    boolean hasNegativePoint = false;
+    int idTest = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0;
+    TestDefinitionObj pageTest;
     ArrayList<Integer> answerList = new ArrayList<>();
-    ArrayList<Integer> answerKeyList = new ArrayList<>();
     ArrayList<Integer> correctAnsweredList = new ArrayList<>();
     ArrayList<Integer> unAnsweredList = new ArrayList<>();
     ArrayList<Integer> inCorrectAnsweredList = new ArrayList<>();
-    String title = "آزمون ریاضی دیفرانسیل";
+    private boolean isNot = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,18 +87,41 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         /*========================================================================================*/
 
         findViews();
-        timer(600000);
-        addCorrectAnswer();
 
-        title_tv.setText(title);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            idTest = bundle.getInt("idTest", 0);
+            time = bundle.getInt("time", 0);
+            hasNegativePoint = bundle.getBoolean("hasNegativePoint", false);
+        }
+
+        for (int i = 0; i < pageMaker().size(); i++) {
+            if (pageMaker().get(i).getIdTest() == idTest) {
+                pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
+                        , pageMaker().get(i).getQuestionImages(), pageMaker().get(i).getAnswerImages(), pageMaker().get(i).getKeys()
+                        , pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
+            } else {
+                // TODO Remove when Project is finished
+                isNot = true;
+                finish();
+            }
+        }
+
+        timer(time * 1000);
 
         progressBar.setProgress(0f);
         progressBar.start();
 
-        question_imgv.setImageResource(Constants.questionList[0]);
-        questionZoomable = new PhotoViewAttacher(question_imgv);
+        // TODO Remove when Project is finished
+        if (!isNot) {
+            totalQuestion = pageTest.getQuestionNo() - 1;
 
-        numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
+
+            showQuestions(0);
+            questionZoomable = new PhotoViewAttacher(question_imgv);
+
+            numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
+        }
     }
 
     @Override
@@ -175,7 +211,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     private void findViews() {
-        title_tv = (TextView) findViewById(R.id.title_tv);
         timer_tv = (TextView) findViewById(R.id.timer_tv);
         numberOfQuestions_tv = (TextView) findViewById(R.id.numberOfQuestions_tv);
 
@@ -211,12 +246,53 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         confirm_fab.setOnClickListener(this);
     }
 
+    private ArrayList<TestDefinitionObj> pageMaker() {
+        ArrayList<TestDefinitionObj> result = new ArrayList<>();
+        try {
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.test_definition)).getJSONArray("testDefinition");
+
+            int length = categoryArray.length();
+            for (int i = 0; i < length; ++i) {
+                JSONObject event = categoryArray.getJSONObject(i);
+                ArrayList<String> questionImages = new ArrayList<>();
+                ArrayList<String> answerImages = new ArrayList<>();
+                ArrayList<Integer> keys = new ArrayList<>();
+
+                int idTest = event.getInt("idTest");
+                int questionNo = event.getInt("questionNo");
+                JSONArray questionImageArray = event.getJSONArray("questionImages");
+                JSONArray answerImageArray = event.getJSONArray("answerImages");
+                JSONArray keysArray = event.getJSONArray("keys");
+                int percentage = event.getInt("percentage");
+                String level = event.getString("level");
+
+                for (int j = 0; j < questionImageArray.length(); j++) {
+                    questionImages.add(questionImageArray.get(j).toString());
+                }
+
+                for (int k = 0; k < answerImageArray.length(); k++) {
+                    answerImages.add(answerImageArray.get(k).toString());
+                }
+
+                for (int m = 0; m < keysArray.length(); m++) {
+                    keys.add(Integer.parseInt(keysArray.get(m).toString()));
+                }
+
+                result.add(new TestDefinitionObj(idTest, questionNo, questionImages, answerImages, keys, percentage, level));
+            }
+
+        } catch (JSONException e) {
+            Log.e(CoursesFragment.class.getName(), e.getMessage());
+        }
+        return result;
+    }
+
     private void timer(long milliSeconds) {
         countDownTimer = new CountDownTimer(milliSeconds, 1000) { // adjust the milli seconds here
 
             @SuppressLint("DefaultLocale")
             public void onTick(long millisUntilFinished) {
-                progressBar.setProgress(progressBar.getProgress() + 0.001666f);
+                progressBar.setProgress(progressBar.getProgress() + ((float) 1 / time));
                 timer_tv.setText(String.valueOf(String.format("%d : %d",
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
@@ -233,7 +309,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
 
     private void updatePage() {
         numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
-        question_imgv.setImageResource(Constants.questionList[question]);
+        showQuestions(question);
         questionZoomable.update();
         Log.i("Answer", answerList.toString());
         if (answerList.size() >= (question + 1)) {
@@ -283,6 +359,18 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         }
     }
 
+    private void showQuestions(int position) {
+        /*get path of saved file to show the backImages*/
+        File root = android.os.Environment.getExternalStorageDirectory();
+        File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
+                + Constants.testFolder + Constants.questionsFolder + "/" + pageTest.getQuestionImages().get(position));
+        if (imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
+            question_imgv.setImageDrawable(drawable);
+        }
+    }
+
     private void addAnswer() {
         if (answerList.size() > 0) {
             if (answerList.size() < (question + 1)) {
@@ -301,23 +389,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         Log.i("Answer1", answerList.toString());
     }
 
-    private void addCorrectAnswer() {
-        answerKeyList.add(4);
-        answerKeyList.add(2);
-        answerKeyList.add(2);
-        answerKeyList.add(1);
-        answerKeyList.add(1);
-        answerKeyList.add(3);
-        answerKeyList.add(3);
-        answerKeyList.add(4);
-        answerKeyList.add(4);
-        answerKeyList.add(4);
-    }
-
     private void compareAnswers() {
-        for (int i = 0; i < answerKeyList.size(); i++) {
-            if (answerKeyList.get(i).equals(answerList.get(i))) {
-                correctAnsweredList.add(answerKeyList.get(i));
+        for (int i = 0; i < pageTest.getKeys().size(); i++) {
+            if (pageTest.getKeys().get(i).equals(answerList.get(i))) {
+                correctAnsweredList.add(pageTest.getKeys().get(i));
             } else if (answerList.get(i).equals(0)) {
                 unAnsweredList.add(0);
             } else {
@@ -332,7 +407,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         TextView results_tv = (TextView) dialogResults.findViewById(R.id.results_tv);
         TextView seeResults_btn = (Button) dialogResults.findViewById(R.id.seeResults_btn);
 
-        title_tv.setText(String.valueOf("نتایج " + title));
+        title_tv.setText(String.valueOf("نتایج "));
         sub_title_tv.setText(String.valueOf("شما به " + (correctAnsweredList.size() * 10) + "٪ از سوالات پاسخ داده اید "));
         results_tv.setText(String.valueOf(correctAnsweredList.size() + " پاسخ صحیح " + "\n" + unAnsweredList.size()
                 + " سوال جواب نداده" + "\n" + inCorrectAnsweredList.size() + " پاسخ اشتباه"));

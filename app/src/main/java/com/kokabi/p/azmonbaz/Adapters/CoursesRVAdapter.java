@@ -4,7 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Environment;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
 
@@ -78,15 +80,21 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.course_cav.setCardBackgroundColor(Color.parseColor(courses.get(position).getBackColor()));
-        holder.course_fr.setBackgroundResource(courses.get(position).getBackImage());
-        holder.courseTitle_tv.setText(courses.get(position).getCatName());
-        holder.courseTitle_tv.setTextColor(Color.parseColor(courses.get(position).getTextColor()));
-        File imgFile = new File(Environment.getExternalStorageDirectory().getPath() + "azmonbaz/test.png");
+        /*get path of saved file to show the backImages*/
+        File root = android.os.Environment.getExternalStorageDirectory();
+        File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder +
+                Constants.iconFolder + courses.get(position).getBackImage());
         if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.courseIcon_imgv.setImageBitmap(myBitmap);
-
+            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
+            holder.course_fr.setBackground(drawable);
         }
+        holder.courseTitle_tv.setText(courses.get(position).getCatName());
+        holder.courseTitle_tv.setTextColor(Color.parseColor(courses.get(position).getTextColor()));
+        /*set Image Resources*/
+        int resIcon = context.getResources().getIdentifier("com.kokabi.p.azmonbaz:drawable/" +
+                courses.get(position).getResIcon(), null, null);
+        holder.courseIcon_imgv.setImageResource(resIcon);
     }
 
     @Override

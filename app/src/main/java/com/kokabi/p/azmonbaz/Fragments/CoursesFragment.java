@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
+import com.kokabi.p.azmonbaz.Activities.TestActivity;
+import com.kokabi.p.azmonbaz.Activities.TreeActivity;
 import com.kokabi.p.azmonbaz.Adapters.CoursesRVAdapter;
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
@@ -24,8 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class TestFragment extends Fragment {
+public class CoursesFragment extends Fragment {
 
     Context context;
 
@@ -34,12 +37,15 @@ public class TestFragment extends Fragment {
 
     /*Fragment Values*/
     CoursesRVAdapter rvAdapter;
+    ArrayList<CategoryObj> totalCategories = new ArrayList<>();
+    ArrayList<CategoryObj> rootCategories = new ArrayList<>();
+    private boolean isIntent = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_test, container, false);
+        final View v = inflater.inflate(R.layout.fragment_courses, container, false);
 
         context = container.getContext();
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
@@ -51,17 +57,47 @@ public class TestFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         coursesRecycleView.setHasFixedSize(true);
 
-        rvAdapter = new CoursesRVAdapter(pageMaker());
+        Constants.totalCategories.clear();
+        totalCategories.clear();
+        rootCategories.clear();
+
+        totalCategories.addAll(pageMaker());
+        Constants.totalCategories.addAll(pageMaker());
+
+        for (int i = 0; i < totalCategories.size(); i++) {
+            if (totalCategories.get(i).getIdParent() == 0) {
+                rootCategories.add(totalCategories.get(i));
+            }
+        }
+
+        Collections.sort(rootCategories);
+        rvAdapter = new CoursesRVAdapter(rootCategories);
         coursesRecycleView.setAdapter(rvAdapter);
 
         coursesRecycleView.addOnItemTouchListener(new CoursesRVAdapter(context, new CoursesRVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getActivity(), CourseQuestionsActivity.class));
+                isIntent = false;
+                for (int i = 0; i < totalCategories.size(); i++) {
+                    if (rootCategories.get(position).getIdCat() == totalCategories.get(i).getIdParent()) {
+                        isIntent = true;
+                    }
+                }
+                if (isIntent) {
+                    startActivity(new Intent(getActivity(), TreeActivity.class)
+                            .putExtra("idCat", rootCategories.get(position).getIdCat()));
+                } else {
+                    startActivity(new Intent(getActivity(), TestActivity.class)
+                            .putExtra("idCat", rootCategories.get(position).getIdCat()));
+                }
             }
         }));
 
         return v;
+    }
+
+    private void findViews(View v) {
+        coursesRecycleView = (RecyclerView) v.findViewById(R.id.coursesRecycleView);
     }
 
     private ArrayList<CategoryObj> pageMaker() {
@@ -79,20 +115,16 @@ public class TestFragment extends Fragment {
                 String textColor = event.getString("textColor");
                 int backImage = event.getInt("backImage");
                 String resIcon = event.getString("resIcon");
-                int categoryOrder = event.getInt("categoryOrder");
+                String categoryOrder = event.getString("categoryOrder");
                 int idParent = event.getInt("idParent");
 
                 result.add(new CategoryObj(idCat, catName, backColor, textColor, backImage, resIcon, categoryOrder, idParent));
             }
 
         } catch (JSONException e) {
-            Log.e(TestFragment.class.getName(), e.getMessage());
+            Log.e(CoursesFragment.class.getName(), e.getMessage());
         }
         return result;
-    }
-
-    private void findViews(View v) {
-        coursesRecycleView = (RecyclerView) v.findViewById(R.id.coursesRecycleView);
     }
 
 }

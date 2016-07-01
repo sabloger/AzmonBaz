@@ -30,6 +30,14 @@
             android:screenOrientation="portrait"
             tools:ignore="InnerclassSeparator" />
         <activity
+            android:name=".Activities.TreeActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activities.TestActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
             android:name=".Activities.CourseQuestionsActivity"
             tools:ignore="InnerclassSeparator" />
         <activity

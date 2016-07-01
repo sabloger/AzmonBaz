@@ -6,44 +6,49 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.kokabi.p.azmonbaz.R;
+import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class Constants {
 
     static SharedPreferences pref;
 
     /*Setting Parameters*/
-    public static Boolean isShortcutCreated = false;
+    public static boolean isShortcutCreated = false;
+    public static boolean isDirectoriesCreated = false;
 
     //Config
     public final static String appFolder = "/AzmonBaz";
     public final static String catFolder = "/Categories";
+    public final static String testDefinitionsFolder = "/TestDefinitions";
+    public final static String testFolder = "/Test";
     public final static String iconFolder = "/Icons";
+    public final static String questionsFolder = "/Questions";
+    public final static String answersFolder = "/Answers";
 
     /*Fonts*/
     public final static String FONT_SANS = "fonts/sans.ttf";
     public final static String FONT_SANS_MEDIUM = "fonts/sans_medium.ttf";
 
-    public static int[] questionList = {R.drawable.q1, R.drawable.q2, R.drawable.q3, R.drawable.q4, R.drawable.q5
-            , R.drawable.q6, R.drawable.q7, R.drawable.q8, R.drawable.q9, R.drawable.q10};
-
-    public static int[] answerList = {R.drawable.a1, R.drawable.a2, R.drawable.a3, R.drawable.a4, R.drawable.a5
-            , R.drawable.a6, R.drawable.a7, R.drawable.a8, R.drawable.a9, R.drawable.a10};
+    /*TreeValues*/
+    public final static ArrayList<CategoryObj> totalCategories = new ArrayList<>();
 
     public static void loadPreferences() {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         Constants.isShortcutCreated = pref.getBoolean(GS.isShortcutCreated, Constants.isShortcutCreated);
+        Constants.isDirectoriesCreated = pref.getBoolean(GS.isDirectoriesCreated, Constants.isDirectoriesCreated);
     }
 
     public static void savePreferences() {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         pref.edit().putBoolean(GS.isShortcutCreated, Constants.isShortcutCreated).apply();
+        pref.edit().putBoolean(GS.isShortcutCreated, Constants.isDirectoriesCreated).apply();
     }
 
     public static void hideKeyboard() {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:padding="8dp"
+    android:visibility="visible">
+
+    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+        android:id="@+id/treeTitle_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical|right"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/darkGray"
+        android:textSize="18sp" />
+
+</RelativeLayout>
