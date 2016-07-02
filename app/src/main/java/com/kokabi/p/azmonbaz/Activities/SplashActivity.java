@@ -168,7 +168,7 @@ public class SplashActivity extends AppCompatActivity {
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, R.string.app_name);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "آزمون باز");
         shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.mipmap.ic_launcher));
         int flags = Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT;
