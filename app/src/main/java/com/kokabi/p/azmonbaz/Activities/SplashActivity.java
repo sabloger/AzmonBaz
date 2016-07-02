@@ -4,10 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.test.mock.MockPackageManager;
 import android.util.Log;
@@ -17,8 +15,6 @@ import com.kokabi.p.azmonbaz.Components.CPermissionDeniedDialog;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.R;
-
-import java.io.File;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -45,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
 
         Constants.loadPreferences();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 if (ActivityCompat.checkSelfPermission(context, mPermission[0]) != MockPackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, mPermission, REQUEST_CODE_PERMISSIONS);
@@ -55,9 +51,9 @@ public class SplashActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
-            welcomeScreen();
-        }
+        } else {*/
+        welcomeScreen();
+//        }
     }
 
     @Override
@@ -92,7 +88,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         /*Create Directory*/
-        if (!Constants.isDirectoriesCreated) {
+/*        if (!Constants.isDirectoriesCreated) {
             File root = android.os.Environment.getExternalStorageDirectory();
 
             File dir = new File(root.getAbsolutePath() + Constants.appFolder); //root directory
@@ -137,7 +133,7 @@ public class SplashActivity extends AppCompatActivity {
             }
             Constants.isDirectoriesCreated = true;
             Constants.savePreferences();
-        }
+        }*/
 
         final int welcomeScreenDisplay = 0;
         Thread welcomeThread = new Thread() {

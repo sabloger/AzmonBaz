@@ -13,6 +13,6 @@
     <dimen name="editTextPaddingBottom">20dp</dimen>
     <dimen name="marginTop">32dp</dimen>
     <dimen name="gridViewHeight">179dp</dimen>
-    <dimen name="questionHeight">200dp</dimen>
+    <dimen name="questionHeight">350dp</dimen>
 
 </resources>
