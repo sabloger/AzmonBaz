@@ -19,7 +19,6 @@ public class Constants {
 
     /*Setting Parameters*/
     public static boolean isShortcutCreated = false;
-    public static boolean isDirectoriesCreated = false;
 
     //Config
     public final static String appFolder = "/AzmonBaz";
@@ -41,14 +40,12 @@ public class Constants {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         Constants.isShortcutCreated = pref.getBoolean(GS.isShortcutCreated, Constants.isShortcutCreated);
-        Constants.isDirectoriesCreated = pref.getBoolean(GS.isDirectoriesCreated, Constants.isDirectoriesCreated);
     }
 
     public static void savePreferences() {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         pref.edit().putBoolean(GS.isShortcutCreated, Constants.isShortcutCreated).apply();
-        pref.edit().putBoolean(GS.isShortcutCreated, Constants.isDirectoriesCreated).apply();
     }
 
     public static void hideKeyboard() {

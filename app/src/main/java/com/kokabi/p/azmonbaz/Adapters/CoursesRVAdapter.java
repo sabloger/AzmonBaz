@@ -1,6 +1,7 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,11 +19,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -81,14 +84,24 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.course_cav.setCardBackgroundColor(Color.parseColor(courses.get(position).getBackColor()));
         /*get path of saved file to show the backImages*/
-        File root = android.os.Environment.getExternalStorageDirectory();
+        /*get path of saved file to show the backImages*/
+        AssetManager assetManager = context.getAssets();
+        try {
+            InputStream is = assetManager.open("Categories/Backgrounds" + courses.get(position).getBackImage());
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+            holder.course_fr.setBackground(drawable);
+        } catch (IOException e) {
+            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
+        }
+/*        File root = android.os.Environment.getExternalStorageDirectory();
         File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder +
                 Constants.iconFolder + courses.get(position).getBackImage());
         if (imgFile.exists()) {
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
             holder.course_fr.setBackground(drawable);
-        }
+        }*/
         holder.courseTitle_tv.setText(courses.get(position).getCatName());
         holder.courseTitle_tv.setTextColor(Color.parseColor(courses.get(position).getTextColor()));
         /*set Image Resources*/

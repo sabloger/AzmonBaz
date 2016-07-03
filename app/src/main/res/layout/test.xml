@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerPane"
+    android:layout_width="@dimen/drawerWidth"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    android:background="@color/darkPrimaryColor"
+    android:clickable="true"
+    android:fitsSystemWindows="true">
+
+    <!-- Profile Box -->
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/profileBox"
+        app:srcCompat="@drawable/ic_nav_photo"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/transparent"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:scaleType="centerCrop" />
+
+    <!-- Navigation ListView -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileBox"
+        android:background="@color/gray"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <ListView
+            android:id="@+id/navList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            android:choiceMode="singleChoice"
+            android:divider="@color/transparent"
+            android:dividerHeight="0dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

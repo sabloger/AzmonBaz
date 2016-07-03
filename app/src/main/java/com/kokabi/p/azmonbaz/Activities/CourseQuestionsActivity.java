@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,6 @@ import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
 
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -317,7 +317,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     private void showQuestions(int position) {
-        /*get path of saved file to show the backImages*/
         AssetManager assetManager = getAssets();
         try {
             InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionImages().get(position));

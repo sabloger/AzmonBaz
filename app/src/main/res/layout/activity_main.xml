@@ -83,13 +83,13 @@
         android:fitsSystemWindows="true">
 
         <!-- Profile Box -->
-        <FrameLayout
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/profileBox"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:background="@color/transparent"
-            android:gravity="bottom|center_horizontal"
-            android:orientation="vertical" />
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_nav_photo" />
 
         <!-- Navigation ListView -->
         <RelativeLayout

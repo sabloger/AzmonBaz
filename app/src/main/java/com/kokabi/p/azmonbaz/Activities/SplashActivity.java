@@ -2,13 +2,9 @@ package com.kokabi.p.azmonbaz.Activities;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.test.mock.MockPackageManager;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.kokabi.p.azmonbaz.Components.CPermissionDeniedDialog;
@@ -56,7 +52,7 @@ public class SplashActivity extends AppCompatActivity {
 //        }
     }
 
-    @Override
+/*    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.e("Req Code", "" + requestCode);
@@ -76,7 +72,7 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             welcomeScreen();
         }
-    }
+    }*/
 
     private void welcomeScreen() {
         /*Initial Crash Reporter*/
@@ -135,7 +131,7 @@ public class SplashActivity extends AppCompatActivity {
             Constants.savePreferences();
         }*/
 
-        final int welcomeScreenDisplay = 0;
+        final int welcomeScreenDisplay = 2000;
         Thread welcomeThread = new Thread() {
             int wait = 0;
 
