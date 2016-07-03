@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +29,7 @@ import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -147,50 +148,34 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
             case R.id.firstChoice_btn:
                 if (whichAnswer == 1) {
                     whichAnswer = 0;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
                 } else {
                     whichAnswer = 1;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
                 }
-                secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                selectButton(whichAnswer);
                 break;
             case R.id.secondChoice_btn:
                 if (whichAnswer == 2) {
                     whichAnswer = 0;
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
                 } else {
                     whichAnswer = 2;
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
                 }
-                firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                selectButton(whichAnswer);
                 break;
             case R.id.thirdChoice_btn:
                 if (whichAnswer == 3) {
                     whichAnswer = 0;
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
                 } else {
                     whichAnswer = 3;
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
                 }
-                firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                selectButton(whichAnswer);
                 break;
             case R.id.fourthChoice_btn:
                 if (whichAnswer == 4) {
                     whichAnswer = 0;
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
                 } else {
                     whichAnswer = 4;
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
                 }
-                firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                selectButton(whichAnswer);
                 break;
             case R.id.confirm_fab:
                 addAnswer();
@@ -306,46 +291,28 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
             switch (answerList.get(question)) {
                 case 1:
                     whichAnswer = 1;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                    selectButton(whichAnswer);
                     break;
                 case 2:
                     whichAnswer = 2;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                    selectButton(whichAnswer);
                     break;
                 case 3:
                     whichAnswer = 3;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                    selectButton(whichAnswer);
                     break;
                 case 4:
                     whichAnswer = 4;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_light);
+                    selectButton(whichAnswer);
                     break;
                 default:
                     whichAnswer = 0;
-                    firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-                    fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+                    selectButton(whichAnswer);
                     break;
             }
         } else {
             whichAnswer = 0;
-            firstChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-            secondChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-            thirdChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
-            fourthChoice_btn.setBackgroundResource(R.drawable.radius_btn_dark);
+            selectButton(whichAnswer);
         }
     }
 
@@ -420,6 +387,61 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         });
 
         dialogResults.show();
+    }
+
+    private void selectButton(int answer) {
+        switch (answer) {
+            case 1:
+                firstChoice_btn.setSelected(true);
+                firstChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                secondChoice_btn.setSelected(false);
+                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setSelected(false);
+                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setSelected(false);
+                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                break;
+            case 2:
+                firstChoice_btn.setSelected(false);
+                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setSelected(true);
+                secondChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                thirdChoice_btn.setSelected(false);
+                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setSelected(false);
+                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                break;
+            case 3:
+                firstChoice_btn.setSelected(false);
+                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setSelected(false);
+                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setSelected(true);
+                thirdChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                fourthChoice_btn.setSelected(false);
+                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                break;
+            case 4:
+                firstChoice_btn.setSelected(false);
+                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setSelected(false);
+                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setSelected(false);
+                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setSelected(true);
+                fourthChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                break;
+            default:
+                firstChoice_btn.setSelected(false);
+                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setSelected(false);
+                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setSelected(false);
+                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setSelected(false);
+                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                break;
+        }
     }
 
 }

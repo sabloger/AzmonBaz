@@ -150,7 +150,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -159,9 +159,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/radius_btn_dark"
+                        android:background="@drawable/selector_btn"
                         android:text="@string/secondChoice"
-                        android:textColor="@color/white"
+                        android:textColor="@color/darkPrimaryColor"
                         android:textSize="16sp" />
 
                     <com.kokabi.p.azmonbaz.Components.CButton
@@ -169,39 +169,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:background="@drawable/radius_btn_dark"
+                        android:background="@drawable/selector_btn"
                         android:text="@string/firstChoice"
-                        android:textColor="@color/white"
+                        android:textColor="@color/darkPrimaryColor"
                         android:textSize="16sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <com.kokabi.p.azmonbaz.Components.CButton
-                        android:id="@+id/thirdChoice_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/radius_btn_dark"
-                        android:text="@string/thirdChoice"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-
-                    <com.kokabi.p.azmonbaz.Components.CButton
                         android:id="@+id/fourthChoice_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/radius_btn_dark"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/selector_btn"
                         android:text="@string/fourthChoice"
-                        android:textColor="@color/white"
+                        android:textColor="@color/darkPrimaryColor"
+                        android:textSize="16sp" />
+
+                    <com.kokabi.p.azmonbaz.Components.CButton
+                        android:id="@+id/thirdChoice_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/selector_btn"
+                        android:text="@string/thirdChoice"
+                        android:textColor="@color/darkPrimaryColor"
                         android:textSize="16sp" />
 
                 </LinearLayout>

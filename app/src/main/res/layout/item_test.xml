@@ -82,7 +82,7 @@
             android:paddingRight="8dp"
             android:paddingTop="4dp"
             android:text="@string/hasNegativePoint"
-            android:textColor="@color/darkGray"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:visibility="gone" />
 
