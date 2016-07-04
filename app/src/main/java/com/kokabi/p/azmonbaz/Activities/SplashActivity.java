@@ -131,15 +131,13 @@ public class SplashActivity extends AppCompatActivity {
             Constants.savePreferences();
         }*/
 
-        final int welcomeScreenDisplay = 2000;
+        final int welcomeScreenDisplay = 1000;
         Thread welcomeThread = new Thread() {
             int wait = 0;
-
             @Override
             public void run() {
                 try {
                     super.run();
-
                     while (wait < welcomeScreenDisplay) {
                         sleep(100);
                         wait += 100;
