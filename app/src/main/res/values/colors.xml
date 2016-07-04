@@ -6,6 +6,7 @@
     <color name="accentColor">#26A69A</color>
 
     <color name="transparent">#00000000</color>
+    <color name="deepOrange">#FF7043</color>
     <color name="gray">#EDEDED</color>
     <color name="lightGray">#969696</color>
     <color name="mediumGray">#777777</color>

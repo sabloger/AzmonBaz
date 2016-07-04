@@ -21,37 +21,13 @@
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
                 android:id="@+id/testTitle_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/testTime_tv"
-                android:gravity="center_vertical|right"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:textColor="@color/darkGray"
-                android:textSize="18sp" />
-
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/testTime_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center_vertical|right"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:textColor="@color/darkGray"
-                android:textSize="18sp" />
-
-            <com.kokabi.p.azmonbaz.Components.CTextViewSans
-                android:id="@+id/testDesc_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/testTitle_tv"
+                android:layout_alignParentTop="true"
                 android:gravity="center_vertical|right"
                 android:padding="8dp"
+                android:singleLine="true"
                 android:textColor="@color/darkGray"
                 android:textSize="18sp" />
 
@@ -60,10 +36,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/testDesc_tv"
+                android:layout_below="@+id/testTitle_tv"
                 android:gravity="center_vertical|right"
                 android:padding="8dp"
                 android:singleLine="true"
+                android:textColor="@color/mediumGray"
+                android:textSize="18sp" />
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                android:id="@+id/testTime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/testCount_tv"
+                android:gravity="center_vertical|right"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/deepOrange"
+                android:textSize="18sp" />
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                android:id="@+id/testDesc_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/testTime_tv"
+                android:gravity="center_vertical|right"
+                android:padding="8dp"
                 android:textColor="@color/darkGray"
                 android:textSize="18sp" />
 
