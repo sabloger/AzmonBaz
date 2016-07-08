@@ -11,6 +11,9 @@ public class TestsObj implements Comparable<TestsObj> {
     String testName, description, testOrder;
     boolean hasNegativePoint;
 
+    public TestsObj() {
+    }
+
     public TestsObj(int idCat, int idTest, String testName, String description, int time, boolean hasNegativePoint, String testOrder, int questionCount) {
         this.idCat = idCat;
         this.idTest = idTest;

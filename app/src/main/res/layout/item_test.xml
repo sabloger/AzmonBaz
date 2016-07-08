@@ -12,78 +12,143 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/mainContent"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:visibility="visible">
+            android:orientation="vertical">
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/testTitle_tv"
+            <RelativeLayout
+                android:id="@+id/mainContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center_vertical|right"
                 android:padding="8dp"
-                android:singleLine="true"
-                android:textColor="@color/darkGray"
-                android:textSize="18sp" />
+                android:visibility="visible">
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/testCount_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/testTitle_tv"
-                android:gravity="center_vertical|right"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:textColor="@color/mediumGray"
-                android:textSize="18sp" />
+                <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                    android:id="@+id/testTitle_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_vertical|right"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/darkGray"
+                    android:textSize="18sp" />
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/testTime_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/testCount_tv"
-                android:gravity="center_vertical|right"
-                android:padding="8dp"
-                android:singleLine="true"
-                android:textColor="@color/deepOrange"
-                android:textSize="18sp" />
+                <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                    android:id="@+id/testCount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/testTitle_tv"
+                    android:gravity="center_vertical|right"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/mediumGray"
+                    android:textSize="18sp" />
+
+                <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                    android:id="@+id/testTime_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/testCount_tv"
+                    android:gravity="center_vertical|right"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/deepOrange"
+                    android:textSize="18sp" />
+
+                <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                    android:id="@+id/testDesc_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/testTime_tv"
+                    android:gravity="center_vertical|right"
+                    android:padding="2dp"
+                    android:textColor="@color/darkGray"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSans
-                android:id="@+id/testDesc_tv"
-                android:layout_width="match_parent"
+                android:id="@+id/negativePoint_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/negative_point"
+                android:clickable="false"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:text="@string/hasNegativePoint"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/mediumGray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/addToFavorite_ripple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:mrl_rippleColor="@color/mediumGray">
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/addToFavorite_imgbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_favorite_outline" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/addToFavorite_ripple"
+                android:layout_toStartOf="@+id/startTest_ripple" />
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/startTest_ripple"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/testTime_tv"
-                android:gravity="center_vertical|right"
-                android:padding="8dp"
-                android:textColor="@color/darkGray"
-                android:textSize="18sp" />
+                android:layout_centerVertical="true"
+                app:mrl_rippleColor="@color/mediumGray">
+
+                <com.kokabi.p.azmonbaz.Components.CButton
+                    android:id="@+id/beginTest_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:text="@string/startTest"
+                    android:textColor="@color/darkGray"
+                    android:textSize="14sp" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
 
         </RelativeLayout>
-
-        <com.kokabi.p.azmonbaz.Components.CTextViewSans
-            android:id="@+id/negativePoint_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/negative_point"
-            android:clickable="false"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:text="@string/hasNegativePoint"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:visibility="gone" />
 
     </LinearLayout>
 

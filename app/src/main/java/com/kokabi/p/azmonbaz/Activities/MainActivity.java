@@ -25,6 +25,8 @@ import android.widget.TextView;
 import com.kokabi.p.azmonbaz.Adapters.MainActivityNavLVAdapter;
 import com.kokabi.p.azmonbaz.Fragments.AboutFragment;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
+import com.kokabi.p.azmonbaz.Fragments.FavoritesFragment;
+import com.kokabi.p.azmonbaz.Fragments.HistoryFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*Fill NavListView with Items*/
         listMainActivityNavObj = new ArrayList<>();
         listMainActivityNavObj.add(new MainActivityNavObj("آزمون", R.drawable.dr_test));
+        listMainActivityNavObj.add(new MainActivityNavObj("آزمون های منتخب شما", R.drawable.dr_favorite));
+        listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون های شما", R.drawable.dr_history));
         listMainActivityNavObj.add(new MainActivityNavObj(true));
         listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
         listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
@@ -91,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvNav.setAdapter(mainActivityNavLVAdapter);
 
         listFragments.add(new CoursesFragment());
+        listFragments.add(new FavoritesFragment());
+        listFragments.add(new HistoryFragment());
         listFragments.add(new AboutFragment());
 
         /*Load first fragment as default*/
@@ -179,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 snackBar = new CustomSnackBar(context, mainContent, "لطفا برای خروج  مجددا دکمه بازگشت را فشار دهید.", Constants.SNACK.WARNING);
 
                 new Handler().postDelayed(new Runnable() {
-
                     @Override
                     public void run() {
                         doubleBackToExitPressedOnce = false;
@@ -234,13 +239,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
                 lastSelectedItem = 0;
                 break;
-            /*About Fragment*/
+            /*Favorites Fragment*/
+            case 1:
+                fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(1)).commit();
+                lastSelectedItem = 1;
+                break;
+            /*History Fragment*/
             case 2:
+                fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(2)).commit();
+                lastSelectedItem = 2;
+                break;
+            /*About Fragment*/
+            case 4:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(1)).commit();
                 lastSelectedItem = 2;
                 break;
             /*Sharing Application*/
-            case 3:
+            case 5:
                 String shareBody = "آزمون باز";
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
@@ -248,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(Intent.createChooser(sharingIntent, "انتخاب برنامه"));
                 break;
             /*Setting*/
-            case 4:
+            case 6:
 //                Intent intent = new Intent(context, Setting.class);
 //                startActivity(intent);
                 break;

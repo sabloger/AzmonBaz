@@ -33,7 +33,7 @@
     {
       "idCat": 4,
       "catName": "ریاضی ۲",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",
@@ -43,7 +43,7 @@
     {
       "idCat": 5,
       "catName": "ریاضی ۱",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",
@@ -53,7 +53,7 @@
     {
       "idCat": 6,
       "catName": "ریاضی ۳",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",
@@ -63,7 +63,7 @@
     {
       "idCat": 7,
       "catName": "حسابان",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",
@@ -73,7 +73,7 @@
     {
       "idCat": 8,
       "catName": "جبر",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",
@@ -83,7 +83,7 @@
     {
       "idCat": 9,
       "catName": "فیزیک ۱",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",
@@ -93,7 +93,7 @@
     {
       "idCat": 10,
       "catName": "دیفرانسیل",
-      "backColor": "#EDEDED",
+      "backColor": "#FFFFFF",
       "textColor": "#404040",
       "backImage": 0,
       "resIcon": "",

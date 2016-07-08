@@ -40,7 +40,7 @@ public class CustomSnackBar {
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 FontChange.setTextViewFont(Tf, textView);
-                textView.setTextColor(context.getResources().getColor(R.color.gray));
+                textView.setTextColor(context.getResources().getColor(R.color.white));
                 textView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                 snackbar.show();
@@ -53,7 +53,7 @@ public class CustomSnackBar {
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 FontChange.setTextViewFont(Tf, textView);
-                textView.setTextColor(context.getResources().getColor(R.color.gray));
+                textView.setTextColor(context.getResources().getColor(R.color.white));
                 textView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                 snackbar.show();
@@ -67,7 +67,7 @@ public class CustomSnackBar {
                 View sbView = snackbar.getView();
                 TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                 FontChange.setTextViewFont(Tf, textView);
-                textView.setTextColor(context.getResources().getColor(R.color.gray));
+                textView.setTextColor(context.getResources().getColor(R.color.white));
                 textView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                 snackbar.show();

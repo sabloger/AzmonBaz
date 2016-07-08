@@ -23,9 +23,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
@@ -47,11 +49,12 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class CourseQuestionsActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context context;
+    DataBase db;
     Dialog dialogResults;
 
     CoordinatorLayout mainContent;
     TextView timer_tv, numberOfQuestions_tv;
-    AppCompatImageButton close_imgbtn;
+    AppCompatImageButton close_imgbtn, pausePlay_imgbtn;
     ProgressView progressBar;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
     ImageView question_imgv;
@@ -63,11 +66,18 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     CountDownTimer countDownTimer;
     boolean hasNegativePoint = false;
     int idTest = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0;
+    String testName = "";
     TestDefinitionObj pageTest;
     ArrayList<Integer> answerList = new ArrayList<>();
     ArrayList<Integer> correctAnsweredList = new ArrayList<>();
     ArrayList<Integer> unAnsweredList = new ArrayList<>();
     ArrayList<Integer> inCorrectAnsweredList = new ArrayList<>();
+    //Declare a variable to hold count down timer's paused status
+    private boolean isPaused = false;
+    //Declare a variable to hold count down timer's paused status
+    private boolean isCanceled = false;
+    //Declare a variable to hold CountDownTimer remaining time
+    private long timeRemaining = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +85,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_course_questions);
 
         context = this;
+        db = new DataBase(context);
         AppController.setActivityContext(CourseQuestionsActivity.this, this);
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
 
@@ -90,6 +101,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         if (bundle != null) {
             idTest = bundle.getInt("idTest", 0);
             time = bundle.getInt("time", 0);
+            testName = bundle.getString("testName", "");
             hasNegativePoint = bundle.getBoolean("hasNegativePoint", false);
         }
 
@@ -116,6 +128,23 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        isPaused = true;
+        pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPaused) {
+            isPaused = false;
+            timer(timeRemaining);
+            pausePlay_imgbtn.setImageResource(R.drawable.ic_pause);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         countDownTimer.cancel();
@@ -126,6 +155,18 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         switch (view.getId()) {
             case R.id.close_imgbtn:
                 finish();
+                break;
+            case R.id.pausePlay_imgbtn:
+                if (isCanceled | isPaused) {
+                    isPaused = false;
+                    isCanceled = false;
+                    timer(timeRemaining);
+                    pausePlay_imgbtn.setImageResource(R.drawable.ic_pause);
+                } else {
+                    isPaused = true;
+                    isCanceled = true;
+                    pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
+                }
                 break;
             case R.id.nextQuestion_ly:
                 if (question < totalQuestion) {
@@ -190,6 +231,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         numberOfQuestions_tv = (TextView) findViewById(R.id.numberOfQuestions_tv);
 
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
+        pausePlay_imgbtn = (AppCompatImageButton) findViewById(R.id.pausePlay_imgbtn);
 
         progressBar = (ProgressView) findViewById(R.id.progressBar);
 
@@ -211,6 +253,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
 
     private void setOnClick() {
         close_imgbtn.setOnClickListener(this);
+        pausePlay_imgbtn.setOnClickListener(this);
         nextQuestion_ly.setOnClickListener(this);
         previousQuestion_ly.setOnClickListener(this);
         firstChoice_btn.setOnClickListener(this);
@@ -267,11 +310,17 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
 
             @SuppressLint("DefaultLocale")
             public void onTick(long millisUntilFinished) {
-                progressBar.setProgress(progressBar.getProgress() + ((float) 1 / time));
-                timer_tv.setText(String.valueOf(String.format("%d : %d",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)))));
+                if (isPaused || isCanceled) {
+                    /*CountDownTimer we will cancel the current instance*/
+                    cancel();
+                } else {
+                    progressBar.setProgress(progressBar.getProgress() + ((float) 1 / time));
+                    timer_tv.setText(String.valueOf(String.format("%d : %d",
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)))));
+                    timeRemaining = millisUntilFinished;
+                }
             }
 
             public void onFinish() {
@@ -366,6 +415,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     private void showDialogResults() {
+        isCanceled = true;
         TextView title_tv = (TextView) dialogResults.findViewById(R.id.title_tv);
         TextView sub_title_tv = (TextView) dialogResults.findViewById(R.id.sub_title_tv);
         TextView results_tv = (TextView) dialogResults.findViewById(R.id.results_tv);
@@ -384,6 +434,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
 //                startActivity(new Intent(context, CourseAnswersActivity.class));
             }
         });
+
+        db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeRemaining - time)),
+                String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
+                inCorrectAnsweredList.size(), unAnsweredList.size()));
 
         dialogResults.show();
     }

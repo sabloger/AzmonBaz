@@ -33,7 +33,7 @@
                 android:layout_gravity="right|center_vertical"
                 android:layout_margin="8dp"
                 android:padding="8dp"
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="40sp" />
 
         </FrameLayout>

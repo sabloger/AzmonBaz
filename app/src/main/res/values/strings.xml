@@ -20,5 +20,12 @@
 
     <!--Test Activity-->
     <string name="hasNegativePoint">نمره منفی دارد</string>
+    <string name="startTest">شروع آزمون</string>
+
+    <!--Favorites Fragment-->
+    <string name="noItemFavorites">شما هنوز آزمونی را به لیست اضافه نکرده اید.</string>
+
+    <!--History Fragment-->
+    <string name="noItemHistory">شما هنوز آزمونی نداده اید.</string>
 
 </resources>
