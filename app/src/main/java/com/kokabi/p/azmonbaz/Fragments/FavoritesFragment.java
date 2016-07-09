@@ -73,7 +73,7 @@ public class FavoritesFragment extends Fragment {
         }
 
         Collections.sort(favoritesTests);
-        testRVAdapter = new TestRVAdapter(favoritesTests);
+        testRVAdapter = new TestRVAdapter(favoritesTests, true);
         favoriteTestRV.setAdapter(testRVAdapter);
 
         return v;

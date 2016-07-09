@@ -48,13 +48,27 @@
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                android:id="@+id/numberOfQuestions_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_toEndOf="@+id/timer_tv"
+                android:layout_toStartOf="@+id/close_ripple"
+                android:gravity="right|center_vertical"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <com.kokabi.p.azmonbaz.Components.CTextViewSans
                 android:id="@+id/timer_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_toEndOf="@+id/pausePlay_ripple"
-                android:layout_toStartOf="@+id/close_ripple"
                 android:gravity="left|center_vertical"
-                android:padding="16dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -96,130 +110,140 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="2">
 
                 <ImageView
                     android:id="@+id/question_imgv"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/questionHeight"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:padding="8dp"
                     android:scaleType="centerCrop" />
 
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/primaryColor" />
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/primaryColor" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp">
+
+                        <LinearLayout
+                            android:id="@+id/nextQuestion_ly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:orientation="vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/nextQuestion_imgv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:padding="16dp"
+                                app:srcCompat="@drawable/ic_next" />
+
+                            <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingEnd="16dp"
+                                android:paddingStart="16dp"
+                                android:text="@string/next" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/previousQuestion_ly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:orientation="vertical">
+
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/previousQuestion_imgv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:padding="16dp"
+                                app:srcCompat="@drawable/ic_previous" />
+
+                            <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingEnd="16dp"
+                                android:paddingStart="16dp"
+                                android:text="@string/previous" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
                     <LinearLayout
-                        android:id="@+id/nextQuestion_ly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/nextQuestion_imgv"
+                        <com.kokabi.p.azmonbaz.Components.CButton
+                            android:id="@+id/secondChoice_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:padding="16dp"
-                            app:srcCompat="@drawable/ic_next" />
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/selector_btn"
+                            android:text="@string/secondChoice"
+                            android:textColor="@color/darkPrimaryColor"
+                            android:textSize="16sp" />
 
-                        <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                        <com.kokabi.p.azmonbaz.Components.CButton
+                            android:id="@+id/firstChoice_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingEnd="16dp"
-                            android:paddingStart="16dp"
-                            android:text="@string/next" />
+                            android:layout_marginStart="16dp"
+                            android:background="@drawable/selector_btn"
+                            android:text="@string/firstChoice"
+                            android:textColor="@color/darkPrimaryColor"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/previousQuestion_ly"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/previousQuestion_imgv"
+                        <com.kokabi.p.azmonbaz.Components.CButton
+                            android:id="@+id/fourthChoice_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:padding="16dp"
-                            app:srcCompat="@drawable/ic_previous" />
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/selector_btn"
+                            android:text="@string/fourthChoice"
+                            android:textColor="@color/darkPrimaryColor"
+                            android:textSize="16sp" />
 
-                        <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                        <com.kokabi.p.azmonbaz.Components.CButton
+                            android:id="@+id/thirdChoice_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingEnd="16dp"
-                            android:paddingStart="16dp"
-                            android:text="@string/previous" />
+                            android:layout_marginStart="16dp"
+                            android:background="@drawable/selector_btn"
+                            android:text="@string/thirdChoice"
+                            android:textColor="@color/darkPrimaryColor"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.kokabi.p.azmonbaz.Components.CButton
-                        android:id="@+id/secondChoice_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/selector_btn"
-                        android:text="@string/secondChoice"
-                        android:textColor="@color/darkPrimaryColor"
-                        android:textSize="16sp" />
-
-                    <com.kokabi.p.azmonbaz.Components.CButton
-                        android:id="@+id/firstChoice_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/selector_btn"
-                        android:text="@string/firstChoice"
-                        android:textColor="@color/darkPrimaryColor"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.kokabi.p.azmonbaz.Components.CButton
-                        android:id="@+id/fourthChoice_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/selector_btn"
-                        android:text="@string/fourthChoice"
-                        android:textColor="@color/darkPrimaryColor"
-                        android:textSize="16sp" />
-
-                    <com.kokabi.p.azmonbaz.Components.CButton
-                        android:id="@+id/thirdChoice_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/selector_btn"
-                        android:text="@string/thirdChoice"
-                        android:textColor="@color/darkPrimaryColor"
-                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -237,28 +261,5 @@
         android:layout_margin="@dimen/fab_margin"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_confirm" />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/numberOfQuestions_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@color/transparent" />
-
-        <com.kokabi.p.azmonbaz.Components.CTextViewSans
-            android:id="@+id/numberOfQuestions_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="16dp"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

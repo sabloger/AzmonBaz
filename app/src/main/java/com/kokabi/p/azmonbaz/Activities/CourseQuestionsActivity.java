@@ -59,7 +59,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     LinearLayout nextQuestion_ly, previousQuestion_ly;
     ImageView question_imgv;
     Button firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
-    FloatingActionButton confirm_fab, numberOfQuestions_fab;
+    FloatingActionButton confirm_fab;
 
     /*Activity Values*/
     PhotoViewAttacher questionZoomable;
@@ -91,6 +91,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
 
         /*Creating DialogResults==================================================================*/
         dialogResults = new Dialog(this);
+        dialogResults.setCancelable(false);
         dialogResults.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogResults.setContentView(R.layout.dialog_test_results);
         /*========================================================================================*/
@@ -119,18 +120,19 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         progressBar.start();
 
         totalQuestion = pageTest.getQuestionNo() - 1;
-
+        hideShowBackForward(question + 1);
 
         showQuestions(0);
         questionZoomable = new PhotoViewAttacher(question_imgv);
 
-        numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
+        numberOfQuestions_tv.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         isPaused = true;
+        countDownTimer.cancel();
         pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
     }
 
@@ -157,15 +159,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
                 finish();
                 break;
             case R.id.pausePlay_imgbtn:
-                if (isCanceled | isPaused) {
+                if (isPaused) {
                     isPaused = false;
-                    isCanceled = false;
                     timer(timeRemaining);
                     pausePlay_imgbtn.setImageResource(R.drawable.ic_pause);
                 } else {
                     isPaused = true;
-                    isCanceled = true;
                     pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
+                    countDownTimer.cancel();
                 }
                 break;
             case R.id.nextQuestion_ly:
@@ -246,7 +247,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         fourthChoice_btn = (Button) findViewById(R.id.fourthChoice_btn);
 
         confirm_fab = (FloatingActionButton) findViewById(R.id.confirm_fab);
-        numberOfQuestions_fab = (FloatingActionButton) findViewById(R.id.numberOfQuestions_fab);
 
         setOnClick();
     }
@@ -332,9 +332,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     private void updatePage() {
-        numberOfQuestions_tv.setText(String.valueOf((question + 1) + "/" + (totalQuestion + 1)));
+        numberOfQuestions_tv.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
         showQuestions(question);
         questionZoomable.update();
+        hideShowBackForward(question + 1);
         Log.i("Answer", answerList.toString());
         if (answerList.size() >= (question + 1)) {
             switch (answerList.get(question)) {
@@ -414,8 +415,18 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         }
     }
 
+    private void hideShowBackForward(int question) {
+        if (question == 1) {
+            previousQuestion_ly.setVisibility(View.GONE);
+        } else if (question > 1 && question < 10) {
+            nextQuestion_ly.setVisibility(View.VISIBLE);
+            previousQuestion_ly.setVisibility(View.VISIBLE);
+        } else if (question == 10) {
+            nextQuestion_ly.setVisibility(View.GONE);
+        }
+    }
+
     private void showDialogResults() {
-        isCanceled = true;
         TextView title_tv = (TextView) dialogResults.findViewById(R.id.title_tv);
         TextView sub_title_tv = (TextView) dialogResults.findViewById(R.id.sub_title_tv);
         TextView results_tv = (TextView) dialogResults.findViewById(R.id.results_tv);
@@ -435,9 +446,12 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
             }
         });
 
-        db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeRemaining - time)),
+        db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(time - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
                 String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
                 inCorrectAnsweredList.size(), unAnsweredList.size()));
+
+        pausePlay_imgbtn.setVisibility(View.GONE);
+        isCanceled = true;
 
         dialogResults.show();
     }

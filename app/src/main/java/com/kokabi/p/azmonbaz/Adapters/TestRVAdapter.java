@@ -25,13 +25,15 @@ import java.util.ArrayList;
 public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder> implements RecyclerView.OnItemTouchListener {
 
     Context context;
+    DataBase db;
     GestureDetector mGestureDetector;
     private OnItemClickListener mListener;
     ArrayList<TestsObj> testList = new ArrayList<>();
-    DataBase db;
+    boolean isFavoredFragment = false;
 
-    public TestRVAdapter(ArrayList<TestsObj> dataInput) {
+    public TestRVAdapter(ArrayList<TestsObj> dataInput, boolean isFavoredFragment) {
         testList = dataInput;
+        this.isFavoredFragment = isFavoredFragment;
     }
 
     public TestRVAdapter(Context context, OnItemClickListener listener) {
@@ -77,7 +79,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final TestsObj testsObj = testList.get(position);
 
         holder.testTitle_tv.setText(testsObj.getTestName());
@@ -99,6 +101,11 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                 if (db.isFavored(testsObj.getIdTest())) {
                     holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite_outline);
                     db.favoriteTestDelete(testsObj.getIdTest());
+                    if (isFavoredFragment) {
+                        testList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyDataSetChanged();
+                    }
                 } else {
                     holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite);
                     db.favoriteTestInsert(testsObj);

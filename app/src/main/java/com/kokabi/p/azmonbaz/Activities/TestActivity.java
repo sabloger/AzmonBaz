@@ -78,7 +78,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Collections.sort(pageTests);
-        testRVAdapter = new TestRVAdapter(pageTests);
+        testRVAdapter = new TestRVAdapter(pageTests, false);
         testRV.setAdapter(testRVAdapter);
 
         // TODO Remove when Project is finished
