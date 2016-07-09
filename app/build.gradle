@@ -43,6 +43,4 @@ dependencies {
     /*Zoomable Image*/
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'org.jetbrains:annotations-java5:15.0'
 }
