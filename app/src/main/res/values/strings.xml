@@ -28,4 +28,8 @@
     <!--History Fragment-->
     <string name="noItemHistory">شما هنوز آزمونی نداده اید.</string>
 
+    <!--Menu-->
+    <string name="shareTestMenu">اشتراک گذاری آزمون</string>
+    <string name="addToFavoritesMenu">اضافه به آزمون های منتخب</string>
+
 </resources>

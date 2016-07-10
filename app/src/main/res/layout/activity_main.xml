@@ -88,8 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:background="@color/transparent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_nav_photo" />
+            android:scaleType="centerCrop" />
 
         <!-- Navigation ListView -->
         <RelativeLayout
