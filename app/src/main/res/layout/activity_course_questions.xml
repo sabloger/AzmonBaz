@@ -4,7 +4,7 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
@@ -42,7 +42,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/transparent"
                     android:scaleType="centerInside"
-                    android:tint="@color/white"
                     app:srcCompat="@drawable/ic_pause" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -57,7 +56,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
-                android:textColor="@color/white"
+                android:textColor="@color/gray"
                 android:textSize="14sp" />
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSans
@@ -69,7 +68,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
-                android:textColor="@color/white"
+                android:textColor="@color/gray"
                 android:textSize="16sp" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -86,7 +85,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/transparent"
                     android:scaleType="centerInside"
-                    android:tint="@color/white"
+                    android:tint="@color/gray"
                     app:srcCompat="@drawable/ic_clear" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -110,6 +109,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:weightSum="2">
 
@@ -125,6 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:background="@color/gray"
                     android:orientation="vertical">
 
                     <View
@@ -157,7 +158,8 @@
                                 android:layout_height="wrap_content"
                                 android:paddingEnd="16dp"
                                 android:paddingStart="16dp"
-                                android:text="@string/next" />
+                                android:text="@string/next"
+                                android:textColor="@color/darkGray" />
 
                         </LinearLayout>
 
@@ -181,7 +183,8 @@
                                 android:layout_height="wrap_content"
                                 android:paddingEnd="16dp"
                                 android:paddingStart="16dp"
-                                android:text="@string/previous" />
+                                android:text="@string/previous"
+                                android:textColor="@color/darkGray" />
 
                         </LinearLayout>
 

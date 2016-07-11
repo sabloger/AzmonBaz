@@ -3,7 +3,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray"
     android:descendantFocusability="beforeDescendants"
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true">
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profileBox"
-            android:background="@color/white"
+            android:background="@color/gray"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -103,7 +103,7 @@
                 android:id="@+id/navList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/gray"
                 android:choiceMode="singleChoice"
                 android:divider="@color/transparent"
                 android:dividerHeight="0dp" />

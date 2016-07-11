@@ -2,7 +2,7 @@ package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.AppCompatImageButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -49,8 +49,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView testTitle_tv, testTime_tv, testDesc_tv, testCount_tv, negativePoint_tv;
-        AppCompatImageButton addToFavorite_imgbtn;
-        Button beginTest_btn;
+        Button addToFavorite_btn, beginTest_btn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -62,8 +61,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             testCount_tv = (TextView) itemView.findViewById(R.id.testCount_tv);
             negativePoint_tv = (TextView) itemView.findViewById(R.id.negativePoint_tv);
 
-            addToFavorite_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.addToFavorite_imgbtn);
-
+            addToFavorite_btn = (Button) itemView.findViewById(R.id.addToFavorite_btn);
             beginTest_btn = (Button) itemView.findViewById(R.id.beginTest_btn);
 
             db = new DataBase(context);
@@ -79,35 +77,35 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final TestsObj testsObj = testList.get(position);
 
         holder.testTitle_tv.setText(testsObj.getTestName());
         holder.testTime_tv.setText(String.valueOf(((float) testsObj.getTime() / 60) + " دقیقه"));
         holder.testDesc_tv.setText(testsObj.getDescription());
-        holder.testCount_tv.setText(String.valueOf(testsObj.getQuestionCount() + " سوال"));
+        holder.testCount_tv.setText(String.valueOf("( " + testsObj.getQuestionCount() + " سوال )"));
 
         if (testsObj.isHasNegativePoint()) {
             holder.negativePoint_tv.setVisibility(View.VISIBLE);
         }
 
         if (db.isFavored(testsObj.getIdTest())) {
-            holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite);
+            holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
         }
 
-        holder.addToFavorite_imgbtn.setOnClickListener(new View.OnClickListener() {
+        holder.addToFavorite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (db.isFavored(testsObj.getIdTest())) {
-                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite_outline);
+                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
                     db.favoriteTestDelete(testsObj.getIdTest());
                     if (isFavoredFragment) {
-                        testList.remove(position);
-                        notifyItemRemoved(position);
+                        testList.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition());
                         notifyDataSetChanged();
                     }
                 } else {
-                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite);
+                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
                     db.favoriteTestInsert(testsObj);
                 }
                 db.selectAllFavorites();

@@ -4,7 +4,7 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
@@ -34,7 +34,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="center"
                 android:padding="8dp"
-                android:textColor="@color/white"
+                android:textColor="@color/gray"
                 android:textSize="16sp" />
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
@@ -47,7 +47,7 @@
                 android:layout_toEndOf="@+id/timer_tv"
                 android:layout_toStartOf="@+id/close_imgbtn"
                 android:gravity="right|center_vertical"
-                android:textColor="@color/white"
+                android:textColor="@color/gray"
                 android:textSize="16sp" />
 
             <android.support.v7.widget.AppCompatImageButton
@@ -58,7 +58,7 @@
                 android:layout_centerVertical="true"
                 android:background="@color/transparent"
                 android:scaleType="centerInside"
-                android:tint="@color/white"
+                android:tint="@color/gray"
                 app:srcCompat="@drawable/ic_clear" />
 
         </RelativeLayout>
