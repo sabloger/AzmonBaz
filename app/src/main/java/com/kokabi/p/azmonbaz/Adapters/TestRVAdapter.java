@@ -140,6 +140,11 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    /*Update Method*/
+    public void updateTest() {
+        notifyDataSetChanged();
+    }
+
     /*Click Listener Methods*/
     public interface OnItemClickListener {
         void onItemClick(View view, int position);

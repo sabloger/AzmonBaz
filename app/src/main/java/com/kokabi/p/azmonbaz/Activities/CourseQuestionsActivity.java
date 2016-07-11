@@ -26,11 +26,16 @@ import android.widget.TextView;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
+import com.kokabi.p.azmonbaz.Objects.TestsObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
+import com.shehabic.droppy.DroppyClickCallbackInterface;
+import com.shehabic.droppy.DroppyMenuPopup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,15 +51,17 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by P.Kokabi on 6/23/16.
  */
-public class CourseQuestionsActivity extends AppCompatActivity implements View.OnClickListener {
+public class CourseQuestionsActivity extends AppCompatActivity implements DroppyMenuPopup.OnDismissCallback,
+        DroppyClickCallbackInterface, View.OnClickListener {
 
     Context context;
     DataBase db;
     Dialog dialogResults;
+    CustomSnackBar snackBar;
 
     CoordinatorLayout mainContent;
     TextView timer_tv, numberOfQuestions_tv;
-    AppCompatImageButton close_imgbtn, pausePlay_imgbtn;
+    AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn;
     ProgressView progressBar;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
     ImageView question_imgv;
@@ -153,10 +160,30 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     @Override
+    public void call(View v, int id) {
+        switch (id) {
+            case R.id.addToFavorite:
+                if (db.isFavored(idTest)) {
+                    snackBar = new CustomSnackBar(mainContent, "این آزمون قبلا به آزمون های منتخب اضافه شده", Constants.SNACK.ERROR);
+                } else {
+                    db.favoriteTestInsert(new TestsObj(idTest));
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void call() {
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.close_imgbtn:
                 finish();
+                break;
+            case R.id.more_imgbtn:
+                initMenu(more_imgbtn);
                 break;
             case R.id.pausePlay_imgbtn:
                 if (isPaused) {
@@ -231,6 +258,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         timer_tv = (TextView) findViewById(R.id.timer_tv);
         numberOfQuestions_tv = (TextView) findViewById(R.id.numberOfQuestions_tv);
 
+        more_imgbtn = (AppCompatImageButton) findViewById(R.id.more_imgbtn);
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
         pausePlay_imgbtn = (AppCompatImageButton) findViewById(R.id.pausePlay_imgbtn);
 
@@ -252,6 +280,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
     }
 
     private void setOnClick() {
+        more_imgbtn.setOnClickListener(this);
         close_imgbtn.setOnClickListener(this);
         pausePlay_imgbtn.setOnClickListener(this);
         nextQuestion_ly.setOnClickListener(this);
@@ -511,4 +540,13 @@ public class CourseQuestionsActivity extends AppCompatActivity implements View.O
         }
     }
 
+    private void initMenu(AppCompatImageButton btn) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, btn);
+        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.course_question)
+                .triggerOnAnchorClick(false)
+                .setOnClick(this)
+                .setOnDismissCallback(this)
+                .build();
+        droppyMenu.show();
+    }
 }

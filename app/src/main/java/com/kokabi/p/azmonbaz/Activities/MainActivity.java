@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 this.doubleBackToExitPressedOnce = true;
 
-                snackBar = new CustomSnackBar(context, mainContent, "لطفا برای خروج  مجددا دکمه بازگشت را فشار دهید.", Constants.SNACK.WARNING);
+                snackBar = new CustomSnackBar(mainContent, "لطفا برای خروج  مجددا دکمه بازگشت را فشار دهید.", Constants.SNACK.WARNING);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
