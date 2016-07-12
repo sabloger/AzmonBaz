@@ -1,14 +1,17 @@
 package com.kokabi.p.azmonbaz.Objects;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by P.Kokabi on 7/8/16.
  */
-public class HistoryObj {
+public class HistoryObj implements Comparable<HistoryObj> {
 
-    int idTest, answeredQuestion, incorrectQuestion, unAnsweredQuestion;
-    String testName, testPercentage, testTime;
+    int idHistory, idTest, answeredQuestion, incorrectQuestion, unAnsweredQuestion;
+    String testName, testPercentage, testTime, updateTime;
 
-    public HistoryObj(int idTest, String testName, String testTime, String testPercentage, int answeredQuestion, int incorrectQuestion, int unAnsweredQuestion) {
+    public HistoryObj(int idTest, String testName, String testTime, String testPercentage, int answeredQuestion,
+                      int incorrectQuestion, int unAnsweredQuestion, String updateTime) {
         this.idTest = idTest;
         this.testName = testName;
         this.testTime = testTime;
@@ -16,6 +19,28 @@ public class HistoryObj {
         this.answeredQuestion = answeredQuestion;
         this.incorrectQuestion = incorrectQuestion;
         this.unAnsweredQuestion = unAnsweredQuestion;
+        this.updateTime = updateTime;
+    }
+
+    public HistoryObj(int idHistory, int idTest, String testName, String testTime, String testPercentage, int answeredQuestion,
+                      int incorrectQuestion, int unAnsweredQuestion, String updateTime) {
+        this.idHistory = idHistory;
+        this.idTest = idTest;
+        this.testName = testName;
+        this.testTime = testTime;
+        this.testPercentage = testPercentage;
+        this.answeredQuestion = answeredQuestion;
+        this.incorrectQuestion = incorrectQuestion;
+        this.unAnsweredQuestion = unAnsweredQuestion;
+        this.updateTime = updateTime;
+    }
+
+    public int getIdHistory() {
+        return idHistory;
+    }
+
+    public void setIdHistory(int idHistory) {
+        this.idHistory = idHistory;
     }
 
     public int getIdTest() {
@@ -72,5 +97,18 @@ public class HistoryObj {
 
     public void setTestTime(String testTime) {
         this.testTime = testTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public int compareTo(@NonNull HistoryObj h) {
+        return this.getTestTime().compareTo(h.getTestTime());
     }
 }

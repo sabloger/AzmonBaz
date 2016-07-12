@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,28 +20,16 @@ import java.util.ArrayList;
 /**
  * Created by P.kokabi on 6/20/2016.
  */
-public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder> implements RecyclerView.OnItemTouchListener {
+public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder> {
 
     Context context;
     DataBase db;
-    GestureDetector mGestureDetector;
-    private OnItemClickListener mListener;
     ArrayList<TestsObj> testList = new ArrayList<>();
     boolean isFavoredFragment = false;
 
     public TestRVAdapter(ArrayList<TestsObj> dataInput, boolean isFavoredFragment) {
         testList = dataInput;
         this.isFavoredFragment = isFavoredFragment;
-    }
-
-    public TestRVAdapter(Context context, OnItemClickListener listener) {
-        mListener = listener;
-        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -93,6 +79,34 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
         }
 
+        /*onClickListeners*/
+        onClick(holder, position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return testList.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    /*Clear Method*/
+    public void clearTest() {
+        testList.clear();
+        notifyDataSetChanged();
+    }
+
+    /*Update Method*/
+    public void updateTest() {
+        notifyDataSetChanged();
+    }
+
+    /*Click Listener Methods*/
+    private void onClick(final ViewHolder holder, int position) {
+        final TestsObj testsObj = testList.get(position);
         holder.addToFavorite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,50 +137,4 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             }
         });
     }
-
-    @Override
-    public int getItemCount() {
-        return testList.size();
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    /*Clear Method*/
-    public void clearTest() {
-        testList.clear();
-        notifyDataSetChanged();
-    }
-
-    /*Update Method*/
-    public void updateTest() {
-        notifyDataSetChanged();
-    }
-
-    /*Click Listener Methods*/
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
-        View childView = view.findChildViewUnder(e.getX(), e.getY());
-        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
-        }
-        return false;
-    }
-
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }
-
 }

@@ -477,7 +477,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
         db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(time - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
                 String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
-                inCorrectAnsweredList.size(), unAnsweredList.size()));
+                inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000)));
 
         pausePlay_imgbtn.setVisibility(View.GONE);
         isCanceled = true;

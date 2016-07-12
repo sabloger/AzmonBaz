@@ -18,14 +18,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    allprojects {
-        repositories {
-            maven { url "https://jitpack.io" }
-            jcenter()
-            flatDir {
-                dirs 'libs'
-            }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+        jcenter()
+        flatDir {
+            dirs 'libs'
         }
+    }
+}
+
+/*Crash Reporter*/
+repositories {
+    jcenter()
+    maven {
+        url "https://mint.splunk.com/gradle/"
     }
 }
 
@@ -38,6 +47,8 @@ dependencies {
     compile 'com.android.support:design:24.0.0'
     /*Material Elements Library*/
     compile(name: 'material-1.2.2', ext: 'aar')
+    /*Crash Reporter*/
+    compile 'com.splunk.mint:mint:5.0.0'
     /*Material Ripple*/
     compile 'com.balysv:material-ripple:1.0.2'
     /*Zoomable Image*/

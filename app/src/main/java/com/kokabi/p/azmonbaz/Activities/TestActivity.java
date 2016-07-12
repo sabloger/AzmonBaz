@@ -89,17 +89,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
-
-        testRV.addOnItemTouchListener(new TestRVAdapter(context, new TestRVAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-/*                startActivity(new Intent(context, CourseQuestionsActivity.class)
-                        .putExtra("idTest", pageTests.get(position).getIdTest())
-                        .putExtra("time", pageTests.get(position).getTime())
-                        .putExtra("hasNegativePoint", pageTests.get(position).isHasNegativePoint()));*/
-            }
-        }));
-
     }
 
     @Override

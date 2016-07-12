@@ -11,6 +11,7 @@ import com.kokabi.p.azmonbaz.Components.CPermissionDeniedDialog;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.R;
+import com.splunk.mint.Mint;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
     CPermissionDeniedDialog dialogPermissionDenied;
 
     /*Activity Values*/
-    private static int SPLASH_TIME_OUT = 2000;
+    int SPLASH_TIME_OUT = 2000;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
@@ -40,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void welcomeScreen() {
         /*Initial Crash Reporter*/
-//        Mint.initAndStartSession(SplashActivity.this, "1ec437c9");
+        Mint.initAndStartSession(SplashActivity.this, "b4a93f90");
 
         /*Create Shortcut on home screen*/
         if (!Constants.isShortcutCreated) {

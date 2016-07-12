@@ -1,43 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_cav"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="@color/transparent"
-    android:orientation="vertical">
+    android:layout_margin="2dp"
+    app:cardCornerRadius="2dp"
+    app:cardUseCompatPadding="true">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/course_cav"
+    <FrameLayout
+        android:id="@+id/course_fr"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/course_fr"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/courseIcon_imgv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:scaleType="centerInside" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/courseIcon_imgv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:scaleType="centerInside" />
+        <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+            android:id="@+id/courseTitle_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/courseTitle_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:textSize="40sp" />
+    </FrameLayout>
 
-        </FrameLayout>
-
-    </android.support.v7.widget.CardView>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
+import com.kokabi.p.azmonbaz.Adapters.HistoryRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.R;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 public class HistoryFragment extends Fragment {
 
@@ -28,11 +26,9 @@ public class HistoryFragment extends Fragment {
     CoordinatorLayout mainContent;
     LinearLayout noItem_ly;
     RecyclerView historyRV;
-    TextView test;
 
     /*Activity Values*/
-    TestRVAdapter testRVAdapter;
-    ArrayList<HistoryObj> pageHistory = new ArrayList<>();
+    HistoryRVAdapter historyRVAdapter;
 
     @Nullable
     @Override
@@ -52,14 +48,12 @@ public class HistoryFragment extends Fragment {
         historyRV.setHasFixedSize(true);
 
         if (db.selectAllHistory().size() > 0) {
-
-            pageHistory.addAll(db.selectAllHistory());
-
-            test.setText(pageHistory.get(0).getTestName() + " , " + pageHistory.get(0).getTestPercentage() + " , " + pageHistory.get(0).getTestTime());
-
+            Collections.sort(db.selectAllHistory());
+            historyRVAdapter = new HistoryRVAdapter(db.selectAllHistory());
+            historyRV.setAdapter(historyRVAdapter);
         } else {
-            noItem_ly.setVisibility(View.VISIBLE);
             historyRV.setVisibility(View.GONE);
+            noItem_ly.setVisibility(View.VISIBLE);
         }
         return v;
     }
@@ -67,21 +61,19 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-//        testRVAdapter.clearTest();
+        historyRVAdapter.clearHistory();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        testRVAdapter.clearTest();
+        historyRVAdapter.clearHistory();
     }
 
     private void findViews(View v) {
         historyRV = (RecyclerView) v.findViewById(R.id.historyRV);
 
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
-
-        test = (TextView) v.findViewById(R.id.test);
     }
 
 }

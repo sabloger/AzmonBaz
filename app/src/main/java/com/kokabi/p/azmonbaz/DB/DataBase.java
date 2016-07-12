@@ -32,10 +32,12 @@ public class DataBase extends SQLiteOpenHelper {
     static final String KEY_answered = "answered";
     static final String KEY_incorrect = "incorrect";
     static final String KEY_unAnswered = "unAnswered";
+    static final String KEY_updateTime = "updateTime";
     static final String createHistory = "CREATE TABLE " +
             tableHistory + "(" + KEY_idHistory + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_idTestHistory + " INTEGER," + KEY_testName + " TEXT," + KEY_testTime + " TEXT,"
-            + KEY_percentage + " TEXT," + KEY_answered + " INTEGER," + KEY_incorrect + " INTEGER," + KEY_unAnswered + " INTEGER );";
+            + KEY_percentage + " TEXT," + KEY_answered + " INTEGER," + KEY_incorrect + " INTEGER," + KEY_unAnswered + " INTEGER,"
+            + KEY_updateTime + " TEXT );";
 
     public DataBase(Context context) {
         super(context, name, null, version);
@@ -75,6 +77,7 @@ public class DataBase extends SQLiteOpenHelper {
         historyValue.put(KEY_answered, historyObj.getAnsweredQuestion());
         historyValue.put(KEY_incorrect, historyObj.getIncorrectQuestion());
         historyValue.put(KEY_unAnswered, historyObj.getUnAnsweredQuestion());
+        historyValue.put(KEY_updateTime, historyObj.getUpdateTime());
         return db.insert(tableHistory, null, historyValue);
     }
 
@@ -151,8 +154,8 @@ public class DataBase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                historyArrayList.add(new HistoryObj(cursor.getInt(1), cursor.getString(2), cursor.getString(3)
-                        , cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7)));
+                historyArrayList.add(new HistoryObj(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3)
+                        , cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8)));
             } while (cursor.moveToNext());
         }
         cursor.close();

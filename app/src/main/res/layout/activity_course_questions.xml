@@ -4,7 +4,7 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/white"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
@@ -38,6 +38,7 @@
                 android:paddingEnd="6dp"
                 android:paddingStart="6dp"
                 android:scaleType="centerInside"
+                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_more" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -54,6 +55,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/transparent"
                     android:scaleType="centerInside"
+                    android:tint="@color/white"
                     app:srcCompat="@drawable/ic_pause" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -68,7 +70,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSans
@@ -80,7 +82,7 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -97,7 +99,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/transparent"
                     android:scaleType="centerInside"
-                    android:tint="@color/gray"
+                    android:tint="@color/white"
                     app:srcCompat="@drawable/ic_clear" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -137,7 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@color/gray"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <View
