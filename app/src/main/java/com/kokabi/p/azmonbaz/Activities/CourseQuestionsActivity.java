@@ -1,6 +1,5 @@
 package com.kokabi.p.azmonbaz.Activities;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -85,6 +84,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     private boolean isCanceled = false;
     //Declare a variable to hold CountDownTimer remaining time
     private long timeRemaining = 0;
+    String decimal = "%02d : %02d";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -337,14 +337,13 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     private void timer(long milliSeconds) {
         countDownTimer = new CountDownTimer(milliSeconds, 1000) { // adjust the milli seconds here
 
-            @SuppressLint("DefaultLocale")
             public void onTick(long millisUntilFinished) {
                 if (isPaused || isCanceled) {
                     /*CountDownTimer we will cancel the current instance*/
                     cancel();
                 } else {
                     progressBar.setProgress(progressBar.getProgress() + ((float) 1 / time));
-                    timer_tv.setText(String.valueOf(String.format("%d : %d",
+                    timer_tv.setText(String.valueOf(String.format(decimal,
                             TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                             TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                     TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)))));

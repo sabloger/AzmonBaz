@@ -16,6 +16,7 @@ import com.kokabi.p.azmonbaz.Objects.TestsObj;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by P.kokabi on 6/20/2016.
@@ -26,6 +27,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     DataBase db;
     ArrayList<TestsObj> testList = new ArrayList<>();
     boolean isFavoredFragment = false;
+    String decimal = "%02d : %02d";
 
     public TestRVAdapter(ArrayList<TestsObj> dataInput, boolean isFavoredFragment) {
         testList = dataInput;
@@ -67,7 +69,10 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         final TestsObj testsObj = testList.get(position);
 
         holder.testTitle_tv.setText(testsObj.getTestName());
-        holder.testTime_tv.setText(String.valueOf(((float) testsObj.getTime() / 60) + " دقیقه"));
+        holder.testTime_tv.setText(String.format(decimal,
+                TimeUnit.MILLISECONDS.toMinutes(testsObj.getTime() * 1000),
+                TimeUnit.MILLISECONDS.toSeconds(testsObj.getTime() * 1000) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsObj.getTime() * 1000))));
         holder.testDesc_tv.setText(testsObj.getDescription());
         holder.testCount_tv.setText(String.valueOf("( " + testsObj.getQuestionCount() + " سوال )"));
 

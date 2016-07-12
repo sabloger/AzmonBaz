@@ -72,13 +72,28 @@
                     app:srcCompat="@drawable/ic_time_lapse" />
 
                 <com.kokabi.p.azmonbaz.Components.CTextViewSans
-                    android:id="@+id/testTime_tv"
+                    android:id="@+id/testTimeLabel_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_toEndOf="@+id/testTime_imgv"
+                    android:gravity="center_vertical|right"
+                    android:singleLine="true"
+                    android:visibility="gone"
+                    android:text="@string/minute"
+                    android:textColor="@color/darkGray"
+                    android:textSize="16sp" />
+
+                <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                    android:id="@+id/testTime_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_toEndOf="@+id/testTimeLabel_tv"
                     android:gravity="center_vertical|right"
                     android:singleLine="true"
                     android:textColor="@color/darkGray"

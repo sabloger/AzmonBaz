@@ -84,6 +84,18 @@
                         android:textColor="@color/deepOrange"
                         android:textSize="16sp" />
 
+                    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/testTime_tv"
+                        android:gravity="center_vertical|right"
+                        android:padding="2dp"
+                        android:singleLine="true"
+                        android:text="@string/minute"
+                        android:textColor="@color/deepOrange"
+                        android:textSize="16sp" />
+
                 </RelativeLayout>
 
                 <com.kokabi.p.azmonbaz.Components.CTextViewSans

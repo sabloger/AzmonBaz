@@ -16,6 +16,7 @@ import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by P.kokabi on 6/20/2016.
@@ -25,7 +26,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
     Context context;
     DataBase db;
     ArrayList<HistoryObj> historyList = new ArrayList<>();
-    String decimal = "%.1f";
+    String decimal = "%d : %02d";
 
     public HistoryRVAdapter() {
     }
@@ -36,7 +37,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title_tv, updateTime_tv, percentage_tv, testTime_tv, correctAnswer_tv, unAnswered_tv, incorrectAnswer_tv;
+        TextView title_tv, updateTime_tv, percentage_tv, testTimeLabel_tv, testTime_tv, correctAnswer_tv, unAnswered_tv, incorrectAnswer_tv;
         AppCompatImageButton delete_imgbtn;
 
         public ViewHolder(View itemView) {
@@ -46,6 +47,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             title_tv = (TextView) itemView.findViewById(R.id.title_tv);
             updateTime_tv = (TextView) itemView.findViewById(R.id.updateTime_tv);
             percentage_tv = (TextView) itemView.findViewById(R.id.percentage_tv);
+            testTimeLabel_tv = (TextView) itemView.findViewById(R.id.testTimeLabel_tv);
             testTime_tv = (TextView) itemView.findViewById(R.id.testTime_tv);
             correctAnswer_tv = (TextView) itemView.findViewById(R.id.correctAnswer_tv);
             unAnswered_tv = (TextView) itemView.findViewById(R.id.unAnswered_tv);
@@ -84,9 +86,13 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
         /*set Elapsed Time*/
         float elapsedTime = (float) Integer.parseInt(historyObj.getTestTime()) / 60;
         if (elapsedTime < 1) {
-            holder.testTime_tv.setText(String.valueOf(String.format(decimal, elapsedTime * 60) + " ثانیه"));
+            holder.testTime_tv.setText(String.valueOf(historyObj.getTestTime() + " ثانیه"));
         } else {
-            holder.testTime_tv.setText(String.valueOf(String.format(decimal, elapsedTime) + " دقیقه"));
+            holder.testTime_tv.setText(String.format(decimal,
+                    TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(historyObj.getTestTime()) * 1000),
+                    TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(historyObj.getTestTime()) * 1000) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(historyObj.getTestTime()) * 1000))));
+            holder.testTimeLabel_tv.setVisibility(View.VISIBLE);
         }
         /*set Correct Answer*/
         holder.correctAnswer_tv.setText(String.valueOf(historyObj.getAnsweredQuestion() + " پاسخ صحیح "));
