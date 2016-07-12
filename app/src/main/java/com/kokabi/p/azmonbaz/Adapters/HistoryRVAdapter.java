@@ -27,6 +27,9 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
     ArrayList<HistoryObj> historyList = new ArrayList<>();
     String decimal = "%.1f";
 
+    public HistoryRVAdapter() {
+    }
+
     public HistoryRVAdapter(ArrayList<HistoryObj> dataInput) {
         historyList = dataInput;
     }

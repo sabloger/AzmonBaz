@@ -28,7 +28,7 @@ public class HistoryFragment extends Fragment {
     RecyclerView historyRV;
 
     /*Activity Values*/
-    HistoryRVAdapter historyRVAdapter;
+    HistoryRVAdapter historyRVAdapter = new HistoryRVAdapter();
 
     @Nullable
     @Override
