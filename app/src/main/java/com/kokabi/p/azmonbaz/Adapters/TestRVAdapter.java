@@ -2,12 +2,12 @@ package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
@@ -36,12 +36,15 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        RelativeLayout mainContent;
         TextView testTitle_tv, testTime_tv, testDesc_tv, testCount_tv, negativePoint_tv;
-        Button addToFavorite_btn, beginTest_btn;
+        AppCompatImageButton addToFavorite_imgbtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
+
+            mainContent = (RelativeLayout) itemView.findViewById(R.id.mainContent);
 
             testTitle_tv = (TextView) itemView.findViewById(R.id.testTitle_tv);
             testTime_tv = (TextView) itemView.findViewById(R.id.testTime_tv);
@@ -49,8 +52,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             testCount_tv = (TextView) itemView.findViewById(R.id.testCount_tv);
             negativePoint_tv = (TextView) itemView.findViewById(R.id.negativePoint_tv);
 
-            addToFavorite_btn = (Button) itemView.findViewById(R.id.addToFavorite_btn);
-            beginTest_btn = (Button) itemView.findViewById(R.id.beginTest_btn);
+            addToFavorite_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.addToFavorite_imgbtn);
 
             db = new DataBase(context);
         }
@@ -81,7 +83,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         }
 
         if (db.isFavored(testsObj.getIdTest())) {
-            holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
+            holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite);
         }
 
         /*onClickListeners*/
@@ -112,11 +114,11 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     /*Click Listener Methods*/
     private void onClick(final ViewHolder holder, int position) {
         final TestsObj testsObj = testList.get(position);
-        holder.addToFavorite_btn.setOnClickListener(new View.OnClickListener() {
+        holder.addToFavorite_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (db.isFavored(testsObj.getIdTest())) {
-                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
+                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite_outline);
                     db.favoriteTestDelete(testsObj.getIdTest());
                     if (isFavoredFragment) {
                         testList.remove(holder.getAdapterPosition());
@@ -124,14 +126,14 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                         notifyDataSetChanged();
                     }
                 } else {
-                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
+                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_favorite);
                     db.favoriteTestInsert(testsObj);
                 }
                 db.selectAllFavorites();
             }
         });
 
-        holder.beginTest_btn.setOnClickListener(new View.OnClickListener() {
+        holder.mainContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(context, CourseQuestionsActivity.class)

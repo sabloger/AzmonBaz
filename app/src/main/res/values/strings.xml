@@ -12,7 +12,7 @@
     <string name="fourthChoice">گزینه ۴</string>
     <string name="next">بعدی</string>
     <string name="previous">قبلی</string>
-    <string name="seeResults">مشاهده جواب ها</string>
+    <string name="seeResults">مشاهده جواب‌ها</string>
 
     <!--Permission Dialog-->
     <string name="permissionDeniedTitle">عدم دسترسی</string>
@@ -24,13 +24,13 @@
     <string name="startTest">شروع آزمون</string>
 
     <!--Favorites Fragment-->
-    <string name="noItemFavorites">شما هنوز آزمونی را به لیست اضافه نکرده اید.</string>
+    <string name="noItemFavorites">شما هنوز آزمونی را به لیست اضافه نکرده‌اید.</string>
 
     <!--History Fragment-->
-    <string name="noItemHistory">شما هنوز آزمونی نداده اید.</string>
+    <string name="noItemHistory">شما هنوز آزمونی نداده‌اید.</string>
 
     <!--Menu-->
     <string name="shareTestMenu">اشتراک گذاری آزمون</string>
-    <string name="addToFavoritesMenu">اضافه به آزمون های منتخب</string>
+    <string name="addToFavoritesMenu">اضافه به آزمون‌های منتخب</string>
 
 </resources>

@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*Fill NavListView with Items*/
         listMainActivityNavObj = new ArrayList<>();
         listMainActivityNavObj.add(new MainActivityNavObj("آزمون", R.drawable.dr_test));
-        listMainActivityNavObj.add(new MainActivityNavObj("آزمون های منتخب شما", R.drawable.dr_favorite));
-        listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون های شما", R.drawable.dr_history));
+        listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های منتخب شما", R.drawable.dr_favorite));
+        listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون‌های شما", R.drawable.dr_history));
         listMainActivityNavObj.add(new MainActivityNavObj(true));
         listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
         listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
