@@ -14,5 +14,6 @@
     <dimen name="marginTop">32dp</dimen>
     <dimen name="gridViewHeight">179dp</dimen>
     <dimen name="questionHeight">350dp</dimen>
+    <dimen name="buttonHeight">48dp</dimen>
 
 </resources>
