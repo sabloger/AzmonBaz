@@ -1,18 +1,33 @@
 package com.kokabi.p.azmonbaz.Activities;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -31,7 +46,8 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
     /*Activity Values*/
     PhotoViewAttacher answerZoomable;
-    int answer = 0, totalAnswer = 9;
+    TestDefinitionObj pageTest;
+    int idTest = 0, answer = 0, totalQuestion = 9;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,11 +60,25 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
         findViews();
 
-        title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            idTest = bundle.getInt("idTest", 0);
+        }
 
-//        answer_imgv.setImageResource(Constants.answerList[answer]);
+        for (int i = 0; i < pageMaker().size(); i++) {
+            if (pageMaker().get(i).getIdTest() == idTest) {
+                pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
+                        , pageMaker().get(i).getQuestionImages(), pageMaker().get(i).getAnswerImages(), pageMaker().get(i).getKeys()
+                        , pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
+            }
+        }
+
+        totalQuestion = pageTest.getQuestionNo() - 1;
+        hideShowBackForward(answer + 1);
+
+        showAnswers(0);
         answerZoomable = new PhotoViewAttacher(answer_imgv);
-
+        title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
     }
 
     @Override
@@ -58,9 +88,9 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.nextQuestion_ly:
-                if (answer < totalAnswer) {
+                if (answer < totalQuestion) {
                     answer++;
-//                    answer_imgv.setImageResource(Constants.answerList[answer]);
+                    updatePage();
                     answerZoomable.update();
                     title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
                 }
@@ -68,7 +98,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             case R.id.previousQuestion_ly:
                 if (answer > 0) {
                     answer--;
-//                    answer_imgv.setImageResource(Constants.answerList[answer]);
+                    updatePage();
                     answerZoomable.update();
                     title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
                 }
@@ -95,6 +125,84 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         close_imgbtn.setOnClickListener(this);
         nextQuestion_ly.setOnClickListener(this);
         previousQuestion_ly.setOnClickListener(this);
+    }
+
+    private void updatePage() {
+        title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
+        showAnswers(answer);
+        answerZoomable.update();
+        hideShowBackForward(answer + 1);
+    }
+
+    private void showAnswers(int position) {
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getAnswerImages().get(position));
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            answer_imgv.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
+        }
+/*        File root = android.os.Environment.getExternalStorageDirectory();
+        File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
+                + Constants.testFolder + Constants.questionsFolder + "/" + pageTest.getQuestionImages().get(position));
+        if (imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
+            question_imgv.setImageDrawable(drawable);
+        }*/
+    }
+
+    private void hideShowBackForward(int question) {
+        if (question == 1) {
+            previousQuestion_ly.setVisibility(View.GONE);
+        } else if (question > 1 && question < 10) {
+            nextQuestion_ly.setVisibility(View.VISIBLE);
+            previousQuestion_ly.setVisibility(View.VISIBLE);
+        } else if (question == 10) {
+            nextQuestion_ly.setVisibility(View.GONE);
+        }
+    }
+
+    private ArrayList<TestDefinitionObj> pageMaker() {
+        ArrayList<TestDefinitionObj> result = new ArrayList<>();
+        try {
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.test_definition)).getJSONArray("testDefinition");
+
+            int length = categoryArray.length();
+            for (int i = 0; i < length; ++i) {
+                JSONObject event = categoryArray.getJSONObject(i);
+                ArrayList<String> questionImages = new ArrayList<>();
+                ArrayList<String> answerImages = new ArrayList<>();
+                ArrayList<Integer> keys = new ArrayList<>();
+
+                int idTest = event.getInt("idTest");
+                int questionNo = event.getInt("questionNo");
+                JSONArray questionImageArray = event.getJSONArray("questionImages");
+                JSONArray answerImageArray = event.getJSONArray("answerImages");
+                JSONArray keysArray = event.getJSONArray("keys");
+                int percentage = event.getInt("percentage");
+                String level = event.getString("level");
+
+                for (int j = 0; j < questionImageArray.length(); j++) {
+                    questionImages.add(questionImageArray.get(j).toString());
+                }
+
+                for (int k = 0; k < answerImageArray.length(); k++) {
+                    answerImages.add(answerImageArray.get(k).toString());
+                }
+
+                for (int m = 0; m < keysArray.length(); m++) {
+                    keys.add(Integer.parseInt(keysArray.get(m).toString()));
+                }
+
+                result.add(new TestDefinitionObj(idTest, questionNo, questionImages, answerImages, keys, percentage, level));
+            }
+
+        } catch (JSONException e) {
+            Log.e(CoursesFragment.class.getName(), e.getMessage());
+        }
+        return result;
     }
 
 }

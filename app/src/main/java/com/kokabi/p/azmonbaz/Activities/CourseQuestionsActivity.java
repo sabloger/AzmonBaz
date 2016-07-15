@@ -2,6 +2,7 @@ package com.kokabi.p.azmonbaz.Activities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -458,7 +459,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         TextView title_tv = (TextView) dialogResults.findViewById(R.id.title_tv);
         TextView sub_title_tv = (TextView) dialogResults.findViewById(R.id.sub_title_tv);
         TextView results_tv = (TextView) dialogResults.findViewById(R.id.results_tv);
-        TextView seeResults_btn = (Button) dialogResults.findViewById(R.id.seeResults_btn);
+        Button seeResults_btn = (Button) dialogResults.findViewById(R.id.seeResults_btn);
+        Button cancel_btn = (Button) dialogResults.findViewById(R.id.cancel_btn);
 
         title_tv.setText(String.valueOf("نتایج "));
         sub_title_tv.setText(String.valueOf("شما به " + (correctAnsweredList.size() * 10) + "٪ از سوالات پاسخ داده اید "));
@@ -470,7 +472,15 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             public void onClick(View view) {
                 dialogResults.dismiss();
                 finish();
-//                startActivity(new Intent(context, CourseAnswersActivity.class));
+                startActivity(new Intent(context, CourseAnswersActivity.class).putExtra("idTest", idTest));
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogResults.dismiss();
+                finish();
             }
         });
 
