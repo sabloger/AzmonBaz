@@ -51,8 +51,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by P.Kokabi on 6/23/16.
  */
-public class CourseQuestionsActivity extends AppCompatActivity implements DroppyMenuPopup.OnDismissCallback,
-        DroppyClickCallbackInterface, View.OnClickListener {
+public class CourseQuestionsActivity extends AppCompatActivity implements DroppyClickCallbackInterface, View.OnClickListener {
 
     Context context;
     DataBase db;
@@ -171,10 +170,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 }
                 break;
         }
-    }
-
-    @Override
-    public void call() {
     }
 
     @Override
@@ -554,7 +549,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.course_question)
                 .triggerOnAnchorClick(false)
                 .setOnClick(this)
-                .setOnDismissCallback(this)
                 .build();
         droppyMenu.show();
     }

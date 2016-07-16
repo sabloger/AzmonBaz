@@ -33,5 +33,6 @@
     <!--Menu-->
     <string name="shareTestMenu">اشتراک گذاری آزمون</string>
     <string name="addToFavoritesMenu">افزودن به آزمون‌های منتخب</string>
+    <string name="showAnswers">نمایش پاسخ ها</string>
 
 </resources>

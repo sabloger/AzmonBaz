@@ -1,6 +1,7 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -9,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Activities.CourseAnswersActivity;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Help.DateConverter;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.R;
+import com.shehabic.droppy.DroppyClickCallbackInterface;
+import com.shehabic.droppy.DroppyMenuPopup;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,12 +25,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by P.kokabi on 6/20/2016.
  */
-public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.ViewHolder> {
+public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.ViewHolder> implements DroppyClickCallbackInterface {
 
     Context context;
     DataBase db;
     ArrayList<HistoryObj> historyList = new ArrayList<>();
     String decimal = "%d : %02d";
+    int idTest;
 
     public HistoryRVAdapter() {
     }
@@ -35,10 +40,18 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
         historyList = dataInput;
     }
 
+    public int getIdTest() {
+        return idTest;
+    }
+
+    public void setIdTest(int idTest) {
+        this.idTest = idTest;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title_tv, updateTime_tv, percentage_tv, testTimeLabel_tv, testTime_tv, correctAnswer_tv, unAnswered_tv, incorrectAnswer_tv;
-        AppCompatImageButton delete_imgbtn;
+        AppCompatImageButton delete_imgbtn, more_imgbtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -54,6 +67,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             incorrectAnswer_tv = (TextView) itemView.findViewById(R.id.incorrectAnswer_tv);
 
             delete_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.delete_imgbtn);
+            more_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.more_imgbtn);
 
             db = new DataBase(context);
         }
@@ -103,6 +117,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
 
         /*onClickListeners*/
         onClick(holder, position);
+        setIdTest(historyObj.getIdTest());
     }
 
     @Override
@@ -113,6 +128,15 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void call(View v, int id) {
+        switch (id) {
+            case R.id.showAnswers:
+                context.startActivity(new Intent(context, CourseAnswersActivity.class).putExtra("idTest", getIdTest()));
+                break;
+        }
     }
 
     /*Clear Method*/
@@ -138,5 +162,20 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
                 notifyDataSetChanged();
             }
         });
+        holder.more_imgbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initMenu(holder.more_imgbtn);
+            }
+        });
+    }
+
+    private void initMenu(AppCompatImageButton btn) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(context, btn);
+        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.history)
+                .triggerOnAnchorClick(false)
+                .setOnClick(this)
+                .build();
+        droppyMenu.show();
     }
 }
