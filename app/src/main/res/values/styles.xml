@@ -17,7 +17,7 @@
     <!--Linear ProgressView-->
     <style name="LinearProgress" parent="Material.Drawable.LinearProgress.Determinate">
             <item name="lpd_strokeColor">@color/accentColor</item>
-            <item name="lpd_strokeSecondaryColor">@color/lightPrimaryColor</item>
+            <item name="lpd_strokeSecondaryColor">@color/transparent</item>
     </style>
 
     <!--Circular ProgressView-->

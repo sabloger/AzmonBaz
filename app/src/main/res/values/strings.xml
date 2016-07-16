@@ -13,6 +13,7 @@
     <string name="next">بعدی</string>
     <string name="previous">قبلی</string>
     <string name="seeResults">مشاهده جواب‌ها</string>
+    <string name="cancel">بی خیال</string>
 
     <!--Permission Dialog-->
     <string name="permissionDeniedTitle">عدم دسترسی</string>
@@ -31,6 +32,6 @@
 
     <!--Menu-->
     <string name="shareTestMenu">اشتراک گذاری آزمون</string>
-    <string name="addToFavoritesMenu">اضافه به آزمون‌های منتخب</string>
+    <string name="addToFavoritesMenu">افزودن به آزمون‌های منتخب</string>
 
 </resources>
