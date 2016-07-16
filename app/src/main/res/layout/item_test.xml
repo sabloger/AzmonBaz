@@ -144,20 +144,43 @@
             android:paddingStart="8dp">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/addToFavorite_ripple"
+                android:id="@+id/startTest_ripple"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="4dp"
                 app:mrl_rippleColor="@color/mediumGray">
 
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/addToFavorite_imgbtn"
+                <com.kokabi.p.azmonbaz.Components.CButton
+                    android:id="@+id/startTest_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:text="@string/startTest"
+                    android:textColor="@color/darkGray"
+                    android:textSize="14sp" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/addToFavorite_ripple"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@+id/startTest_ripple"
+                app:mrl_rippleColor="@color/mediumGray">
+
+                <com.kokabi.p.azmonbaz.Components.CButton
+                    android:id="@+id/addToFavorite_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@color/transparent"
                     android:padding="8dp"
-                    app:srcCompat="@drawable/ic_favorite_outline" />
+                    android:text="@string/addToFavoritesMenu"
+                    android:textColor="@color/darkGray"
+                    android:textSize="14sp" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
