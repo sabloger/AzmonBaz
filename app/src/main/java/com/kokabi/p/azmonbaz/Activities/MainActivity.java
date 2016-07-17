@@ -70,74 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
 
         findViews();
-
-        /*Make Lists show Scroll from left*/
-        lvNav.setVerticalScrollbarPosition(View.SCROLLBAR_POSITION_LEFT);
-
-        /*Setting Custom ActionBar*/
-        setSupportActionBar(toolBar);
-        actionbar = getSupportActionBar();
-        assert actionbar != null;
-        actionbar.setDisplayShowHomeEnabled(false);
-        actionbar.setDisplayShowTitleEnabled(false);
-
-        /*Fill NavListView with Items*/
-        listMainActivityNavObj = new ArrayList<>();
-        listMainActivityNavObj.add(new MainActivityNavObj("آزمون", R.drawable.dr_test));
-        listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های منتخب شما", R.drawable.dr_favorite));
-        listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون‌های شما", R.drawable.dr_history));
-        listMainActivityNavObj.add(new MainActivityNavObj(true));
-        listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
-        listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
-//        listMainActivityNavObj.add(new MainActivityNavObj("تنظیمات", R.drawable.dr_setting));
-
-        mainActivityNavLVAdapter = new MainActivityNavLVAdapter(context, listMainActivityNavObj);
-        lvNav.setAdapter(mainActivityNavLVAdapter);
-
-        listFragments.add(new CoursesFragment());
-        listFragments.add(new FavoritesFragment());
-        listFragments.add(new HistoryFragment());
-        listFragments.add(new AboutFragment());
-
-        /*Load first fragment as default*/
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
-        drawerLayout.closeDrawer(drawerPane);
-
-        /*Set Listener for navigation*/
-        lvNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                selectedNavItem = position;
-                isNavItemSelected = true;
-                changeNavSelectedColor(position);
-                drawerLayout.closeDrawer(drawerPane);
-            }
-        });
-
-        /*Create listener for drawer layout*/
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                if (isNavItemSelected) {
-                    navItemController();
-                }
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, 0); // this disables the animation
-            }
-
-        };
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
+        navListCreation();
     }
 
     @Override
@@ -229,6 +162,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /*Additional Methods==========================================================================*/
+    private void navListCreation() {
+        /*Make Lists show Scroll from left*/
+        lvNav.setVerticalScrollbarPosition(View.SCROLLBAR_POSITION_LEFT);
+
+        /*Setting Custom ActionBar*/
+        setSupportActionBar(toolBar);
+        actionbar = getSupportActionBar();
+        assert actionbar != null;
+        actionbar.setDisplayShowHomeEnabled(false);
+        actionbar.setDisplayShowTitleEnabled(false);
+
+        /*Fill NavListView with Items*/
+        listMainActivityNavObj = new ArrayList<>();
+        listMainActivityNavObj.add(new MainActivityNavObj("آزمون", R.drawable.dr_test));
+        listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های منتخب شما", R.drawable.dr_favorite));
+        listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون‌های شما", R.drawable.dr_history));
+        listMainActivityNavObj.add(new MainActivityNavObj(true));
+        listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
+        listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
+//        listMainActivityNavObj.add(new MainActivityNavObj("تنظیمات", R.drawable.dr_setting));
+
+        mainActivityNavLVAdapter = new MainActivityNavLVAdapter(context, listMainActivityNavObj);
+        lvNav.setAdapter(mainActivityNavLVAdapter);
+
+        listFragments.add(new CoursesFragment());
+        listFragments.add(new FavoritesFragment());
+        listFragments.add(new HistoryFragment());
+        listFragments.add(new AboutFragment());
+
+        /*Load first fragment as default*/
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
+        drawerLayout.closeDrawer(drawerPane);
+
+        /*Set Listener for navigation*/
+        lvNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedNavItem = position;
+                isNavItemSelected = true;
+                changeNavSelectedColor(position);
+                drawerLayout.closeDrawer(drawerPane);
+            }
+        });
+
+        /*Create listener for drawer layout*/
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                if (isNavItemSelected) {
+                    navItemController();
+                }
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0); // this disables the animation
+            }
+
+        };
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+    }
+
     public void navItemController() {
         isNavItemSelected = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -273,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /*get view of selected item in ListView*/
     public View getViewByPosition(int position, ListView listView) {
-
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
