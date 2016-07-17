@@ -81,7 +81,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         }
 
         if (db.isFavored(testsObj.getIdTest())) {
-            holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
+            holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
         }
 
         /*onClickListeners*/
@@ -124,7 +124,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                         notifyDataSetChanged();
                     }
                 } else {
-                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.gold));
+                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
                     db.favoriteTestInsert(testsObj);
                 }
                 db.selectAllFavorites();

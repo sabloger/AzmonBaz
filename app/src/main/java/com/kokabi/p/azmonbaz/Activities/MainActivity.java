@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listMainActivityNavObj.add(new MainActivityNavObj(true));
         listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
         listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
-        listMainActivityNavObj.add(new MainActivityNavObj("تنظیمات", R.drawable.dr_setting));
+//        listMainActivityNavObj.add(new MainActivityNavObj("تنظیمات", R.drawable.dr_setting));
 
         mainActivityNavLVAdapter = new MainActivityNavLVAdapter(context, listMainActivityNavObj);
         lvNav.setAdapter(mainActivityNavLVAdapter);
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "انتخاب برنامه"));
+                startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری ازطریق"));
                 break;
             /*Setting*/
             case 6:

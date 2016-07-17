@@ -167,6 +167,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     snackBar = new CustomSnackBar(mainContent, "این آزمون قبلا به آزمون های منتخب اضافه شده", Constants.SNACK.ERROR);
                 } else {
                     db.favoriteTestInsert(new TestsObj(idTest));
+                    snackBar = new CustomSnackBar(mainContent, "این آزمون به تاریخچه شما اضافه گردید", Constants.SNACK.SUCCESS);
                 }
                 break;
         }
