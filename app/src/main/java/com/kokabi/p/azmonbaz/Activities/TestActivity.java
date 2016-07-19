@@ -18,7 +18,7 @@ import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
-import com.kokabi.p.azmonbaz.Objects.TestsObj;
+import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 
 import org.json.JSONArray;
@@ -44,7 +44,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     /*Activity Values*/
     TestRVAdapter testRVAdapter;
     int idCategory;
-    ArrayList<TestsObj> pageTests = new ArrayList<>();
+    ArrayList<TestsTitleObj> pageTests = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,10 +125,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         back_imgbtn.setOnClickListener(this);
     }
 
-    private ArrayList<TestsObj> pageMaker() {
-        ArrayList<TestsObj> result = new ArrayList<>();
+    private ArrayList<TestsTitleObj> pageMaker() {
+        ArrayList<TestsTitleObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests)).getJSONArray("tests");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests_title)).getJSONArray("test_titles");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
@@ -143,7 +143,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 String testOrder = event.getString("testOrder");
                 int questionCount = event.getInt("questionCount");
 
-                result.add(new TestsObj(idCat, idTest, testName, description, time, hasNegativePoint, testOrder, questionCount));
+                result.add(new TestsTitleObj(idCat, idTest, testName, description, time, hasNegativePoint, testOrder, questionCount));
             }
 
         } catch (JSONException e) {

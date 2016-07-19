@@ -19,6 +19,7 @@ import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
+import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.R;
 
 import org.json.JSONArray;
@@ -68,8 +69,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         for (int i = 0; i < pageMaker().size(); i++) {
             if (pageMaker().get(i).getIdTest() == idTest) {
                 pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
-                        , pageMaker().get(i).getQuestionImages(), pageMaker().get(i).getAnswerImages(), pageMaker().get(i).getKeys()
-                        , pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
+                        , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
             }
         }
 
@@ -137,7 +137,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     private void showAnswers(int position) {
         AssetManager assetManager = getAssets();
         try {
-            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getAnswerImages().get(position));
+            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(position).getAnswerImage());
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             answer_imgv.setImageBitmap(bitmap);
         } catch (IOException e) {
@@ -172,31 +172,21 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
                 JSONObject event = categoryArray.getJSONObject(i);
-                ArrayList<String> questionImages = new ArrayList<>();
-                ArrayList<String> answerImages = new ArrayList<>();
-                ArrayList<Integer> keys = new ArrayList<>();
+                ArrayList<TestObj> questionInfo = new ArrayList<>();
 
                 int idTest = event.getInt("idTest");
                 int questionNo = event.getInt("questionNo");
-                JSONArray questionImageArray = event.getJSONArray("questionImages");
-                JSONArray answerImageArray = event.getJSONArray("answerImages");
-                JSONArray keysArray = event.getJSONArray("keys");
+                JSONArray questionInfoArray = event.getJSONArray("questionInfo");
                 int percentage = event.getInt("percentage");
                 String level = event.getString("level");
 
-                for (int j = 0; j < questionImageArray.length(); j++) {
-                    questionImages.add(questionImageArray.get(j).toString());
+                for (int j = 0; j < questionInfoArray.length(); j++) {
+                    JSONArray array = questionInfoArray.getJSONArray(j);
+                    questionInfo.add(new TestObj(array.getInt(0), array.getString(1)
+                            , array.getString(2), array.getInt(3)));
                 }
 
-                for (int k = 0; k < answerImageArray.length(); k++) {
-                    answerImages.add(answerImageArray.get(k).toString());
-                }
-
-                for (int m = 0; m < keysArray.length(); m++) {
-                    keys.add(Integer.parseInt(keysArray.get(m).toString()));
-                }
-
-                result.add(new TestDefinitionObj(idTest, questionNo, questionImages, answerImages, keys, percentage, level));
+                result.add(new TestDefinitionObj(idTest, questionNo, questionInfo, percentage, level));
             }
 
         } catch (JSONException e) {

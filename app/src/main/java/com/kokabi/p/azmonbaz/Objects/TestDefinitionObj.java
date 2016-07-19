@@ -9,16 +9,12 @@ public class TestDefinitionObj {
 
     int idTest, questionNo, percentage;
     String level;
-    ArrayList<String> questionImages = new ArrayList<>();
-    ArrayList<String> answerImages = new ArrayList<>();
-    ArrayList<Integer> keys = new ArrayList<>();
+    ArrayList<TestObj> questionInfo = new ArrayList<>();
 
-    public TestDefinitionObj(int idTest, int questionNo, ArrayList<String> questionImages, ArrayList<String> answerImages, ArrayList<Integer> keys, int percentage, String level) {
+    public TestDefinitionObj(int idTest, int questionNo, ArrayList<TestObj> questionInfo, int percentage, String level) {
         this.idTest = idTest;
         this.questionNo = questionNo;
-        this.questionImages = questionImages;
-        this.answerImages = answerImages;
-        this.keys = keys;
+        this.questionInfo = questionInfo;
         this.percentage = percentage;
         this.level = level;
     }
@@ -55,27 +51,11 @@ public class TestDefinitionObj {
         this.level = level;
     }
 
-    public ArrayList<String> getQuestionImages() {
-        return questionImages;
+    public ArrayList<TestObj> getQuestionInfo() {
+        return questionInfo;
     }
 
-    public void setQuestionImages(ArrayList<String> questionImages) {
-        this.questionImages = questionImages;
-    }
-
-    public ArrayList<String> getAnswerImages() {
-        return answerImages;
-    }
-
-    public void setAnswerImages(ArrayList<String> answerImages) {
-        this.answerImages = answerImages;
-    }
-
-    public ArrayList<Integer> getKeys() {
-        return keys;
-    }
-
-    public void setKeys(ArrayList<Integer> keys) {
-        this.keys = keys;
+    public void setQuestionInfo(ArrayList<TestObj> questionInfo) {
+        this.questionInfo = questionInfo;
     }
 }

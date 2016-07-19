@@ -31,7 +31,8 @@ import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
-import com.kokabi.p.azmonbaz.Objects.TestsObj;
+import com.kokabi.p.azmonbaz.Objects.TestObj;
+import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
 import com.shehabic.droppy.DroppyClickCallbackInterface;
@@ -60,7 +61,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     CoordinatorLayout mainContent;
     TextView timer_tv, numberOfQuestions_tv;
-    AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn;
+    AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn, full_imgbtn;
     ProgressView progressBar;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
     ImageView question_imgv;
@@ -116,8 +117,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         for (int i = 0; i < pageMaker().size(); i++) {
             if (pageMaker().get(i).getIdTest() == idTest) {
                 pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
-                        , pageMaker().get(i).getQuestionImages(), pageMaker().get(i).getAnswerImages(), pageMaker().get(i).getKeys()
-                        , pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
+                        , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage(), pageMaker().get(i).getLevel());
             }
         }
 
@@ -163,10 +163,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     public void call(View v, int id) {
         switch (id) {
             case R.id.addToFavorite:
-                if (db.isFavored(idTest)) {
+                if (db.isTestFavored(idTest)) {
                     snackBar = new CustomSnackBar(mainContent, "این آزمون قبلا به آزمون های منتخب اضافه شده", Constants.SNACK.ERROR);
                 } else {
-                    db.favoriteTestInsert(new TestsObj(idTest));
+                    db.favoriteTestInsert(new TestsTitleObj(idTest));
                     snackBar = new CustomSnackBar(mainContent, "این آزمون به تاریخچه شما اضافه گردید", Constants.SNACK.SUCCESS);
                 }
                 break;
@@ -210,6 +210,11 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     updatePage();
                     confirm_fab.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.full_imgbtn:
+                startActivity(new Intent(context, FullPageImageActivity.class)
+                        .putExtra("srcImage", "TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(question).getQuestionImage())
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 break;
             case R.id.firstChoice_btn:
                 if (whichAnswer == 1) {
@@ -258,6 +263,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         more_imgbtn = (AppCompatImageButton) findViewById(R.id.more_imgbtn);
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
         pausePlay_imgbtn = (AppCompatImageButton) findViewById(R.id.pausePlay_imgbtn);
+        full_imgbtn = (AppCompatImageButton) findViewById(R.id.full_imgbtn);
 
         progressBar = (ProgressView) findViewById(R.id.progressBar);
 
@@ -282,6 +288,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         pausePlay_imgbtn.setOnClickListener(this);
         nextQuestion_ly.setOnClickListener(this);
         previousQuestion_ly.setOnClickListener(this);
+        full_imgbtn.setOnClickListener(this);
         firstChoice_btn.setOnClickListener(this);
         secondChoice_btn.setOnClickListener(this);
         thirdChoice_btn.setOnClickListener(this);
@@ -298,31 +305,21 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
                 JSONObject event = categoryArray.getJSONObject(i);
-                ArrayList<String> questionImages = new ArrayList<>();
-                ArrayList<String> answerImages = new ArrayList<>();
-                ArrayList<Integer> keys = new ArrayList<>();
+                ArrayList<TestObj> questionInfo = new ArrayList<>();
 
                 int idTest = event.getInt("idTest");
                 int questionNo = event.getInt("questionNo");
-                JSONArray questionImageArray = event.getJSONArray("questionImages");
-                JSONArray answerImageArray = event.getJSONArray("answerImages");
-                JSONArray keysArray = event.getJSONArray("keys");
+                JSONArray questionInfoArray = event.getJSONArray("questionInfo");
                 int percentage = event.getInt("percentage");
                 String level = event.getString("level");
 
-                for (int j = 0; j < questionImageArray.length(); j++) {
-                    questionImages.add(questionImageArray.get(j).toString());
+                for (int j = 0; j < questionInfoArray.length(); j++) {
+                    JSONArray array = questionInfoArray.getJSONArray(j);
+                    questionInfo.add(new TestObj(array.getInt(0), array.getString(1)
+                            , array.getString(2), array.getInt(3)));
                 }
 
-                for (int k = 0; k < answerImageArray.length(); k++) {
-                    answerImages.add(answerImageArray.get(k).toString());
-                }
-
-                for (int m = 0; m < keysArray.length(); m++) {
-                    keys.add(Integer.parseInt(keysArray.get(m).toString()));
-                }
-
-                result.add(new TestDefinitionObj(idTest, questionNo, questionImages, answerImages, keys, percentage, level));
+                result.add(new TestDefinitionObj(idTest, questionNo, questionInfo, percentage, level));
             }
 
         } catch (JSONException e) {
@@ -394,7 +391,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     private void showQuestions(int position) {
         AssetManager assetManager = getAssets();
         try {
-            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionImages().get(position));
+            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage());
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             question_imgv.setImageBitmap(bitmap);
         } catch (IOException e) {
@@ -429,9 +426,9 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void compareAnswers() {
-        for (int i = 0; i < pageTest.getKeys().size(); i++) {
-            if (pageTest.getKeys().get(i).equals(answerList.get(i))) {
-                correctAnsweredList.add(pageTest.getKeys().get(i));
+        for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
+            if (pageTest.getQuestionInfo().get(i).getKey() == answerList.get(i)) {
+                correctAnsweredList.add(pageTest.getQuestionInfo().get(i).getKey());
             } else if (answerList.get(i).equals(0)) {
                 unAnsweredList.add(0);
             } else {

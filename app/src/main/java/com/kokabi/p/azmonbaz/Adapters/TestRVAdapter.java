@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.Objects.TestsObj;
+import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
 
     Context context;
     DataBase db;
-    ArrayList<TestsObj> testList = new ArrayList<>();
+    ArrayList<TestsTitleObj> testList = new ArrayList<>();
     boolean isFavoredFragment = false;
     String decimal = "%02d : %02d";
 
-    public TestRVAdapter(ArrayList<TestsObj> dataInput, boolean isFavoredFragment) {
+    public TestRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment) {
         testList = dataInput;
         this.isFavoredFragment = isFavoredFragment;
     }
@@ -66,21 +66,21 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final TestsObj testsObj = testList.get(position);
+        final TestsTitleObj testsTitleObj = testList.get(position);
 
-        holder.testTitle_tv.setText(testsObj.getTestName());
+        holder.testTitle_tv.setText(testsTitleObj.getTestName());
         holder.testTime_tv.setText(String.format(decimal,
-                TimeUnit.MILLISECONDS.toMinutes(testsObj.getTime() * 1000),
-                TimeUnit.MILLISECONDS.toSeconds(testsObj.getTime() * 1000) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsObj.getTime() * 1000))));
-        holder.testDesc_tv.setText(testsObj.getDescription());
-        holder.testCount_tv.setText(String.valueOf("( " + testsObj.getQuestionCount() + " سوال )"));
+                TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000),
+                TimeUnit.MILLISECONDS.toSeconds(testsTitleObj.getTime() * 1000) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000))));
+        holder.testDesc_tv.setText(testsTitleObj.getDescription());
+        holder.testCount_tv.setText(String.valueOf("( " + testsTitleObj.getQuestionCount() + " سوال )"));
 
-        if (testsObj.isHasNegativePoint()) {
+        if (testsTitleObj.isHasNegativePoint()) {
             holder.negativePoint_tv.setVisibility(View.VISIBLE);
         }
 
-        if (db.isFavored(testsObj.getIdTest())) {
+        if (db.isTestFavored(testsTitleObj.getIdTest())) {
             holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
         }
 
@@ -111,13 +111,13 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
 
     /*Click Listener Methods*/
     private void onClick(final ViewHolder holder, int position) {
-        final TestsObj testsObj = testList.get(position);
+        final TestsTitleObj testsTitleObj = testList.get(position);
         holder.addToFavorite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (db.isFavored(testsObj.getIdTest())) {
+                if (db.isTestFavored(testsTitleObj.getIdTest())) {
                     holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
-                    db.favoriteTestDelete(testsObj.getIdTest());
+                    db.favoriteTestDelete(testsTitleObj.getIdTest());
                     if (isFavoredFragment) {
                         testList.remove(holder.getAdapterPosition());
                         notifyItemRemoved(holder.getAdapterPosition());
@@ -125,7 +125,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                     }
                 } else {
                     holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
-                    db.favoriteTestInsert(testsObj);
+                    db.favoriteTestInsert(testsTitleObj);
                 }
                 db.selectAllFavorites();
             }
@@ -135,10 +135,10 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(context, CourseQuestionsActivity.class)
-                        .putExtra("idTest", testsObj.getIdTest())
-                        .putExtra("time", testsObj.getTime())
-                        .putExtra("testName", testsObj.getTestName())
-                        .putExtra("hasNegativePoint", testsObj.isHasNegativePoint()));
+                        .putExtra("idTest", testsTitleObj.getIdTest())
+                        .putExtra("time", testsTitleObj.getTime())
+                        .putExtra("testName", testsTitleObj.getTestName())
+                        .putExtra("hasNegativePoint", testsTitleObj.isHasNegativePoint()));
             }
         });
     }

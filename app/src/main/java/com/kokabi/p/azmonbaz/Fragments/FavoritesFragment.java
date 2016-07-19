@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
-import com.kokabi.p.azmonbaz.Objects.TestsObj;
+import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 
 import org.json.JSONArray;
@@ -37,7 +37,7 @@ public class FavoritesFragment extends Fragment {
 
     /*Activity Values*/
     TestRVAdapter testRVAdapter;
-    ArrayList<TestsObj> favoritesTests = new ArrayList<>();
+    ArrayList<TestsTitleObj> favoritesTests = new ArrayList<>();
     ArrayList<Integer> idFavoredTests = new ArrayList<>();
 
     @Nullable
@@ -99,10 +99,10 @@ public class FavoritesFragment extends Fragment {
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
 
-    private ArrayList<TestsObj> pageMaker() {
-        ArrayList<TestsObj> result = new ArrayList<>();
+    private ArrayList<TestsTitleObj> pageMaker() {
+        ArrayList<TestsTitleObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests)).getJSONArray("tests");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests_title)).getJSONArray("tests_title");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
@@ -117,7 +117,7 @@ public class FavoritesFragment extends Fragment {
                 String testOrder = event.getString("testOrder");
                 int questionCount = event.getInt("questionCount");
 
-                result.add(new TestsObj(idCat, idTest, testName, description, time, hasNegativePoint, testOrder, questionCount));
+                result.add(new TestsTitleObj(idCat, idTest, testName, description, time, hasNegativePoint, testOrder, questionCount));
             }
 
         } catch (JSONException e) {

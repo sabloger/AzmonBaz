@@ -127,13 +127,28 @@
                 android:orientation="vertical"
                 android:weightSum="2">
 
-                <ImageView
-                    android:id="@+id/question_imgv"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:padding="8dp"
-                    android:scaleType="centerCrop" />
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/question_imgv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:scaleType="centerCrop" />
+
+                    <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/full_imgbtn"
+                        android:layout_width="wrap_content"
+                        android:background="@color/transparent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:layout_gravity="right|bottom"
+                        app:srcCompat="@drawable/ic_full_screen" />
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

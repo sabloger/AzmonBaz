@@ -44,9 +44,15 @@
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Activities.CourseQuestionsActivity"
+            android:screenOrientation="portrait"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Activities.CourseAnswersActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activities.FullPageImageActivity"
+            android:screenOrientation="landscape"
             tools:ignore="InnerclassSeparator" />
     </application>
 

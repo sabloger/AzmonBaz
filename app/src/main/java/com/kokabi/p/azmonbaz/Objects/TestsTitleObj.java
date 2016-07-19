@@ -5,20 +5,20 @@ import android.support.annotation.NonNull;
 /**
  * Created by P.Kokabi on 6/29/16.
  */
-public class TestsObj implements Comparable<TestsObj> {
+public class TestsTitleObj implements Comparable<TestsTitleObj> {
 
     int idCat, idTest, questionCount, time;
     String testName, description, testOrder;
     boolean hasNegativePoint;
 
-    public TestsObj() {
+    public TestsTitleObj() {
     }
 
-    public TestsObj(int idTest) {
+    public TestsTitleObj(int idTest) {
         this.idTest = idTest;
     }
 
-    public TestsObj(int idCat, int idTest, String testName, String description, int time, boolean hasNegativePoint, String testOrder, int questionCount) {
+    public TestsTitleObj(int idCat, int idTest, String testName, String description, int time, boolean hasNegativePoint, String testOrder, int questionCount) {
         this.idCat = idCat;
         this.idTest = idTest;
         this.testName = testName;
@@ -94,7 +94,7 @@ public class TestsObj implements Comparable<TestsObj> {
     }
 
     @Override
-    public int compareTo(@NonNull TestsObj testsObj) {
-        return this.getTestOrder().compareTo(testsObj.getTestOrder());
+    public int compareTo(@NonNull TestsTitleObj testsTitleObj) {
+        return this.getTestOrder().compareTo(testsTitleObj.getTestOrder());
     }
 }
