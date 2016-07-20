@@ -30,8 +30,10 @@ public class Constants {
     public final static String answersFolder = "/Answers";
 
     /*Fonts*/
-    public final static String FONT_SANS = "fonts/sans.ttf";
-    public final static String FONT_SANS_MEDIUM = "fonts/sans_medium.ttf";
+    public interface font {
+        String SANS = "fonts/sans.ttf";
+        String SANS_MEDIUM = "fonts/sans_medium.ttf";
+    }
 
     /*TreeValues*/
     public final static ArrayList<CategoryObj> totalCategories = new ArrayList<>();

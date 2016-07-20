@@ -1,11 +1,11 @@
 package com.kokabi.p.azmonbaz.Components;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.Button;
 
 import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.FontChange;
 
 public class CButton extends Button {
     Context ctx;
@@ -32,7 +32,6 @@ public class CButton extends Button {
         if (isInEditMode())
             return;
         setOnTouchListener(null);
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), Constants.FONT_SANS);
-        setTypeface(tf);
+        FontChange.setFontButton(this, Constants.font.SANS, ctx);
     }
 }

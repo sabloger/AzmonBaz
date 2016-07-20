@@ -1,11 +1,11 @@
 package com.kokabi.p.azmonbaz.Components;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
 import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.FontChange;
 import com.kokabi.p.azmonbaz.R;
 
 public class CEditText extends AppCompatEditText {
@@ -34,8 +34,7 @@ public class CEditText extends AppCompatEditText {
             return;
 
         setOnTouchListener(null);
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), Constants.FONT_SANS);
-        setTypeface(tf);
+        FontChange.setFontEditText(this, Constants.font.SANS, ctx);
 
         int right = (int) getResources().getDimension(R.dimen.editTextPaddingRight);
         int left = (int) getResources().getDimension(R.dimen.editTextPaddingLeft);

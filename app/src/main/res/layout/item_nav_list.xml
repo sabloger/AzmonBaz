@@ -19,7 +19,7 @@
             android:paddingStart="16dp"
             android:visibility="visible">
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+            <com.kokabi.p.azmonbaz.Components.CTextViewSans
                 android:id="@+id/navTitle_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

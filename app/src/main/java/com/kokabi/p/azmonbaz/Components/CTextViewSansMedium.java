@@ -1,11 +1,11 @@
 package com.kokabi.p.azmonbaz.Components;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.FontChange;
 
 public class CTextViewSansMedium extends AppCompatTextView {
     Context ctx;
@@ -32,8 +32,6 @@ public class CTextViewSansMedium extends AppCompatTextView {
         if (isInEditMode())
             return;
         setOnTouchListener(null);
-        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), Constants.FONT_SANS_MEDIUM);
-        setTypeface(tf);
-
+        FontChange.setFontTextView(this, Constants.font.SANS_MEDIUM, ctx);
     }
 }
