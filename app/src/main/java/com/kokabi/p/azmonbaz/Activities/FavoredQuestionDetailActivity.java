@@ -84,7 +84,7 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
                     questionAnswerZoomable.update();
                 } else {
                     isAnswer = false;
-                    questionAnswer_imgbtn.setImageResource(R.drawable.ic_question);
+                    questionAnswer_imgbtn.setImageResource(R.drawable.ic_answer);
                     new ImageLoad(testObj.getQuestionImage(), questionAnswer_imgv);
                     questionAnswerZoomable.update();
                 }

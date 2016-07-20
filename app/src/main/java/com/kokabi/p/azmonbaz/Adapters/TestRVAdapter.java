@@ -12,11 +12,14 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.DB.DataBase;
+import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by P.kokabi on 6/20/2016.
@@ -122,6 +125,9 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                         testList.remove(holder.getAdapterPosition());
                         notifyItemRemoved(holder.getAdapterPosition());
                         notifyDataSetChanged();
+                        if (testList.size() == 0) {
+                            EventBus.getDefault().post(new GeneralMSB("isEmpty"));
+                        }
                     }
                 } else {
                     holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));

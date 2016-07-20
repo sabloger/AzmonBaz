@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
+import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
@@ -25,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import de.greenrobot.event.EventBus;
 
 public class FavoritesFragment extends Fragment {
 
@@ -47,6 +50,7 @@ public class FavoritesFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         context = container.getContext();
+        EventBus.getDefault().register(this);
         db = new DataBase(context);
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 
@@ -82,6 +86,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         idFavoredTests.clear();
         testRVAdapter.clearTest();
     }
@@ -92,10 +97,19 @@ public class FavoritesFragment extends Fragment {
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
 
+    public void onEvent(GeneralMSB event) {
+        switch (event.getMessage()) {
+            case "isEmpty":
+                favoriteTestRV.setVisibility(View.GONE);
+                noItem_ly.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
     private ArrayList<TestsTitleObj> pageMaker() {
         ArrayList<TestsTitleObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests_title)).getJSONArray("tests_title");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests_title)).getJSONArray("test_titles");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
