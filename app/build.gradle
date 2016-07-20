@@ -8,8 +8,8 @@ android {
         applicationId "com.kokabi.p.azmonbaz"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 2
-        versionName "beta1.0"
+        versionCode 3
+        versionName "beta2.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

@@ -3,13 +3,13 @@ package com.kokabi.p.azmonbaz.Activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
@@ -491,53 +491,53 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         switch (answer) {
             case 1:
                 firstChoice_btn.setSelected(true);
-                firstChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                firstChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.white));
                 secondChoice_btn.setSelected(false);
-                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 thirdChoice_btn.setSelected(false);
-                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 fourthChoice_btn.setSelected(false);
-                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 break;
             case 2:
                 firstChoice_btn.setSelected(false);
-                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                firstChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 secondChoice_btn.setSelected(true);
-                secondChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                secondChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.white));
                 thirdChoice_btn.setSelected(false);
-                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 fourthChoice_btn.setSelected(false);
-                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 break;
             case 3:
                 firstChoice_btn.setSelected(false);
-                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                firstChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 secondChoice_btn.setSelected(false);
-                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 thirdChoice_btn.setSelected(true);
-                thirdChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                thirdChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.white));
                 fourthChoice_btn.setSelected(false);
-                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 break;
             case 4:
                 firstChoice_btn.setSelected(false);
-                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                firstChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 secondChoice_btn.setSelected(false);
-                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 thirdChoice_btn.setSelected(false);
-                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 fourthChoice_btn.setSelected(true);
-                fourthChoice_btn.setTextColor(Color.parseColor("#FFFFFF"));
+                fourthChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.white));
                 break;
             default:
                 firstChoice_btn.setSelected(false);
-                firstChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                firstChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 secondChoice_btn.setSelected(false);
-                secondChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                secondChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 thirdChoice_btn.setSelected(false);
-                thirdChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                thirdChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 fourthChoice_btn.setSelected(false);
-                fourthChoice_btn.setTextColor(Color.parseColor("#D32F2F"));
+                fourthChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 break;
         }
     }

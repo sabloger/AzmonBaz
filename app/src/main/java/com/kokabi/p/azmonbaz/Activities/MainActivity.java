@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -300,8 +301,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView navTitle = (TextView) view1.findViewById(R.id.navTitle_tv);
         ImageView navIcon = (ImageView) view1.findViewById(R.id.navIcon_imgv);
 
-        navTitle.setTextColor(context.getResources().getColor(R.color.accentColor));
-        navIcon.setColorFilter(context.getResources().getColor(R.color.accentColor));
+        navTitle.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
+        navIcon.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
 
         for (int i = 0; i < mainActivityNavLVAdapter.getCount(); i++) {
             if (i != position) {
@@ -309,8 +310,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView navTitle1 = (TextView) view2.findViewById(R.id.navTitle_tv);
                 ImageView navIcon1 = (ImageView) view2.findViewById(R.id.navIcon_imgv);
 
-                navTitle1.setTextColor(context.getResources().getColor(R.color.darkGray));
-                navIcon1.setColorFilter(context.getResources().getColor(R.color.darkGray));
+                navTitle1.setTextColor(ContextCompat.getColor(context, R.color.mediumGray));
+                navIcon1.setColorFilter(ContextCompat.getColor(context, R.color.mediumGray));
             }
         }
     }
