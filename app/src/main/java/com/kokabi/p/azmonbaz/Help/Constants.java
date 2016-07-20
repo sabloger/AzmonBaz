@@ -68,7 +68,7 @@ public class Constants {
         int SUCCESS = 2;
     }
 
-    public static String EncodeUTF(String str) {
+    public static String encodeUTF(String str) {
         try {
             return URLEncoder.encode(str, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -77,7 +77,7 @@ public class Constants {
         return str;
     }
 
-    public static String DecodeUTF(String str) {
+    public static String decodeUTF(String str) {
         try {
             return URLDecoder.decode(str, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -86,7 +86,7 @@ public class Constants {
         return str;
     }
 
-    public static String Decode(String str) {
+    public static String decode(String str) {
         try {
 //        MCrypt M = new MCrypt();
 //        return M.decrypt(str);
@@ -95,7 +95,7 @@ public class Constants {
         return str;
     }
 
-    public static String Encode(String str) {
+    public static String encode(String str) {
         try {
 //        MCrypt M = new MCrypt();
 //        return M.encrypt(str);
