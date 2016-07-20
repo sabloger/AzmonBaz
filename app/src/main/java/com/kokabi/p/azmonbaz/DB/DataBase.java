@@ -42,13 +42,14 @@ public class DataBase extends SQLiteOpenHelper {
     /*Favored Question Table Info*/
     static final String tableFavoredQuestion = "favoredQuestion";
     static final String KEY_idFavoredQuestion = "idFavoredQuestion";
+    static final String KEY_favoredTestName = "favoredTestName";
     static final String KEY_idQuestion = "idQuestion";
     static final String KEY_questionImage = "questionImage";
     static final String KEY_answerImage = "answerImage";
     static final String KEY_key = "key";
     static final String createFavoredQuestion = "CREATE TABLE " +
             tableFavoredQuestion + "(" + KEY_idFavoredQuestion + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_idQuestion + " INTEGER," + KEY_questionImage + " TEXT," + KEY_answerImage + " TEXT,"
+            + KEY_favoredTestName + " TEXT," + KEY_idQuestion + " INTEGER," + KEY_questionImage + " TEXT," + KEY_answerImage + " TEXT,"
             + KEY_key + " INTEGER );";
 
     public DataBase(Context context) {
@@ -98,10 +99,10 @@ public class DataBase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues favoredValue = new ContentValues();
 
+        favoredValue.put(KEY_favoredTestName, testObj.getTestName());
         favoredValue.put(KEY_idQuestion, testObj.getIdQuestion());
         favoredValue.put(KEY_questionImage, testObj.getQuestionImage());
         favoredValue.put(KEY_answerImage, testObj.getAnswerImage());
-        favoredValue.put(KEY_answerImage, testObj.getKey());
         favoredValue.put(KEY_key, testObj.getKey());
         return db.insert(tableFavoredQuestion, null, favoredValue);
     }
@@ -182,11 +183,27 @@ public class DataBase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                testObjArrayList.add(new TestObj(cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4)));
+                testObjArrayList.add(new TestObj(cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
             } while (cursor.moveToNext());
         }
         cursor.close();
         return testObjArrayList;
+    }
+
+    public TestObj selectFavoredQuestion(int id) {
+        String query = "SELECT * FROM " + tableFavoredQuestion
+                + " WHERE " + KEY_idQuestion + " = " + id;
+
+        TestObj testObj = new TestObj();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                testObj = new TestObj(cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return testObj;
     }
 
     public boolean isTestFavored(int id) {
@@ -210,11 +227,10 @@ public class DataBase extends SQLiteOpenHelper {
         return isFavored;
     }
 
-    public boolean isQuesttionFavored(int id) {
+    public boolean isQuestionFavored(int id) {
         boolean isFavored = false;
         String query = "SELECT * FROM " + tableFavoredQuestion +
-                " WHERE " + KEY_idQuestion + " = "
-                + id;
+                " WHERE " + KEY_idQuestion + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);

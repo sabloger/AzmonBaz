@@ -3,62 +3,54 @@ package com.kokabi.p.azmonbaz.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
-import com.kokabi.p.azmonbaz.Adapters.HistoryRVAdapter;
+import com.kokabi.p.azmonbaz.Adapters.FavoredQuestionLVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
 import com.kokabi.p.azmonbaz.R;
 
-import java.util.Collections;
-
 import de.greenrobot.event.EventBus;
 
-public class HistoryFragment extends Fragment {
+public class FavoredQuestionFragment extends Fragment {
 
     Context context;
     DataBase db;
 
-    CoordinatorLayout mainContent;
+    ListView favoredQuestionLV;
     LinearLayout noItem_ly;
-    RecyclerView historyRV;
 
-    /*Activity Values*/
-    HistoryRVAdapter historyRVAdapter = new HistoryRVAdapter();
+    /*Fragment Values*/
+    FavoredQuestionLVAdapter favoredAdapter;
+    private boolean hasData = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.fragment_history, container, false);
+        View v = inflater.inflate(R.layout.fragment_favored_question, container, false);
 
         context = container.getContext();
         EventBus.getDefault().register(this);
         db = new DataBase(context);
-        mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 
         findViews(v);
 
-        // use a linear layout manager
-        historyRV.setLayoutManager(new LinearLayoutManager(context));
-        // in content do not change the layout size of the RecyclerView
-        historyRV.setHasFixedSize(true);
-
-        if (db.selectAllHistory().size() > 0) {
-            Collections.sort(db.selectAllHistory());
-            historyRVAdapter = new HistoryRVAdapter(db.selectAllHistory());
-            historyRV.setAdapter(historyRVAdapter);
+        if (db.selectAllFavoredQuestion().size() > 0) {
+            hasData = true;
+            favoredAdapter = new FavoredQuestionLVAdapter(context, db.selectAllFavoredQuestion());
+            favoredQuestionLV.setAdapter(favoredAdapter);
         } else {
-            historyRV.setVisibility(View.GONE);
+            hasData = false;
+            favoredQuestionLV.setVisibility(View.GONE);
             noItem_ly.setVisibility(View.VISIBLE);
         }
+
         return v;
     }
 
@@ -66,11 +58,13 @@ public class HistoryFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        historyRVAdapter.clearHistory();
+        if (hasData) {
+            favoredAdapter.clearList();
+        }
     }
 
     private void findViews(View v) {
-        historyRV = (RecyclerView) v.findViewById(R.id.historyRV);
+        favoredQuestionLV = (ListView) v.findViewById(R.id.favoredQuestionLV);
 
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
@@ -78,7 +72,7 @@ public class HistoryFragment extends Fragment {
     public void onEvent(GeneralMSB event) {
         switch (event.getMessage()) {
             case "isEmpty":
-                historyRV.setVisibility(View.GONE);
+                favoredQuestionLV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
         }

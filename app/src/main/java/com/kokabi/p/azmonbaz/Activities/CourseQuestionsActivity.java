@@ -3,9 +3,6 @@ package com.kokabi.p.azmonbaz.Activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -28,6 +25,7 @@ import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
+import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
@@ -42,8 +40,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -162,12 +158,23 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     @Override
     public void call(View v, int id) {
         switch (id) {
+            case R.id.addToFavoredQuestion:
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
+                    snackBar = new CustomSnackBar(mainContent, "این سوال قبلا به سوالات منتخب اضافه شده", Constants.SNACK.ERROR);
+                } else {
+                    db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(question).getIdQuestion(),
+                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(question).getQuestionImage()),
+                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(question).getAnswerImage()),
+                            pageTest.getQuestionInfo().get(question).getKey()));
+                    snackBar = new CustomSnackBar(mainContent, "این سوال به سوالات منتخب شما اضافه شد", Constants.SNACK.SUCCESS);
+                }
+                break;
             case R.id.addToFavorite:
                 if (db.isTestFavored(idTest)) {
                     snackBar = new CustomSnackBar(mainContent, "این آزمون قبلا به آزمون های منتخب اضافه شده", Constants.SNACK.ERROR);
                 } else {
                     db.favoriteTestInsert(new TestsTitleObj(idTest));
-                    snackBar = new CustomSnackBar(mainContent, "این آزمون به تاریخچه شما اضافه گردید", Constants.SNACK.SUCCESS);
+                    snackBar = new CustomSnackBar(mainContent, "این آزمون به آزمون‌های منتخب شما اضافه شد", Constants.SNACK.SUCCESS);
                 }
                 break;
         }
@@ -389,14 +396,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void showQuestions(int position) {
-        AssetManager assetManager = getAssets();
-        try {
-            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage());
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            question_imgv.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
-        }
+        new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage(), question_imgv);
 /*        File root = android.os.Environment.getExternalStorageDirectory();
         File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
                 + Constants.testFolder + Constants.questionsFolder + "/" + pageTest.getQuestionImages().get(position));

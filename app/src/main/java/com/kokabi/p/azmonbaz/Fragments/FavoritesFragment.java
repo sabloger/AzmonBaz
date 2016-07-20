@@ -80,13 +80,6 @@ public class FavoritesFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        idFavoredTests.clear();
-        testRVAdapter.clearTest();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         idFavoredTests.clear();

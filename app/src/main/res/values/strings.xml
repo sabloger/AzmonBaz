@@ -30,9 +30,13 @@
     <!--History Fragment-->
     <string name="noItemHistory">شما هنوز آزمونی نداده‌اید.</string>
 
+    <!--FavoredQuestion Fragment-->
+    <string name="noItemFavored">شما هنوز سوالی را اضافه نکرده‌اید.</string>
+
     <!--Menu-->
     <string name="shareTestMenu">اشتراک گذاری آزمون</string>
     <string name="addToFavoritesMenu">افزودن به آزمون‌های منتخب</string>
     <string name="showAnswers">نمایش پاسخ ها</string>
+    <string name="addToFavoredQuestionMenu">افزودن به سوالات منتخب</string>
 
 </resources>

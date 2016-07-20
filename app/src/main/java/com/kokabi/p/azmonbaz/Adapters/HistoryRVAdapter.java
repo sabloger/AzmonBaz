@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseAnswersActivity;
 import com.kokabi.p.azmonbaz.DB.DataBase;
+import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.DateConverter;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.R;
@@ -21,6 +22,8 @@ import com.shehabic.droppy.DroppyMenuPopup;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by P.kokabi on 6/20/2016.
@@ -160,6 +163,9 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
                 historyList.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyDataSetChanged();
+                if (historyList.size() == 0) {
+                    EventBus.getDefault().post(new GeneralMSB("isEmpty"));
+                }
             }
         });
         holder.more_imgbtn.setOnClickListener(new View.OnClickListener() {

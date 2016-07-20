@@ -5,13 +5,21 @@ package com.kokabi.p.azmonbaz.Objects;
  */
 public class TestObj {
 
-    int idQuestion,key;
-    String questionImage, answerImage;
+    int idQuestion, key;
+    String questionImage, answerImage, testName;
 
     public TestObj() {
     }
 
     public TestObj(int idQuestion, String questionImage, String answerImage, int key) {
+        this.idQuestion = idQuestion;
+        this.questionImage = questionImage;
+        this.answerImage = answerImage;
+        this.key = key;
+    }
+
+    public TestObj(String testName, int idQuestion, String questionImage, String answerImage, int key) {
+        this.testName = testName;
         this.idQuestion = idQuestion;
         this.questionImage = questionImage;
         this.answerImage = answerImage;
@@ -48,5 +56,13 @@ public class TestObj {
 
     public void setAnswerImage(String answerImage) {
         this.answerImage = answerImage;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
     }
 }

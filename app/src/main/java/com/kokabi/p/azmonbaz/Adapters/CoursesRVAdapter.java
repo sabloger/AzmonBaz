@@ -84,7 +84,6 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.course_cav.setCardBackgroundColor(Color.parseColor(courses.get(position).getBackColor()));
         /*get path of saved file to show the backImages*/
-        /*get path of saved file to show the backImages*/
         AssetManager assetManager = context.getAssets();
         try {
             InputStream is = assetManager.open("Categories/Backgrounds" + courses.get(position).getBackImage());

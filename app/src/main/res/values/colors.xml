@@ -33,7 +33,7 @@
 <color name="dividerColor">#969696</color>
 </resources>-->
 
-<resources>
+<!--<resources>
 <color name="primaryColor">#F44336</color>
 <color name="darkPrimaryColor">#D32F2F</color>
 <color name="lightPrimaryColor">#EF5350</color>
@@ -48,4 +48,21 @@
 <color name="mediumGray">#777777</color>
 <color name="darkGray">#424242</color>
 <color name="dividerColor">#969696</color>
+</resources>-->
+
+<resources>
+    <color name="primaryColor">#008CC9</color>
+    <color name="darkPrimaryColor">#005E93</color>
+    <color name="lightPrimaryColor">#009EE2</color>
+    <color name="accentColor">#EF5350</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="deepOrange">#FF7043</color>
+    <color name="gold">#F4CB17</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#F9F9F9</color>
+    <color name="lightGray">#969696</color>
+    <color name="mediumGray">#777777</color>
+    <color name="darkGray">#424242</color>
+    <color name="dividerColor">#969696</color>
 </resources>

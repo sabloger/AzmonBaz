@@ -1,21 +1,15 @@
 package com.kokabi.p.azmonbaz.Activities;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.R;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -47,14 +41,7 @@ public class FullPageImageActivity extends AppCompatActivity implements View.OnC
             srcImage = bundle.getString("srcImage", "");
         }
 
-        AssetManager assetManager = getAssets();
-        try {
-            InputStream is = assetManager.open(srcImage);
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            question_imgv.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
-        }
+        new ImageLoad(srcImage, question_imgv);
 
         questionZoomable = new PhotoViewAttacher(question_imgv);
 

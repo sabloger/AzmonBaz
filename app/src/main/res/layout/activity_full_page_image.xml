@@ -15,7 +15,6 @@
         android:id="@+id/exit_full_imgbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:background="@color/transparent"
         android:padding="8dp"
         app:srcCompat="@drawable/ic_exit_full_screen" />

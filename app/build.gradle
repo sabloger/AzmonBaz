@@ -51,6 +51,8 @@ dependencies {
     compile 'com.splunk.mint:mint:5.0.0'
     /*Material Ripple*/
     compile 'com.balysv:material-ripple:1.0.2'
+    /*EventBuss*/
+    compile 'de.greenrobot:eventbus:2.4.0'
     /*Zoomable Image*/
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'org.jetbrains:annotations-java5:15.0'

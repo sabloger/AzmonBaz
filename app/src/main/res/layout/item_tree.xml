@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,10 +14,31 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/delete_ripple"
         android:gravity="center_vertical|right"
         android:padding="8dp"
         android:singleLine="true"
         android:textColor="@color/darkGray"
         android:textSize="18sp" />
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/delete_ripple"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        app:mrl_rippleColor="@color/mediumGray">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/delete_imgbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:padding="8dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_delete" />
+
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 </RelativeLayout>

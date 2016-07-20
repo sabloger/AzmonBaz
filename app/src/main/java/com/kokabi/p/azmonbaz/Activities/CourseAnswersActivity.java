@@ -1,9 +1,6 @@
 package com.kokabi.p.azmonbaz.Activities;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -17,6 +14,7 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
@@ -26,8 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -135,14 +131,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     }
 
     private void showAnswers(int position) {
-        AssetManager assetManager = getAssets();
-        try {
-            InputStream is = assetManager.open("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(position).getAnswerImage());
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            answer_imgv.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
-        }
+        new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(position).getAnswerImage(), answer_imgv);
 /*        File root = android.os.Environment.getExternalStorageDirectory();
         File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
                 + Constants.testFolder + Constants.questionsFolder + "/" + pageTest.getQuestionImages().get(position));

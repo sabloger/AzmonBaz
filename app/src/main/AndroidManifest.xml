@@ -54,6 +54,10 @@
             android:name=".Activities.FullPageImageActivity"
             android:screenOrientation="landscape"
             tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activities.FavoredQuestionDetailActivity"
+            android:screenOrientation="landscape"
+            tools:ignore="InnerclassSeparator" />
     </application>
 
 </manifest>
