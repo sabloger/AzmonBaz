@@ -5,7 +5,7 @@ package com.kokabi.p.azmonbaz.Objects;
  */
 public class TestObj {
 
-    int idQuestion, key;
+    int idQuestion, key,state;
     String questionImage, answerImage, testName;
 
     public TestObj() {
@@ -40,6 +40,14 @@ public class TestObj {
 
     public void setKey(int key) {
         this.key = key;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public String getQuestionImage() {

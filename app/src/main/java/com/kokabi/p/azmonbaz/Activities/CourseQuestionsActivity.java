@@ -3,6 +3,7 @@ package com.kokabi.p.azmonbaz.Activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -27,6 +28,7 @@ import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Help.BlurBuilder;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
@@ -53,34 +55,33 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     Context context;
     DataBase db;
     Dialog dialogResults;
+    Dialog dialogSaveTest;
     CustomSnackBar snackBar;
 
     CoordinatorLayout mainContent;
     TextView timer_tv, numberOfQuestions_tv;
     AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn, full_imgbtn;
     ProgressView progressBar;
-    LinearLayout nextQuestion_ly, previousQuestion_ly;
-    ImageView question_imgv;
+    LinearLayout rootView, nextQuestion_ly, previousQuestion_ly;
+    AppCompatImageButton addToFavoredQuestion_imgbtn, minus_imgbtn, cross_imgbtn;
+    ImageView question_imgv, pauseLayout;
     Button firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
     FloatingActionButton confirm_fab;
 
     /*Activity Values*/
     PhotoViewAttacher questionZoomable;
     CountDownTimer countDownTimer;
-    boolean hasNegativePoint = false;
+    boolean hasNegativePoint = false, isPaused = false, isCanceled = false, isMinus = false, isCross = false, isAnswered = false;
     int idTest = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0;
+    long timeRemaining = 0;
     String testName = "";
     TestDefinitionObj pageTest;
     ArrayList<Integer> answerList = new ArrayList<>();
     ArrayList<Integer> correctAnsweredList = new ArrayList<>();
     ArrayList<Integer> unAnsweredList = new ArrayList<>();
     ArrayList<Integer> inCorrectAnsweredList = new ArrayList<>();
-    //Declare a variable to hold count down timer's paused status
-    private boolean isPaused = false;
-    //Declare a variable to hold count down timer's paused status
-    private boolean isCanceled = false;
+    ArrayList<Integer> questionStateList = new ArrayList<>();
     //Declare a variable to hold CountDownTimer remaining time
-    private long timeRemaining = 0;
     String decimal = "%02d : %02d";
 
     @Override
@@ -98,6 +99,11 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         dialogResults.setCancelable(false);
         dialogResults.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogResults.setContentView(R.layout.dialog_test_results);
+        /*Creating DialogSaveTest=================================================================*/
+        dialogSaveTest = new Dialog(this);
+        dialogSaveTest.setCancelable(false);
+        dialogSaveTest.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogSaveTest.setContentView(R.layout.dialog_save_test);
         /*========================================================================================*/
 
         findViews();
@@ -129,6 +135,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         questionZoomable = new PhotoViewAttacher(question_imgv);
 
         numberOfQuestions_tv.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
+
     }
 
     @Override
@@ -158,16 +165,16 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     @Override
     public void call(View v, int id) {
         switch (id) {
-            case R.id.addToFavoredQuestion:
-                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
-                    snackBar = new CustomSnackBar(mainContent, "این سوال قبلا به سوالات منتخب اضافه شده", Constants.SNACK.ERROR);
+            case R.id.finishTest:
+                if (answerList.size() > 0) {
+                    addAnswer();
                 } else {
-                    db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(question).getIdQuestion(),
-                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(question).getQuestionImage()),
-                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(question).getAnswerImage()),
-                            pageTest.getQuestionInfo().get(question).getKey()));
-                    snackBar = new CustomSnackBar(mainContent, "این سوال به سوالات منتخب شما اضافه شد", Constants.SNACK.SUCCESS);
+                    for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
+                        answerList.add(0);
+                    }
                 }
+                compareAnswers();
+                showDialogResults();
                 break;
             case R.id.addToFavorite:
                 if (db.isTestFavored(idTest)) {
@@ -184,7 +191,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.close_imgbtn:
-                finish();
+                showDialogSaveTest();
                 break;
             case R.id.more_imgbtn:
                 initMenu(more_imgbtn);
@@ -192,10 +199,12 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             case R.id.pausePlay_imgbtn:
                 if (isPaused) {
                     isPaused = false;
+                    blurPage();
                     timer(timeRemaining);
                     pausePlay_imgbtn.setImageResource(R.drawable.ic_pause);
                 } else {
                     isPaused = true;
+                    blurPage();
                     pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
                     countDownTimer.cancel();
                 }
@@ -255,6 +264,40 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 }
                 selectButton(whichAnswer);
                 break;
+            case R.id.addToFavoredQuestion_imgbtn:
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
+                    addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_plus_outline);
+                    db.favoredQuestionDelete(pageTest.getQuestionInfo().get(question).getIdQuestion());
+                } else {
+                    db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(question).getIdQuestion(),
+                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(question).getQuestionImage()),
+                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(question).getAnswerImage()),
+                            pageTest.getQuestionInfo().get(question).getKey()));
+                    addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
+                }
+                break;
+            case R.id.minus_imgbtn:
+                if (isMinus) {
+                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    isMinus = false;
+                } else {
+                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
+                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    isMinus = true;
+                    isCross = false;
+                }
+                break;
+            case R.id.cross_imgbtn:
+                if (isCross) {
+                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    isCross = false;
+                } else {
+                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.green));
+                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    isCross = true;
+                    isMinus = false;
+                }
+                break;
             case R.id.confirm_fab:
                 addAnswer();
                 compareAnswers();
@@ -274,10 +317,16 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
         progressBar = (ProgressView) findViewById(R.id.progressBar);
 
+        rootView = (LinearLayout) findViewById(R.id.rootView);
         nextQuestion_ly = (LinearLayout) findViewById(R.id.nextQuestion_ly);
         previousQuestion_ly = (LinearLayout) findViewById(R.id.previousQuestion_ly);
 
+        addToFavoredQuestion_imgbtn = (AppCompatImageButton) findViewById(R.id.addToFavoredQuestion_imgbtn);
+        minus_imgbtn = (AppCompatImageButton) findViewById(R.id.minus_imgbtn);
+        cross_imgbtn = (AppCompatImageButton) findViewById(R.id.cross_imgbtn);
+
         question_imgv = (ImageView) findViewById(R.id.question_imgv);
+        pauseLayout = (ImageView) findViewById(R.id.pauseLayout);
 
         firstChoice_btn = (Button) findViewById(R.id.firstChoice_btn);
         secondChoice_btn = (Button) findViewById(R.id.secondChoice_btn);
@@ -295,6 +344,9 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         pausePlay_imgbtn.setOnClickListener(this);
         nextQuestion_ly.setOnClickListener(this);
         previousQuestion_ly.setOnClickListener(this);
+        addToFavoredQuestion_imgbtn.setOnClickListener(this);
+        minus_imgbtn.setOnClickListener(this);
+        cross_imgbtn.setOnClickListener(this);
         full_imgbtn.setOnClickListener(this);
         firstChoice_btn.setOnClickListener(this);
         secondChoice_btn.setOnClickListener(this);
@@ -356,6 +408,15 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 timer_tv.setText("0 : 0");
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 v.vibrate(1500);
+                if (answerList.size() > 0) {
+                    addAnswer();
+                } else {
+                    for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
+                        answerList.add(0);
+                    }
+                }
+                compareAnswers();
+                showDialogResults();
             }
         }.start();
     }
@@ -396,6 +457,12 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void showQuestions(int position) {
+        if (db.isQuestionFavored(question + 1)) {
+            addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
+        } else {
+            addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_plus_outline);
+        }
+        Log.i("fav", db.selectAllFavoredQuestion().toString());
         new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage(), question_imgv);
 /*        File root = android.os.Environment.getExternalStorageDirectory();
         File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
@@ -411,18 +478,20 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         if (answerList.size() > 0) {
             if (answerList.size() < (question + 1)) {
                 answerList.add(whichAnswer);
+                isAnswered = true;
             } else {
+                isAnswered = true;
                 answerList.set(question, whichAnswer);
             }
         } else {
             if (whichAnswer != 0) {
+                isAnswered = false;
                 answerList.add(whichAnswer);
             } else {
+                isAnswered = false;
                 answerList.add(0);
             }
         }
-        Log.i("question", question + "");
-        Log.i("Answer1", answerList.toString());
     }
 
     private void compareAnswers() {
@@ -437,14 +506,26 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         }
     }
 
+    private void addQuestionState() {
+        if (isAnswered && !isMinus && !isCross) {
+            questionStateList.add(0);
+        } else if (isAnswered && !isCross) {
+            questionStateList.add(1);
+        } else if (isAnswered && !isMinus) {
+            questionStateList.add(2);
+        } else if (!isAnswered && !isMinus && !isCross) {
+            questionStateList.add(3);
+        }
+    }
+
     private void hideShowBackForward(int question) {
         if (question == 1) {
-            previousQuestion_ly.setVisibility(View.GONE);
+            previousQuestion_ly.setVisibility(View.INVISIBLE);
         } else if (question > 1 && question < 10) {
             nextQuestion_ly.setVisibility(View.VISIBLE);
             previousQuestion_ly.setVisibility(View.VISIBLE);
         } else if (question == 10) {
-            nextQuestion_ly.setVisibility(View.GONE);
+            nextQuestion_ly.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -485,6 +566,28 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         isCanceled = true;
 
         dialogResults.show();
+    }
+
+    private void showDialogSaveTest() {
+        Button saveTest_btn = (Button) dialogResults.findViewById(R.id.saveTest_btn);
+        Button cancel_btn = (Button) dialogResults.findViewById(R.id.cancel_btn);
+
+        saveTest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogSaveTest.dismiss();
+                finish();
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogSaveTest.dismiss();
+            }
+        });
+
+        dialogSaveTest.show();
     }
 
     private void selectButton(int answer) {
@@ -539,6 +642,34 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 fourthChoice_btn.setSelected(false);
                 fourthChoice_btn.setTextColor(ContextCompat.getColor(context, R.color.darkPrimaryColor));
                 break;
+        }
+    }
+
+    private void blurPage() {
+        if (isPaused) {
+            pauseLayout.setVisibility(View.VISIBLE);
+            Bitmap bm = BlurBuilder.blur(BlurBuilder.loadBitmapFromView(rootView));
+            pauseLayout.setImageBitmap(bm);
+            nextQuestion_ly.setClickable(false);
+            previousQuestion_ly.setClickable(false);
+            addToFavoredQuestion_imgbtn.setClickable(false);
+            minus_imgbtn.setClickable(false);
+            cross_imgbtn.setClickable(false);
+            firstChoice_btn.setClickable(false);
+            secondChoice_btn.setClickable(false);
+            thirdChoice_btn.setClickable(false);
+            fourthChoice_btn.setClickable(false);
+        } else {
+            pauseLayout.setVisibility(View.GONE);
+            nextQuestion_ly.setClickable(true);
+            previousQuestion_ly.setClickable(true);
+            addToFavoredQuestion_imgbtn.setClickable(true);
+            minus_imgbtn.setClickable(true);
+            cross_imgbtn.setClickable(true);
+            firstChoice_btn.setClickable(true);
+            secondChoice_btn.setClickable(true);
+            thirdChoice_btn.setClickable(true);
+            fourthChoice_btn.setClickable(true);
         }
     }
 

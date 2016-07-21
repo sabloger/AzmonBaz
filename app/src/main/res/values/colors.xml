@@ -58,10 +58,11 @@
 
     <color name="transparent">#00000000</color>
     <color name="deepOrange">#FF7043</color>
+    <color name="green">#66BB6A</color>
     <color name="gold">#F4CB17</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#F9F9F9</color>
-    <color name="lightGray">#969696</color>
+    <color name="lightGray">#AAAAAA</color>
     <color name="mediumGray">#777777</color>
     <color name="darkGray">#424242</color>
     <color name="dividerColor">#969696</color>

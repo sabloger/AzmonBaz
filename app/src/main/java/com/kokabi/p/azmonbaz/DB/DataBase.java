@@ -51,6 +51,14 @@ public class DataBase extends SQLiteOpenHelper {
             tableFavoredQuestion + "(" + KEY_idFavoredQuestion + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_favoredTestName + " TEXT," + KEY_idQuestion + " INTEGER," + KEY_questionImage + " TEXT," + KEY_answerImage + " TEXT,"
             + KEY_key + " INTEGER );";
+    /*Question State Table Info*/
+    static final String tableQuestionState = "QuestionState ";
+    static final String KEY_idQuestionState = "idQuestionState";
+    static final String KEY_question = "question";
+    static final String KEY_state = "state";
+    static final String createQuestionState = "CREATE TABLE " +
+            tableQuestionState + "(" + KEY_idQuestionState + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_question + " INTEGER );";
 
     public DataBase(Context context) {
         super(context, name, null, version);
@@ -61,6 +69,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createFavoriteTests);
         db.execSQL(createHistory);
         db.execSQL(createFavoredQuestion);
+        db.execSQL(createQuestionState);
     }
 
     @Override
@@ -68,6 +77,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + tableFavoriteTests);
         db.execSQL("DROP TABLE IF EXISTS " + tableHistory);
         db.execSQL("DROP TABLE IF EXISTS " + tableFavoredQuestion);
+        db.execSQL("DROP TABLE IF EXISTS " + tableQuestionState);
         onCreate(db);
     }
 
@@ -107,6 +117,15 @@ public class DataBase extends SQLiteOpenHelper {
         return db.insert(tableFavoredQuestion, null, favoredValue);
     }
 
+    public long questionStateInsert(int id, int state) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues favoredValue = new ContentValues();
+
+        favoredValue.put(KEY_question, id);
+        favoredValue.put(KEY_state, state);
+        return db.insert(tableFavoredQuestion, null, favoredValue);
+    }
+
     /*Update Methods*/
     public long favoriteTestUpdate(TestsTitleObj testsTitleObj) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -116,6 +135,16 @@ public class DataBase extends SQLiteOpenHelper {
 
         String whereClause = KEY_idTest + " = " + testsTitleObj.getIdTest();
         return db.update(tableFavoriteTests, favoriteTestValue, whereClause, null);
+    }
+
+    public long questionStateUpdate(int id, int state) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues questionStateValue = new ContentValues();
+
+        questionStateValue.put(KEY_state, state);
+
+        String whereClause = KEY_question + " = " + id;
+        return db.update(tableQuestionState, questionStateValue, whereClause, null);
     }
 
     /*Delete Methods*/
@@ -236,14 +265,30 @@ public class DataBase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                TestObj testsObj = new TestObj();
-                testsObj.setIdQuestion(cursor.getInt(1));
-                if (testsObj.getIdQuestion() != 0) {
+                if (cursor.getInt(2) != 0) {
                     isFavored = true;
                 }
             } while (cursor.moveToNext());
         }
         cursor.close();
         return isFavored;
+    }
+
+    public boolean isQuestionStateCreated(int id) {
+        boolean isCreated = false;
+        String query = "SELECT * FROM " + tableQuestionState +
+                " WHERE " + KEY_question + " = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                if (id == cursor.getInt(0)) {
+                    isCreated = true;
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return isCreated;
     }
 }

@@ -11,6 +11,8 @@ android {
         versionCode 3
         versionName "beta2.0"
         vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 19;
+        renderscriptSupportModeEnabled true;
     }
     buildTypes {
         release {

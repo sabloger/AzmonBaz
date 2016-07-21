@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/addToFavoredQuestion"
-        android:title="@string/addToFavoredQuestionMenu" />
+        android:id="@+id/finishTest"
+        android:title="@string/finishTest" />
     <item
         android:id="@+id/addToFavorite"
         android:title="@string/addToFavoritesMenu" />
