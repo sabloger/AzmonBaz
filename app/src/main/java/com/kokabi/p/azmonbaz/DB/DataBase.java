@@ -52,13 +52,13 @@ public class DataBase extends SQLiteOpenHelper {
             + KEY_favoredTestName + " TEXT," + KEY_idQuestion + " INTEGER," + KEY_questionImage + " TEXT," + KEY_answerImage + " TEXT,"
             + KEY_key + " INTEGER );";
     /*Question State Table Info*/
-    static final String tableQuestionState = "QuestionState ";
+    static final String tableQuestionState = "questionState";
     static final String KEY_idQuestionState = "idQuestionState";
     static final String KEY_question = "question";
     static final String KEY_state = "state";
     static final String createQuestionState = "CREATE TABLE " +
             tableQuestionState + "(" + KEY_idQuestionState + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_question + " INTEGER );";
+            + KEY_question + " INTEGER," + KEY_state + " INTEGER );";
 
     public DataBase(Context context) {
         super(context, name, null, version);
@@ -119,11 +119,11 @@ public class DataBase extends SQLiteOpenHelper {
 
     public long questionStateInsert(int id, int state) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues favoredValue = new ContentValues();
+        ContentValues questionStateValue = new ContentValues();
 
-        favoredValue.put(KEY_question, id);
-        favoredValue.put(KEY_state, state);
-        return db.insert(tableFavoredQuestion, null, favoredValue);
+        questionStateValue.put(KEY_question, id);
+        questionStateValue.put(KEY_state, state);
+        return db.insert(tableQuestionState, null, questionStateValue);
     }
 
     /*Update Methods*/
@@ -235,6 +235,22 @@ public class DataBase extends SQLiteOpenHelper {
         return testObj;
     }
 
+    public int selectQuestionState(int id) {
+        int state = 3;
+        String query = "SELECT * FROM " + tableQuestionState
+                + " WHERE " + KEY_question + " = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                state = cursor.getInt(2);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return state;
+    }
+
     public boolean isTestFavored(int id) {
         boolean isFavored = false;
         String query = "SELECT * FROM " + tableFavoriteTests +
@@ -283,7 +299,7 @@ public class DataBase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                if (id == cursor.getInt(0)) {
+                if (id == cursor.getInt(1)) {
                     isCreated = true;
                 }
             } while (cursor.moveToNext());
