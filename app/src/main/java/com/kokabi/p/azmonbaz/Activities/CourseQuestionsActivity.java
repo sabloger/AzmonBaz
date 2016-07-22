@@ -159,7 +159,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         showDialogSaveTest();
     }
 
@@ -516,6 +515,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             questionState = 2;
         } else if (!isAnswered && !isMinus && !isCross) {
             questionState = 3;
+        } else if (!isAnswered && !isCross) {
+            questionState = 4;
+        } else if (!isAnswered && !isMinus) {
+            questionState = 5;
         }
         if (db.isQuestionStateCreated(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
             db.questionStateUpdate(pageTest.getQuestionInfo().get(question).getIdQuestion(), questionState);
@@ -527,20 +530,46 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     private void showQuestionState(int state) {
         switch (state) {
             case 0:
+                isMinus = false;
+                isCross = false;
+                isAnswered = true;
                 minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
                 cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
                 break;
             case 1:
+                isMinus = true;
+                isCross = false;
+                isAnswered = true;
                 minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.green));
                 cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
                 break;
             case 2:
+                isMinus = false;
+                isCross = true;
+                isAnswered = true;
                 minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
                 cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
                 break;
             case 3:
+                isMinus = false;
+                isCross = false;
+                isAnswered = false;
                 minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
                 cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                break;
+            case 4:
+                isMinus = true;
+                isCross = false;
+                isAnswered = false;
+                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.green));
+                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                break;
+            case 5:
+                isMinus = false;
+                isCross = true;
+                isAnswered = false;
+                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
                 break;
         }
     }
@@ -686,6 +715,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             secondChoice_btn.setClickable(false);
             thirdChoice_btn.setClickable(false);
             fourthChoice_btn.setClickable(false);
+            full_imgbtn.setClickable(false);
         } else {
             pauseLayout.setVisibility(View.GONE);
             nextQuestion_ly.setClickable(true);

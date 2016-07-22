@@ -195,52 +195,30 @@
                         android:layout_toStartOf="@+id/previousQuestion_ly"
                         android:gravity="center">
 
-                        <com.balysv.materialripple.MaterialRippleLayout
+                        <android.support.v7.widget.AppCompatImageButton
+                            android:id="@+id/addToFavoredQuestion_imgbtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:mrl_rippleColor="@color/mediumGray"
-                            app:mrl_rippleDelayClick="false">
+                            android:background="@color/transparent"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/ic_bookmark_plus_outline" />
 
-                            <android.support.v7.widget.AppCompatImageButton
-                                android:id="@+id/addToFavoredQuestion_imgbtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:padding="16dp"
-                                app:srcCompat="@drawable/ic_bookmark_plus_outline" />
-
-                        </com.balysv.materialripple.MaterialRippleLayout>
-
-                        <com.balysv.materialripple.MaterialRippleLayout
+                        <android.support.v7.widget.AppCompatImageButton
+                            android:id="@+id/minus_imgbtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:mrl_rippleColor="@color/mediumGray">
+                            android:background="@color/transparent"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/ic_minus" />
 
-                            <android.support.v7.widget.AppCompatImageButton
-                                android:id="@+id/minus_imgbtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:padding="16dp"
-                                app:srcCompat="@drawable/ic_minus" />
-
-                        </com.balysv.materialripple.MaterialRippleLayout>
-
-                        <com.balysv.materialripple.MaterialRippleLayout
+                        <android.support.v7.widget.AppCompatImageButton
+                            android:id="@+id/cross_imgbtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:mrl_rippleColor="@color/mediumGray">
-
-                            <android.support.v7.widget.AppCompatImageButton
-                                android:id="@+id/cross_imgbtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:padding="16dp"
-                                android:tint="@color/lightGray"
-                                app:srcCompat="@drawable/ic_clear" />
-
-                        </com.balysv.materialripple.MaterialRippleLayout>
+                            android:background="@color/transparent"
+                            android:padding="16dp"
+                            android:tint="@color/lightGray"
+                            app:srcCompat="@drawable/ic_clear" />
 
                     </LinearLayout>
 
