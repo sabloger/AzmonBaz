@@ -60,18 +60,24 @@
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
-            <com.kokabi.p.azmonbaz.Components.CTextViewSans
-                android:id="@+id/numberOfQuestions_tv"
+            <com.kokabi.p.azmonbaz.Components.CButton
+                android:id="@+id/numberOfQuestions_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_toEndOf="@+id/timer_tv"
                 android:layout_toStartOf="@+id/close_ripple"
+                android:background="@color/transparent"
                 android:gravity="right|center_vertical"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/timer_tv"
+                android:layout_toStartOf="@+id/numberOfQuestions_btn" />
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSans
                 android:id="@+id/timer_tv"

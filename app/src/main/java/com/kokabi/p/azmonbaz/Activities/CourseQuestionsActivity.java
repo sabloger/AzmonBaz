@@ -24,11 +24,11 @@ import android.widget.TextView;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.BlurBuilder;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
-import com.kokabi.p.azmonbaz.Help.BlurBuilder;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
@@ -36,6 +36,7 @@ import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 import com.rey.material.widget.ProgressView;
 import com.shehabic.droppy.DroppyClickCallbackInterface;
+import com.shehabic.droppy.DroppyMenuItem;
 import com.shehabic.droppy.DroppyMenuPopup;
 
 import org.json.JSONArray;
@@ -59,13 +60,13 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     CustomSnackBar snackBar;
 
     CoordinatorLayout mainContent;
-    TextView timer_tv, numberOfQuestions_tv;
+    TextView timer_tv;
     AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn, full_imgbtn;
     ProgressView progressBar;
     LinearLayout rootView, nextQuestion_ly, previousQuestion_ly;
     AppCompatImageButton addToFavoredQuestion_imgbtn, minus_imgbtn, cross_imgbtn;
     ImageView question_imgv, pauseLayout;
-    Button firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
+    Button numberOfQuestions_btn, firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
     FloatingActionButton confirm_fab;
 
     /*Activity Values*/
@@ -133,7 +134,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         showQuestions(0);
         questionZoomable = new PhotoViewAttacher(question_imgv);
 
-        numberOfQuestions_tv.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
+        numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
 
     }
 
@@ -201,6 +202,9 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 break;
             case R.id.more_imgbtn:
                 initMenu(more_imgbtn);
+                break;
+            case R.id.numberOfQuestions_btn:
+                initNavigationMenu(numberOfQuestions_btn);
                 break;
             case R.id.pausePlay_imgbtn:
                 if (isPaused) {
@@ -316,7 +320,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     private void findViews() {
         timer_tv = (TextView) findViewById(R.id.timer_tv);
-        numberOfQuestions_tv = (TextView) findViewById(R.id.numberOfQuestions_tv);
 
         more_imgbtn = (AppCompatImageButton) findViewById(R.id.more_imgbtn);
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
@@ -336,6 +339,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         question_imgv = (ImageView) findViewById(R.id.question_imgv);
         pauseLayout = (ImageView) findViewById(R.id.pauseLayout);
 
+        numberOfQuestions_btn = (Button) findViewById(R.id.numberOfQuestions_btn);
         firstChoice_btn = (Button) findViewById(R.id.firstChoice_btn);
         secondChoice_btn = (Button) findViewById(R.id.secondChoice_btn);
         thirdChoice_btn = (Button) findViewById(R.id.thirdChoice_btn);
@@ -347,6 +351,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void setOnClick() {
+        numberOfQuestions_btn.setOnClickListener(this);
         more_imgbtn.setOnClickListener(this);
         close_imgbtn.setOnClickListener(this);
         pausePlay_imgbtn.setOnClickListener(this);
@@ -430,7 +435,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void updatePage() {
-        numberOfQuestions_tv.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
+        numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
         showQuestions(question);
         questionZoomable.update();
         hideShowBackForward(question + 1);
@@ -576,12 +581,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     private void hideShowBackForward(int question) {
         if (question == 1) {
+            nextQuestion_ly.setVisibility(View.VISIBLE);
             previousQuestion_ly.setVisibility(View.INVISIBLE);
         } else if (question > 1 && question < 10) {
             nextQuestion_ly.setVisibility(View.VISIBLE);
             previousQuestion_ly.setVisibility(View.VISIBLE);
         } else if (question == 10) {
             nextQuestion_ly.setVisibility(View.INVISIBLE);
+            previousQuestion_ly.setVisibility(View.VISIBLE);
         }
     }
 
@@ -730,12 +737,39 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         }
     }
 
-    private void initMenu(AppCompatImageButton btn) {
-        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, btn);
+    private void initMenu(AppCompatImageButton imgbtn) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, imgbtn);
         DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.course_question)
                 .triggerOnAnchorClick(false)
                 .setOnClick(this)
                 .build();
+        droppyMenu.show();
+    }
+
+    private void initNavigationMenu(Button btn) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, btn);
+        // Add normal items (text only)
+        for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
+            droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1))));
+        }
+        // Set Callback handler
+        droppyBuilder.setOnClick(new DroppyClickCallbackInterface() {
+            @Override
+            public void call(View v, int id) {
+                question = id;
+                showQuestions(question);
+                hideShowBackForward(question + 1);
+                numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
+                questionZoomable.update();
+                if (question == totalQuestion) {
+                    confirm_fab.setVisibility(View.VISIBLE);
+                } else {
+                    confirm_fab.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        DroppyMenuPopup droppyMenu = droppyBuilder.build();
         droppyMenu.show();
     }
 }
