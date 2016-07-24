@@ -11,6 +11,7 @@ import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataBase extends SQLiteOpenHelper {
 
@@ -59,6 +60,15 @@ public class DataBase extends SQLiteOpenHelper {
     static final String createQuestionState = "CREATE TABLE " +
             tableQuestionState + "(" + KEY_idQuestionState + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_question + " INTEGER," + KEY_state + " INTEGER );";
+    /*Saved Test Table Info*/
+    static final String tableSavedTest = "savedTest";
+    static final String KEY_id = "id";
+    static final String KEY_idSavedTest = "idSavedTest";
+    static final String KEY_time = "time";
+    static final String KEY_answers = "answers";
+    static final String createSavedTest = "CREATE TABLE " +
+            tableSavedTest + "(" + KEY_id + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_idSavedTest + " INTEGER," + KEY_time + " TEXT," + KEY_answers + " TEXT );";
 
     public DataBase(Context context) {
         super(context, name, null, version);
@@ -70,6 +80,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createHistory);
         db.execSQL(createFavoredQuestion);
         db.execSQL(createQuestionState);
+        db.execSQL(createSavedTest);
     }
 
     @Override
@@ -78,6 +89,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + tableHistory);
         db.execSQL("DROP TABLE IF EXISTS " + tableFavoredQuestion);
         db.execSQL("DROP TABLE IF EXISTS " + tableQuestionState);
+        db.execSQL("DROP TABLE IF EXISTS " + createSavedTest);
         onCreate(db);
     }
 
@@ -126,6 +138,16 @@ public class DataBase extends SQLiteOpenHelper {
         return db.insert(tableQuestionState, null, questionStateValue);
     }
 
+    public long savedTestInsert(int id, String time, String answers) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues savedTestValue = new ContentValues();
+
+        savedTestValue.put(KEY_idSavedTest, id);
+        savedTestValue.put(KEY_time, time);
+        savedTestValue.put(KEY_answers, answers);
+        return db.insert(tableSavedTest, null, savedTestValue);
+    }
+
     /*Update Methods*/
     public long favoriteTestUpdate(TestsTitleObj testsTitleObj) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -145,6 +167,17 @@ public class DataBase extends SQLiteOpenHelper {
 
         String whereClause = KEY_question + " = " + id;
         return db.update(tableQuestionState, questionStateValue, whereClause, null);
+    }
+
+    public long savedTestUpdate(int id, String time, String answers) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues savedTestValue = new ContentValues();
+
+        savedTestValue.put(KEY_time, time);
+        savedTestValue.put(KEY_answers, answers);
+
+        String whereClause = KEY_idSavedTest + " = " + id;
+        return db.update(tableSavedTest, savedTestValue, whereClause, null);
     }
 
     /*Delete Methods*/
@@ -251,6 +284,22 @@ public class DataBase extends SQLiteOpenHelper {
         return state;
     }
 
+    public HashMap<String, String> selectSavedTest(int id) {
+        HashMap<String, String> savedTestHash = new HashMap<>();
+        String query = "SELECT * FROM " + tableSavedTest
+                + " WHERE " + KEY_idSavedTest + " = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                savedTestHash.put(cursor.getString(2), cursor.getString(3));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return savedTestHash;
+    }
+
     public boolean isTestFavored(int id) {
         boolean isFavored = false;
         String query = "SELECT * FROM " + tableFavoriteTests +
@@ -294,6 +343,24 @@ public class DataBase extends SQLiteOpenHelper {
         boolean isCreated = false;
         String query = "SELECT * FROM " + tableQuestionState +
                 " WHERE " + KEY_question + " = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                if (id == cursor.getInt(1)) {
+                    isCreated = true;
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return isCreated;
+    }
+
+    public boolean isSavedTestCreated(int id) {
+        boolean isCreated = false;
+        String query = "SELECT * FROM " + tableSavedTest +
+                " WHERE " + KEY_idSavedTest + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);

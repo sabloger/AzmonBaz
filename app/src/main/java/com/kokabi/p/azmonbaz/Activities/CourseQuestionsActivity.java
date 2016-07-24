@@ -638,8 +638,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         saveTest_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogSaveTest.dismiss();
-                finish();
+                saveTest();
             }
         });
 
@@ -735,6 +734,36 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             thirdChoice_btn.setClickable(true);
             fourthChoice_btn.setClickable(true);
         }
+    }
+
+    private void saveTest() {
+        addAnswer();
+        ArrayList<Integer> finalArrayList = new ArrayList<>();
+        finalArrayList.addAll(answerList);
+        if (answerList.size() != pageTest.getQuestionInfo().size()) {
+            for (int i = 0; i < pageTest.getQuestionInfo().size() - answerList.size(); i++) {
+                finalArrayList.add(0);
+            }
+        }
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uniqueArrays", new JSONArray(finalArrayList));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String arrayList = json.toString();
+        if (db.isSavedTestCreated(pageTest.getIdTest())) {
+            db.savedTestUpdate(pageTest.getIdTest()
+                    , String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeRemaining))
+                    , arrayList);
+        } else {
+            db.savedTestInsert(pageTest.getIdTest()
+                    , String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeRemaining))
+                    , arrayList);
+        }
+
+        dialogSaveTest.dismiss();
+        finish();
     }
 
     private void initMenu(AppCompatImageButton imgbtn) {
