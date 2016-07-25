@@ -276,7 +276,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 break;
             case R.id.addToFavoredQuestion_imgbtn:
                 if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
-                    addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_plus_outline);
+                    addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
                     db.favoredQuestionDelete(pageTest.getQuestionInfo().get(question).getIdQuestion());
                 } else {
                     db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(question).getIdQuestion(),
@@ -288,11 +288,11 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 break;
             case R.id.minus_imgbtn:
                 if (isMinus) {
-                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                     isMinus = false;
                 } else {
                     minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.green));
-                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                     isMinus = true;
                     isCross = false;
                 }
@@ -300,11 +300,11 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 break;
             case R.id.cross_imgbtn:
                 if (isCross) {
-                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                     isCross = false;
                 } else {
                     cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
-                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                    minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                     isCross = true;
                     isMinus = false;
                 }
@@ -473,7 +473,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion())) {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
         } else {
-            addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_plus_outline);
+            addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
         }
         showQuestionState(db.selectQuestionState(pageTest.getQuestionInfo().get(position).getIdQuestion()));
         new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage(), question_imgv);
@@ -538,42 +538,42 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 isMinus = false;
                 isCross = false;
                 isAnswered = true;
-                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
-                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
+                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                 break;
             case 1:
                 isMinus = true;
                 isCross = false;
                 isAnswered = true;
                 minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.green));
-                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                 break;
             case 2:
                 isMinus = false;
                 isCross = true;
                 isAnswered = true;
-                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                 cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
                 break;
             case 3:
                 isMinus = false;
                 isCross = false;
                 isAnswered = false;
-                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
-                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
+                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                 break;
             case 4:
                 isMinus = true;
                 isCross = false;
                 isAnswered = false;
                 minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.green));
-                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                 break;
             case 5:
                 isMinus = false;
                 isCross = true;
                 isAnswered = false;
-                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.lightGray));
+                minus_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
                 cross_imgbtn.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
                 break;
         }

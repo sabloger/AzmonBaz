@@ -154,15 +154,15 @@
                 android:layout_marginStart="4dp"
                 app:mrl_rippleColor="@color/mediumGray">
 
-                <com.kokabi.p.azmonbaz.Components.CButton
-                    android:id="@+id/startTest_btn"
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/startTest_imgbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
+                    android:contentDescription="@string/startTest"
                     android:padding="8dp"
-                    android:text="@string/startTest"
-                    android:textColor="@color/darkGray"
-                    android:textSize="14sp" />
+                    android:tint="@color/darkGray"
+                    app:srcCompat="@drawable/ic_play" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -175,15 +175,14 @@
                 android:layout_toStartOf="@+id/startTest_ripple"
                 app:mrl_rippleColor="@color/mediumGray">
 
-                <com.kokabi.p.azmonbaz.Components.CButton
-                    android:id="@+id/addToFavorite_btn"
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/addToFavorite_imgbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
+                    android:contentDescription="@string/addToFavoritesMenu"
                     android:padding="8dp"
-                    android:text="@string/addToFavoritesMenu"
-                    android:textColor="@color/darkGray"
-                    android:textSize="14sp" />
+                    app:srcCompat="@drawable/ic_bookmark_outline" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
 

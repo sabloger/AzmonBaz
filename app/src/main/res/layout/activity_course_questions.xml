@@ -207,7 +207,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:padding="16dp"
-                            app:srcCompat="@drawable/ic_bookmark_plus_outline" />
+                            app:srcCompat="@drawable/ic_bookmark_outline" />
 
                         <android.support.v7.widget.AppCompatImageButton
                             android:id="@+id/minus_imgbtn"
@@ -223,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:padding="16dp"
-                            android:tint="@color/lightGray"
+                            android:tint="@color/darkGray"
                             app:srcCompat="@drawable/ic_clear" />
 
                     </LinearLayout>

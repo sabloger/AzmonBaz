@@ -62,7 +62,7 @@ public class DataBase extends SQLiteOpenHelper {
             + KEY_question + " INTEGER," + KEY_state + " INTEGER );";
     /*Saved Test Table Info*/
     static final String tableSavedTest = "savedTest";
-    static final String KEY_id = "id";
+    static final String KEY_id = "idRow";
     static final String KEY_idSavedTest = "idSavedTest";
     static final String KEY_time = "time";
     static final String KEY_answers = "answers";

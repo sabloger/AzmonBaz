@@ -18,7 +18,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:paddingTop="0dp"
-        android:text="@string/saveTestTitle"
+        android:text="@string/titleDelete"
         android:textColor="@color/mediumGray"
         android:textSize="14sp" />
 
@@ -56,12 +56,12 @@
         app:mrl_rippleRoundedCorners="2dp">
 
         <com.kokabi.p.azmonbaz.Components.CButton
-            android:id="@+id/saveTest_btn"
+            android:id="@+id/confirm_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:padding="8dp"
-            android:text="@string/saveTest"
+            android:text="@string/confirmDelete"
             android:textColor="@color/darkGray"
             android:textSize="14sp" />
 

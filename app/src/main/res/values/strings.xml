@@ -31,6 +31,7 @@
 
     <!--History Fragment-->
     <string name="noItemHistory">شما هنوز آزمونی نداده‌اید.</string>
+    <string name="answer">پاسخنامه</string>
 
     <!--FavoredQuestion Fragment-->
     <string name="noItemFavored">شما هنوز سوالی را اضافه نکرده‌اید.</string>
@@ -41,5 +42,9 @@
     <string name="showAnswers">نمایش پاسخ ها</string>
     <string name="addToFavoredQuestionMenu">افزودن به سوالات منتخب</string>
     <string name="finishTest">اتمام آزمون</string>
+
+    <!--Delete Dialog-->
+    <string name="confirmDelete">بلی</string>
+    <string name="titleDelete">آیا مایل به حذف می باشید؟</string>
 
 </resources>

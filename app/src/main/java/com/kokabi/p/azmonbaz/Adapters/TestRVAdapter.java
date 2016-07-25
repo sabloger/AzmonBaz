@@ -2,12 +2,11 @@ package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
@@ -40,7 +39,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView testTitle_tv, testTime_tv, testDesc_tv, testCount_tv, negativePoint_tv;
-        Button startTest_btn, addToFavorite_btn;
+        AppCompatImageButton startTest_imgbtn, addToFavorite_imgbtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -52,8 +51,8 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             testCount_tv = (TextView) itemView.findViewById(R.id.testCount_tv);
             negativePoint_tv = (TextView) itemView.findViewById(R.id.negativePoint_tv);
 
-            startTest_btn = (Button) itemView.findViewById(R.id.startTest_btn);
-            addToFavorite_btn = (Button) itemView.findViewById(R.id.addToFavorite_btn);
+            startTest_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.startTest_imgbtn);
+            addToFavorite_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.addToFavorite_imgbtn);
 
             db = new DataBase(context);
         }
@@ -84,7 +83,8 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         }
 
         if (db.isTestFavored(testsTitleObj.getIdTest())) {
-            holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
+            holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
+            holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
         }
 
         /*onClickListeners*/
@@ -115,11 +115,11 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     /*Click Listener Methods*/
     private void onClick(final ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = testList.get(position);
-        holder.addToFavorite_btn.setOnClickListener(new View.OnClickListener() {
+        holder.addToFavorite_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (db.isTestFavored(testsTitleObj.getIdTest())) {
-                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
+                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
                     db.favoriteTestDelete(testsTitleObj.getIdTest());
                     if (isFavoredFragment) {
                         testList.remove(holder.getAdapterPosition());
@@ -130,14 +130,14 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                         }
                     }
                 } else {
-                    holder.addToFavorite_btn.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
+                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
                     db.favoriteTestInsert(testsTitleObj);
                 }
                 db.selectAllFavorites();
             }
         });
 
-        holder.startTest_btn.setOnClickListener(new View.OnClickListener() {
+        holder.startTest_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(context, CourseQuestionsActivity.class)
