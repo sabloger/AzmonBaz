@@ -223,7 +223,6 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:padding="16dp"
-                            android:tint="@color/darkGray"
                             app:srcCompat="@drawable/ic_clear" />
 
                     </LinearLayout>

@@ -29,6 +29,7 @@ import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Fragments.FavoredQuestionFragment;
 import com.kokabi.p.azmonbaz.Fragments.FavoritesFragment;
 import com.kokabi.p.azmonbaz.Fragments.HistoryFragment;
+import com.kokabi.p.azmonbaz.Fragments.SavedTestFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
@@ -181,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های منتخب شما", R.drawable.dr_favorite));
         listMainActivityNavObj.add(new MainActivityNavObj("سوالات منتخب شما", R.drawable.dr_favored_question));
         listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون‌های شما", R.drawable.dr_history));
+        listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های ذخیره شده", R.drawable.dr_saved_test));
         listMainActivityNavObj.add(new MainActivityNavObj(true));
         listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
         listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
@@ -193,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listFragments.add(new FavoritesFragment());
         listFragments.add(new FavoredQuestionFragment());
         listFragments.add(new HistoryFragment());
+        listFragments.add(new SavedTestFragment());
         listFragments.add(new AboutFragment());
 
         /*Load first fragment as default*/
@@ -260,13 +263,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(3)).commit();
                 lastSelectedItem = 3;
                 break;
-            /*About Fragment*/
-            case 5:
+            /*SavedTest Fragment*/
+            case 4:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(4)).commit();
-                lastSelectedItem = 5;
+                lastSelectedItem = 4;
+                break;
+            /*About Fragment*/
+            case 6:
+                fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(4)).commit();
+                lastSelectedItem = 6;
                 break;
             /*Sharing Application*/
-            case 6:
+            case 7:
                 String shareBody = "آزمون باز";
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
@@ -274,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری ازطریق"));
                 break;
             /*Setting*/
-            case 7:
+            case 8:
 //                Intent intent = new Intent(context, Setting.class);
 //                startActivity(intent);
                 break;

@@ -788,6 +788,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 question = id;
                 showQuestions(question);
                 hideShowBackForward(question + 1);
+                selectButton(whichAnswer);
                 numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
                 questionZoomable.update();
                 if (question == totalQuestion) {

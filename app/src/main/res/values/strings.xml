@@ -4,6 +4,8 @@
     <string name="drawer_opened">Opened</string>
     <string name="drawer_closed">Closed</string>
     <string name="minute">دقیقه</string>
+    <string name="cancel">بی خیال</string>
+    <string name="confirm">هستم</string>
 
     <!--CoursesTest Activity-->
     <string name="firstChoice">گزینه ۱</string>
@@ -13,9 +15,7 @@
     <string name="next">بعدی</string>
     <string name="previous">قبلی</string>
     <string name="seeResults">مشاهده جواب‌ها</string>
-    <string name="cancel">بی خیال</string>
-    <string name="saveTest">ذخیره آزمون</string>
-    <string name="saveTestTitle">آیا مایل به ذخیره آزمون برای آینده می باشید؟</string>
+    <string name="saveTestTitle">مایل به ذخیره آزمون برای آینده هستید؟</string>
 
     <!--Permission Dialog-->
     <string name="permissionDeniedTitle">عدم دسترسی</string>
@@ -36,6 +36,9 @@
     <!--FavoredQuestion Fragment-->
     <string name="noItemFavored">شما هنوز سوالی را اضافه نکرده‌اید.</string>
 
+    <!--SavedTest Fragment-->
+    <string name="noItemSavedTest">شما آزمونی را ذخیره نکرده اید.</string>
+
     <!--Menu-->
     <string name="shareTestMenu">اشتراک گذاری آزمون</string>
     <string name="addToFavoritesMenu">افزودن به آزمون‌های منتخب</string>
@@ -44,7 +47,6 @@
     <string name="finishTest">اتمام آزمون</string>
 
     <!--Delete Dialog-->
-    <string name="confirmDelete">بلی</string>
-    <string name="titleDelete">آیا مایل به حذف می باشید؟</string>
+    <string name="titleDelete">مطمئن به حذف هستید؟</string>
 
 </resources>
