@@ -61,6 +61,12 @@ public class Constants {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public static void freeMemory() {
+        System.runFinalization();
+        Runtime.getRuntime().gc();
+        System.gc();
+    }
+
     /*SnackBar Actions*/
     public interface SNACK {
         int ERROR = 0;

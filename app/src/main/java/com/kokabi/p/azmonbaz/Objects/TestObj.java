@@ -5,41 +5,41 @@ package com.kokabi.p.azmonbaz.Objects;
  */
 public class TestObj {
 
-    int idQuestion, key,state;
-    String questionImage, answerImage, testName;
+    int id, k, state;
+    String q, a, testName, level;
 
     public TestObj() {
     }
 
     public TestObj(int idQuestion, String questionImage, String answerImage, int key) {
-        this.idQuestion = idQuestion;
-        this.questionImage = questionImage;
-        this.answerImage = answerImage;
-        this.key = key;
+        this.id = idQuestion;
+        this.q = questionImage;
+        this.a = answerImage;
+        this.k = key;
     }
 
     public TestObj(String testName, int idQuestion, String questionImage, String answerImage, int key) {
         this.testName = testName;
-        this.idQuestion = idQuestion;
-        this.questionImage = questionImage;
-        this.answerImage = answerImage;
-        this.key = key;
+        this.id = idQuestion;
+        this.q = questionImage;
+        this.a = answerImage;
+        this.k = key;
     }
 
     public int getIdQuestion() {
-        return idQuestion;
+        return id;
     }
 
     public void setIdQuestion(int idQuestion) {
-        this.idQuestion = idQuestion;
+        this.id = idQuestion;
     }
 
     public int getKey() {
-        return key;
+        return k;
     }
 
     public void setKey(int key) {
-        this.key = key;
+        this.k = key;
     }
 
     public int getState() {
@@ -51,19 +51,19 @@ public class TestObj {
     }
 
     public String getQuestionImage() {
-        return questionImage;
+        return q;
     }
 
     public void setQuestionImage(String questionImage) {
-        this.questionImage = questionImage;
+        this.q = questionImage;
     }
 
     public String getAnswerImage() {
-        return answerImage;
+        return a;
     }
 
     public void setAnswerImage(String answerImage) {
-        this.answerImage = answerImage;
+        this.a = answerImage;
     }
 
     public String getTestName() {
@@ -72,5 +72,13 @@ public class TestObj {
 
     public void setTestName(String testName) {
         this.testName = testName;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

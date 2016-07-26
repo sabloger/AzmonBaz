@@ -10,17 +10,6 @@ public class CategoryObj implements Comparable<CategoryObj> {
     int idCat, backImage, idParent;
     String catName, resIcon,categoryOrder, backColor, textColor;
 
-    public CategoryObj(int idCat, String catName, String backColor, String textColor, int backImage, String resIcon, String categoryOrder, int idParent) {
-        this.idCat = idCat;
-        this.catName = catName;
-        this.backColor = backColor;
-        this.textColor = textColor;
-        this.backImage = backImage;
-        this.resIcon = resIcon;
-        this.categoryOrder = categoryOrder;
-        this.idParent = idParent;
-    }
-
     public int getIdCat() {
         return idCat;
     }

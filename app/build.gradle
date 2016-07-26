@@ -60,4 +60,6 @@ dependencies {
     compile 'org.jetbrains:annotations-java5:15.0'
     /*Drop Down Menu*/
     compile project(path: ':CustomMenu')
+    /*Gson*/
+    compile 'com.google.code.gson:gson:2.4'
 }

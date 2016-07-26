@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
@@ -114,17 +115,7 @@ public class FavoritesFragment extends Fragment {
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
                 JSONObject event = categoryArray.getJSONObject(i);
-
-                int idCat = event.getInt("idCat");
-                int idTest = event.getInt("idTest");
-                String testName = event.getString("testName");
-                String description = event.getString("description");
-                int time = event.getInt("time");
-                boolean hasNegativePoint = event.getBoolean("hasNegativePoint");
-                String testOrder = event.getString("testOrder");
-                int questionCount = event.getInt("questionCount");
-
-                result.add(new TestsTitleObj(idCat, idTest, testName, description, time, hasNegativePoint, testOrder, questionCount));
+                result.add(new Gson().fromJson(event.toString(), TestsTitleObj.class));
             }
 
         } catch (JSONException e) {

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Activities.TestActivity;
 import com.kokabi.p.azmonbaz.Activities.TreeActivity;
 import com.kokabi.p.azmonbaz.Adapters.CoursesRVAdapter;
@@ -108,17 +109,7 @@ public class CoursesFragment extends Fragment {
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
                 JSONObject event = categoryArray.getJSONObject(i);
-
-                int idCat = event.getInt("idCat");
-                String catName = event.getString("catName");
-                String backColor = event.getString("backColor");
-                String textColor = event.getString("textColor");
-                int backImage = event.getInt("backImage");
-                String resIcon = event.getString("resIcon");
-                String categoryOrder = event.getString("categoryOrder");
-                int idParent = event.getInt("idParent");
-
-                result.add(new CategoryObj(idCat, catName, backColor, textColor, backImage, resIcon, categoryOrder, idParent));
+                result.add(new Gson().fromJson(event.toString(), CategoryObj.class));
             }
 
         } catch (JSONException e) {

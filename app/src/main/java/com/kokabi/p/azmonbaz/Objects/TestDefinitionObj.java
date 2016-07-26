@@ -8,15 +8,13 @@ import java.util.ArrayList;
 public class TestDefinitionObj {
 
     int idTest, questionNo, percentage;
-    String level;
     ArrayList<TestObj> questionInfo = new ArrayList<>();
 
-    public TestDefinitionObj(int idTest, int questionNo, ArrayList<TestObj> questionInfo, int percentage, String level) {
+    public TestDefinitionObj(int idTest, int questionNo, ArrayList<TestObj> questionInfo, int percentage) {
         this.idTest = idTest;
         this.questionNo = questionNo;
         this.questionInfo = questionInfo;
         this.percentage = percentage;
-        this.level = level;
     }
 
     public int getIdTest() {
@@ -41,14 +39,6 @@ public class TestDefinitionObj {
 
     public void setPercentage(int percentage) {
         this.percentage = percentage;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
     }
 
     public ArrayList<TestObj> getQuestionInfo() {
