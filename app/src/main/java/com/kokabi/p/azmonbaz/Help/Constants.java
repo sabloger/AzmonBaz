@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Constants {
 
@@ -65,6 +66,10 @@ public class Constants {
         System.runFinalization();
         Runtime.getRuntime().gc();
         System.gc();
+    }
+
+    public static boolean containsKey(HashMap<Integer, Integer> hashMap, int key) {
+        return hashMap.get(key) != null;
     }
 
     /*SnackBar Actions*/

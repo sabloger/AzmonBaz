@@ -149,7 +149,7 @@
                 android:id="@+id/startTest_ripple"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/buttonHeight"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="4dp"
                 app:mrl_rippleColor="@color/mediumGray">
@@ -172,7 +172,7 @@
                 android:layout_height="@dimen/buttonHeight"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="4dp"
-                android:layout_toStartOf="@+id/startTest_ripple"
+                android:layout_toEndOf="@+id/startTest_ripple"
                 app:mrl_rippleColor="@color/mediumGray">
 
                 <android.support.v7.widget.AppCompatImageButton

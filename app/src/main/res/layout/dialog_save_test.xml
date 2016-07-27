@@ -46,6 +46,7 @@
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/exit_ripple"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/buttonHeight"
         android:layout_below="@+id/title_tv"
@@ -56,12 +57,34 @@
         app:mrl_rippleRoundedCorners="2dp">
 
         <com.kokabi.p.azmonbaz.Components.CButton
+            android:id="@+id/exit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:padding="8dp"
+            android:text="@string/exitTest"
+            android:textColor="@color/darkGray"
+            android:textSize="14sp" />
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/buttonHeight"
+        android:layout_below="@+id/title_tv"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/exit_ripple"
+        android:background="@color/transparent"
+        app:mrl_rippleColor="@color/mediumGray"
+        app:mrl_rippleRoundedCorners="2dp">
+
+        <com.kokabi.p.azmonbaz.Components.CButton
             android:id="@+id/saveTest_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:padding="8dp"
-            android:text="@string/confirm"
+            android:text="@string/saveTest"
             android:textColor="@color/darkGray"
             android:textSize="14sp" />
 

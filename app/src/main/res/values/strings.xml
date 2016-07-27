@@ -16,6 +16,8 @@
     <string name="previous">قبلی</string>
     <string name="seeResults">مشاهده جواب‌ها</string>
     <string name="saveTestTitle">مایل به ذخیره آزمون برای آینده هستید؟</string>
+    <string name="saveTest">ذخیره آزمون</string>
+    <string name="exitTest">خروج از آزمون</string>
 
     <!--Permission Dialog-->
     <string name="permissionDeniedTitle">عدم دسترسی</string>

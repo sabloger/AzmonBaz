@@ -45,6 +45,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -78,7 +80,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     long timeRemaining = 0;
     String testName = "";
     TestDefinitionObj pageTest;
-    ArrayList<Integer> answerList = new ArrayList<>();
+    HashMap<Integer, Integer> answerList = new HashMap<>();
     ArrayList<Integer> correctAnsweredList = new ArrayList<>();
     ArrayList<Integer> unAnsweredList = new ArrayList<>();
     ArrayList<Integer> inCorrectAnsweredList = new ArrayList<>();
@@ -178,7 +180,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     addAnswer();
                 } else {
                     for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
-                        answerList.add(0);
+                        answerList.put(pageTest.getQuestionInfo().get(question + 1).getIdQuestion(), 0);
                     }
                 }
                 compareAnswers();
@@ -222,21 +224,21 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 break;
             case R.id.nextQuestion_ly:
                 if (question < totalQuestion) {
-                    addAnswer();
                     question++;
                     updatePage();
                     if (question == totalQuestion) {
                         confirm_fab.setVisibility(View.VISIBLE);
                     }
                 }
+                addAnswer();
                 break;
             case R.id.previousQuestion_ly:
                 if (question > 0) {
-                    addAnswer();
                     question--;
                     updatePage();
                     confirm_fab.setVisibility(View.GONE);
                 }
+                addAnswer();
                 break;
             case R.id.full_imgbtn:
                 startActivity(new Intent(context, FullPageImageActivity.class)
@@ -250,6 +252,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     whichAnswer = 1;
                 }
                 selectButton(whichAnswer);
+                addAnswer();
                 break;
             case R.id.secondChoice_btn:
                 if (whichAnswer == 2) {
@@ -258,6 +261,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     whichAnswer = 2;
                 }
                 selectButton(whichAnswer);
+                addAnswer();
                 break;
             case R.id.thirdChoice_btn:
                 if (whichAnswer == 3) {
@@ -266,6 +270,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     whichAnswer = 3;
                 }
                 selectButton(whichAnswer);
+                addAnswer();
                 break;
             case R.id.fourthChoice_btn:
                 if (whichAnswer == 4) {
@@ -274,6 +279,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     whichAnswer = 4;
                 }
                 selectButton(whichAnswer);
+                addAnswer();
                 break;
             case R.id.addToFavoredQuestion_imgbtn:
                 if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
@@ -412,7 +418,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                     addAnswer();
                 } else {
                     for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
-                        answerList.add(0);
+                        answerList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
                     }
                 }
                 compareAnswers();
@@ -426,9 +432,9 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         showQuestions(question);
         questionZoomable.update();
         hideShowBackForward(question + 1);
-        Log.i("Answer", answerList.toString());
-        if (answerList.size() >= (question + 1)) {
-            switch (answerList.get(question)) {
+        if (Constants.containsKey(answerList, question + 1)) {
+            Log.i("++++++++", answerList.get(question + 1).toString());
+            switch (answerList.get(question + 1)) {
                 case 1:
                     whichAnswer = 1;
                     selectButton(whichAnswer);
@@ -468,32 +474,36 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     private void addAnswer() {
         if (answerList.size() > 0) {
-            if (answerList.size() < (question + 1)) {
-                answerList.add(whichAnswer);
+/*            if (answerList.size() < (question + 1)) {
+                answerList.put(question,whichAnswer);
                 isAnswered = true;
             } else {
                 isAnswered = true;
-                answerList.set(question, whichAnswer);
-            }
+                answerList.put(question, whichAnswer);
+            }*/
+            answerList.put(question + 1, whichAnswer);
+            isAnswered = true;
         } else {
-            if (whichAnswer != 0) {
-                isAnswered = false;
-                answerList.add(whichAnswer);
-            } else {
-                isAnswered = false;
-                answerList.add(0);
-            }
+            isAnswered = false;
+            answerList.put(question + 1, whichAnswer);
         }
+        Log.i("Answer", answerList.toString());
     }
 
     private void compareAnswers() {
+        Set<Integer> values = answerList.keySet();
+        Log.i("==============", values.toString());
         for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
-            if (pageTest.getQuestionInfo().get(i).getKey() == answerList.get(i)) {
-                correctAnsweredList.add(pageTest.getQuestionInfo().get(i).getKey());
-            } else if (answerList.get(i).equals(0)) {
-                unAnsweredList.add(0);
+            if (Constants.containsKey(answerList, pageTest.getQuestionInfo().get(i).getIdQuestion())) {
+                if (pageTest.getQuestionInfo().get(i).getKey() == answerList.get(pageTest.getQuestionInfo().get(i).getIdQuestion())) {
+                    correctAnsweredList.add(pageTest.getQuestionInfo().get(i).getKey());
+                } else if (answerList.get(pageTest.getQuestionInfo().get(i).getIdQuestion()).equals(0)) {
+                    unAnsweredList.add(0);
+                } else {
+                    inCorrectAnsweredList.add(i);
+                }
             } else {
-                inCorrectAnsweredList.add(i);
+                unAnsweredList.add(0);
             }
         }
     }
@@ -621,6 +631,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     private void showDialogSaveTest() {
         Button saveTest_btn = (Button) dialogSaveTest.findViewById(R.id.saveTest_btn);
         Button cancel_btn = (Button) dialogSaveTest.findViewById(R.id.cancel_btn);
+        Button exit_btn = (Button) dialogSaveTest.findViewById(R.id.exit_btn);
 
         saveTest_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -633,6 +644,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             @Override
             public void onClick(View view) {
                 dialogSaveTest.dismiss();
+            }
+        });
+
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogSaveTest.dismiss();
+                finish();
             }
         });
 
@@ -725,12 +744,12 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void saveTest() {
-        addAnswer();
-        ArrayList<Integer> finalArrayList = new ArrayList<>();
-        finalArrayList.addAll(answerList);
+        /*addAnswer();
+        HashMap<Integer, Integer> finalArrayList = new HashMap<>();
+        finalArrayList.putAll(answerList);
         if (answerList.size() != pageTest.getQuestionInfo().size()) {
             for (int i = 0; i < pageTest.getQuestionInfo().size() - answerList.size(); i++) {
-                finalArrayList.add(0);
+                finalArrayList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
             }
         }
         JSONObject json = new JSONObject();
@@ -751,7 +770,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         }
 
         dialogSaveTest.dismiss();
-        finish();
+        finish();*/
     }
 
     private void initMenu(AppCompatImageButton imgbtn) {
@@ -774,9 +793,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             @Override
             public void call(View v, int id) {
                 question = id;
-                showQuestions(question);
+                updatePage();
                 hideShowBackForward(question + 1);
-                selectButton(whichAnswer);
                 numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
                 questionZoomable.update();
                 if (question == totalQuestion) {

@@ -5,17 +5,10 @@ package com.kokabi.p.azmonbaz.Objects;
  */
 public class TestObj {
 
-    int id, k, state;
-    String q, a, testName, level;
+    int id, k, state, level;
+    String q, a, testName;
 
     public TestObj() {
-    }
-
-    public TestObj(int idQuestion, String questionImage, String answerImage, int key) {
-        this.id = idQuestion;
-        this.q = questionImage;
-        this.a = answerImage;
-        this.k = key;
     }
 
     public TestObj(String testName, int idQuestion, String questionImage, String answerImage, int key) {
@@ -74,11 +67,11 @@ public class TestObj {
         this.testName = testName;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 }
