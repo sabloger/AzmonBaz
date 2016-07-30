@@ -25,61 +25,41 @@
                 android:padding="8dp"
                 android:visibility="visible">
 
-                <RelativeLayout
-                    android:id="@+id/title_rly"
-                    android:layout_width="match_parent"
+                <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                    android:id="@+id/testTitle_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true">
-
-                    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                        android:id="@+id/testTitle_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_vertical|right"
-                        android:padding="2dp"
-                        android:singleLine="true"
-                        android:textColor="@color/darkGray"
-                        android:textSize="18sp" />
-
-                    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                        android:id="@+id/testCount_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="5dp"
-                        android:layout_toStartOf="@+id/testTitle_tv"
-                        android:gravity="center_vertical|right"
-                        android:padding="2dp"
-                        android:singleLine="true"
-                        android:textColor="@color/mediumGray"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical|right"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/darkGray"
+                    android:textSize="18sp" />
 
                 <RelativeLayout
                     android:id="@+id/testTime_rly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/title_rly">
+                    android:layout_below="@+id/testTitle_tv">
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/testTime_imgv"
+                        android:id="@+id/testTimeElapsed_imgv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:tint="@color/accentColor"
-                        app:srcCompat="@drawable/ic_timer" />
+                        app:srcCompat="@drawable/ic_time_lapse" />
 
                     <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                        android:id="@+id/testTime_tv"
+                        android:id="@+id/testTimeElapsed_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/testTime_imgv"
+                        android:layout_toStartOf="@+id/testTimeElapsed_imgv"
                         android:gravity="center_vertical|right"
                         android:padding="2dp"
                         android:singleLine="true"
@@ -90,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/testTime_tv"
+                        android:layout_toStartOf="@+id/testTimeElapsed_tv"
                         android:gravity="center_vertical|right"
                         android:padding="2dp"
                         android:singleLine="true"
@@ -99,17 +79,6 @@
                         android:textSize="16sp" />
 
                 </RelativeLayout>
-
-                <com.kokabi.p.azmonbaz.Components.CTextViewSans
-                    android:id="@+id/testDesc_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/testTime_rly"
-                    android:gravity="center_vertical|right"
-                    android:padding="2dp"
-                    android:textColor="@color/lightGray"
-                    android:textSize="16sp" />
 
             </RelativeLayout>
 
@@ -142,7 +111,7 @@
             android:layout_height="wrap_content">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/startTest_ripple"
+                android:id="@+id/resumeTest_ripple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -150,25 +119,25 @@
                 app:mrl_rippleColor="@color/mediumGray">
 
                 <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/startTest_imgbtn"
+                    android:id="@+id/resumeTest_imgbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:contentDescription="@string/startTest"
+                    android:contentDescription="@string/resumeTest"
                     android:padding="8dp"
                     android:tint="@color/darkGray"
-                    app:srcCompat="@drawable/ic_play" />
+                    app:srcCompat="@drawable/dr_saved_test" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/startTest_ripple"
-                android:layout_toStartOf="@+id/addToFavorite_ripple" />
+                android:layout_toEndOf="@+id/resumeTest_ripple"
+                android:layout_toStartOf="@+id/deleteSaved_ripple" />
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/addToFavorite_ripple"
+                android:id="@+id/deleteSaved_ripple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -176,13 +145,13 @@
                 app:mrl_rippleColor="@color/mediumGray">
 
                 <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/addToFavorite_imgbtn"
+                    android:id="@+id/deleteSaved_imgbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:contentDescription="@string/addToFavoritesMenu"
+                    android:contentDescription="@string/deletSavedtest"
                     android:padding="8dp"
-                    app:srcCompat="@drawable/ic_bookmark_outline" />
+                    app:srcCompat="@drawable/ic_delete" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
 

@@ -144,7 +144,8 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                         .putExtra("idTest", testsTitleObj.getIdTest())
                         .putExtra("time", testsTitleObj.getTime())
                         .putExtra("testName", testsTitleObj.getTestName())
-                        .putExtra("hasNegativePoint", testsTitleObj.isHasNegativePoint()));
+                        .putExtra("hasNegativePoint", testsTitleObj.isHasNegativePoint())
+                        .putExtra("isResumeTest", false));
             }
         });
     }

@@ -76,6 +76,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     PhotoViewAttacher questionZoomable;
     CountDownTimer countDownTimer;
     boolean hasNegativePoint = false, isPaused = false, isCanceled = false, isMinus = false, isCross = false, isAnswered = false;
+    boolean isReusemTest = false;
     int idTest = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0, questionState = 3;
     long timeRemaining = 0;
     String testName = "";
@@ -116,7 +117,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             idTest = bundle.getInt("idTest", 0);
             time = bundle.getInt("time", 0);
             testName = bundle.getString("testName", "");
-            hasNegativePoint = bundle.getBoolean("hasNegativePoint", false);
+            isReusemTest = bundle.getBoolean("isResumeTest", false);
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -125,6 +126,11 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                         , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage());
             }
         }
+
+//        if (isReusemTest){
+//            Type type = new TypeToken<Model>() {}.getType();
+//            answerList = new Gson().fromJson(db.selectSavedTestAnswers(idTest),type);
+//        }
 
         timer(time * 1000);
 
@@ -202,6 +208,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         switch (view.getId()) {
             case R.id.close_imgbtn:
                 showDialogSaveTest();
+                isPaused = true;
+                countDownTimer.cancel();
+                pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
+                blurPage();
                 break;
             case R.id.more_imgbtn:
                 initMenu(more_imgbtn);
@@ -744,7 +754,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void saveTest() {
-        /*addAnswer();
+        addAnswer();
         HashMap<Integer, Integer> finalArrayList = new HashMap<>();
         finalArrayList.putAll(answerList);
         if (answerList.size() != pageTest.getQuestionInfo().size()) {
@@ -752,25 +762,27 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 finalArrayList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
             }
         }
-        JSONObject json = new JSONObject();
-        try {
-            json.put("uniqueArrays", new JSONArray(finalArrayList));
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        String arrayList = new Gson().toJson(finalArrayList);
+        Log.i("======", arrayList);
+        int hasNegativePointInt;
+        if (hasNegativePoint) {
+            hasNegativePointInt = 1;
+        } else {
+            hasNegativePointInt = 0;
         }
-        String arrayList = json.toString();
         if (db.isSavedTestCreated(pageTest.getIdTest())) {
             db.savedTestUpdate(pageTest.getIdTest()
-                    , String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeRemaining))
-                    , arrayList);
+                    , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
+                    , arrayList, hasNegativePointInt, testName);
         } else {
             db.savedTestInsert(pageTest.getIdTest()
-                    , String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeRemaining))
-                    , arrayList);
+                    , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
+                    , arrayList, hasNegativePointInt, testName);
         }
 
         dialogSaveTest.dismiss();
-        finish();*/
+        finish();
     }
 
     private void initMenu(AppCompatImageButton imgbtn) {

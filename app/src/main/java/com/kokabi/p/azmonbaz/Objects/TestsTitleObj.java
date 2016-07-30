@@ -14,6 +14,13 @@ public class TestsTitleObj implements Comparable<TestsTitleObj> {
     public TestsTitleObj() {
     }
 
+    public TestsTitleObj(int idTest, String testName, boolean hasNegativePoint, int time) {
+        this.idTest = idTest;
+        this.testName = testName;
+        this.hasNegativePoint = hasNegativePoint;
+        this.time = time;
+    }
+
     public TestsTitleObj(int idTest) {
         this.idTest = idTest;
     }

@@ -5,7 +5,7 @@
     <string name="drawer_closed">Closed</string>
     <string name="minute">دقیقه</string>
     <string name="cancel">بی خیال</string>
-    <string name="confirm">هستم</string>
+    <string name="confirm">حذف</string>
 
     <!--CoursesTest Activity-->
     <string name="firstChoice">گزینه ۱</string>
@@ -50,5 +50,9 @@
 
     <!--Delete Dialog-->
     <string name="titleDelete">مطمئن به حذف هستید؟</string>
+
+    <!--Saved Tests-->
+    <string name="deletSavedtest">حذف آزمون</string>
+    <string name="resumeTest">ادامه آزمون</string>
 
 </resources>

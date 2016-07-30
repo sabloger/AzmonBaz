@@ -66,9 +66,12 @@ public class DataBase extends SQLiteOpenHelper {
     static final String KEY_idSavedTest = "idSavedTest";
     static final String KEY_time = "time";
     static final String KEY_answers = "answers";
+    static final String KEY_hasNegativePoint = "hasNegativePoint";
+    static final String KEY_savedTestName = "savedTestName";
     static final String createSavedTest = "CREATE TABLE " +
             tableSavedTest + "(" + KEY_id + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_idSavedTest + " INTEGER," + KEY_time + " TEXT," + KEY_answers + " TEXT );";
+            + KEY_idSavedTest + " INTEGER," + KEY_time + " INTEGER," + KEY_answers + " TEXT,"
+            + KEY_hasNegativePoint + " INTEGER," + KEY_savedTestName + " TEXT );";
 
     public DataBase(Context context) {
         super(context, name, null, version);
@@ -138,13 +141,15 @@ public class DataBase extends SQLiteOpenHelper {
         return db.insert(tableQuestionState, null, questionStateValue);
     }
 
-    public long savedTestInsert(int id, String time, String answers) {
+    public long savedTestInsert(int id, int time, String answers, int hasNegativePoint, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues savedTestValue = new ContentValues();
 
         savedTestValue.put(KEY_idSavedTest, id);
         savedTestValue.put(KEY_time, time);
         savedTestValue.put(KEY_answers, answers);
+        savedTestValue.put(KEY_hasNegativePoint, hasNegativePoint);
+        savedTestValue.put(KEY_savedTestName, name);
         return db.insert(tableSavedTest, null, savedTestValue);
     }
 
@@ -169,12 +174,14 @@ public class DataBase extends SQLiteOpenHelper {
         return db.update(tableQuestionState, questionStateValue, whereClause, null);
     }
 
-    public long savedTestUpdate(int id, String time, String answers) {
+    public long savedTestUpdate(int id, int time, String answers, int hasNegativePoint, String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues savedTestValue = new ContentValues();
 
         savedTestValue.put(KEY_time, time);
         savedTestValue.put(KEY_answers, answers);
+        savedTestValue.put(KEY_hasNegativePoint, hasNegativePoint);
+        savedTestValue.put(KEY_savedTestName, name);
 
         String whereClause = KEY_idSavedTest + " = " + id;
         return db.update(tableSavedTest, savedTestValue, whereClause, null);
@@ -202,14 +209,20 @@ public class DataBase extends SQLiteOpenHelper {
         return db.delete(tableFavoredQuestion, whereClause, null);
     }
 
+    public long savedTestDelete(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String whereClause = KEY_idSavedTest + " = " + id;
+        return db.delete(tableSavedTest, whereClause, null);
+    }
+
     /*Select Methods*/
     public ArrayList<Integer> selectAllFavorites() {
         String query = "SELECT * FROM " + tableFavoriteTests +
                 " ORDER BY " + KEY_idFavoriteTest;
 
         ArrayList<Integer> testsArrayList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 testsArrayList.add(cursor.getInt(1));
@@ -224,8 +237,7 @@ public class DataBase extends SQLiteOpenHelper {
                 " ORDER BY " + KEY_idHistory;
 
         ArrayList<HistoryObj> historyArrayList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 historyArrayList.add(new HistoryObj(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3)
@@ -241,8 +253,7 @@ public class DataBase extends SQLiteOpenHelper {
                 " ORDER BY " + KEY_idQuestion;
 
         ArrayList<TestObj> testObjArrayList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 testObjArrayList.add(new TestObj(cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
@@ -257,8 +268,7 @@ public class DataBase extends SQLiteOpenHelper {
                 + " WHERE " + KEY_idQuestion + " = " + id;
 
         TestObj testObj = new TestObj();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 testObj = new TestObj(cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5));
@@ -273,8 +283,7 @@ public class DataBase extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + tableQuestionState
                 + " WHERE " + KEY_question + " = " + id;
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 state = cursor.getInt(2);
@@ -284,13 +293,12 @@ public class DataBase extends SQLiteOpenHelper {
         return state;
     }
 
-    public HashMap<String, String> selectSavedTest(int id) {
+    public HashMap<String, String> selectSavedTestAnswers(int id) {
         HashMap<String, String> savedTestHash = new HashMap<>();
         String query = "SELECT * FROM " + tableSavedTest
                 + " WHERE " + KEY_idSavedTest + " = " + id;
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
                 savedTestHash.put(cursor.getString(2), cursor.getString(3));
@@ -298,6 +306,22 @@ public class DataBase extends SQLiteOpenHelper {
         }
         cursor.close();
         return savedTestHash;
+    }
+
+    public ArrayList<TestsTitleObj> selectAllSavedTest() {
+        String query = "SELECT * FROM " + tableSavedTest +
+                " ORDER BY " + KEY_id;
+
+        ArrayList<TestsTitleObj> testsTitleObjArrayList = new ArrayList<>();
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                boolean hasNegative = cursor.getInt(4) == 1;
+                testsTitleObjArrayList.add(new TestsTitleObj(cursor.getInt(1), cursor.getString(5), hasNegative, cursor.getInt(2)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return testsTitleObjArrayList;
     }
 
     public boolean isTestFavored(int id) {

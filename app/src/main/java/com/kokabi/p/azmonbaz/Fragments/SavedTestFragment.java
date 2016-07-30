@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.kokabi.p.azmonbaz.Adapters.HistoryRVAdapter;
+import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
 import com.kokabi.p.azmonbaz.R;
@@ -28,16 +28,16 @@ public class SavedTestFragment extends Fragment {
 
     CoordinatorLayout mainContent;
     LinearLayout noItem_ly;
-    RecyclerView historyRV;
+    RecyclerView savedTestRV;
 
     /*Activity Values*/
-    HistoryRVAdapter historyRVAdapter = new HistoryRVAdapter();
+    SavedTestRVAdapter historyRVAdapter = new SavedTestRVAdapter();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.fragment_history, container, false);
+        final View v = inflater.inflate(R.layout.fragment_saved_test, container, false);
 
         context = container.getContext();
         EventBus.getDefault().register(this);
@@ -47,16 +47,16 @@ public class SavedTestFragment extends Fragment {
         findViews(v);
 
         // use a linear layout manager
-        historyRV.setLayoutManager(new LinearLayoutManager(context));
+        savedTestRV.setLayoutManager(new LinearLayoutManager(context));
         // in content do not change the layout size of the RecyclerView
-        historyRV.setHasFixedSize(true);
+        savedTestRV.setHasFixedSize(true);
 
-        if (db.selectAllHistory().size() > 0) {
-            Collections.sort(db.selectAllHistory());
-            historyRVAdapter = new HistoryRVAdapter(db.selectAllHistory());
-            historyRV.setAdapter(historyRVAdapter);
+        if (db.selectAllSavedTest().size() > 0) {
+            Collections.sort(db.selectAllSavedTest());
+            historyRVAdapter = new SavedTestRVAdapter(db.selectAllSavedTest());
+            savedTestRV.setAdapter(historyRVAdapter);
         } else {
-            historyRV.setVisibility(View.GONE);
+            savedTestRV.setVisibility(View.GONE);
             noItem_ly.setVisibility(View.VISIBLE);
         }
         return v;
@@ -66,11 +66,11 @@ public class SavedTestFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        historyRVAdapter.clearHistory();
+        historyRVAdapter.clearSavedTest();
     }
 
     private void findViews(View v) {
-        historyRV = (RecyclerView) v.findViewById(R.id.historyRV);
+        savedTestRV = (RecyclerView) v.findViewById(R.id.savedTestRV);
 
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
@@ -78,7 +78,7 @@ public class SavedTestFragment extends Fragment {
     public void onEvent(GeneralMSB event) {
         switch (event.getMessage()) {
             case "isEmpty":
-                historyRV.setVisibility(View.GONE);
+                savedTestRV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
         }

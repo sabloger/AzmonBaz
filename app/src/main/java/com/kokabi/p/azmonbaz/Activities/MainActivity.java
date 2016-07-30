@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             /*About Fragment*/
             case 6:
-                fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(4)).commit();
+                fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(5)).commit();
                 lastSelectedItem = 6;
                 break;
             /*Sharing Application*/
