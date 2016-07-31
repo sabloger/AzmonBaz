@@ -23,55 +23,40 @@ public class TestObj {
         return id;
     }
 
-    public void setIdQuestion(int idQuestion) {
-        this.id = idQuestion;
-    }
-
     public int getKey() {
         return k;
-    }
-
-    public void setKey(int key) {
-        this.k = key;
     }
 
     public int getState() {
         return state;
     }
 
-    public void setState(int state) {
-        this.state = state;
-    }
-
     public String getQuestionImage() {
         return q;
-    }
-
-    public void setQuestionImage(String questionImage) {
-        this.q = questionImage;
     }
 
     public String getAnswerImage() {
         return a;
     }
 
-    public void setAnswerImage(String answerImage) {
-        this.a = answerImage;
-    }
-
     public String getTestName() {
         return testName;
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
     }
 
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    @Override
+    public String toString() {
+        return "TestObj{" +
+                "id=" + id +
+                ", k=" + k +
+                ", state=" + state +
+                ", level=" + level +
+                ", q='" + q + '\'' +
+                ", a='" + a + '\'' +
+                ", testName='" + testName + '\'' +
+                '}';
     }
 }

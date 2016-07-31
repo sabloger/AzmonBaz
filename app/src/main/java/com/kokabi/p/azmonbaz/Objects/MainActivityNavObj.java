@@ -8,7 +8,6 @@ public class MainActivityNavObj {
     private String title;
     private int resIcon;
     boolean isLine = false;
-    boolean isChecked = false;
 
     public MainActivityNavObj(String title, int resIcon) {
         this.title = title;
@@ -33,14 +32,6 @@ public class MainActivityNavObj {
 
     public boolean isLine() {
         return isLine;
-    }
-
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
     }
 
 }

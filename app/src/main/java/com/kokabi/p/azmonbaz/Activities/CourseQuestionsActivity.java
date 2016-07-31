@@ -76,7 +76,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     PhotoViewAttacher questionZoomable;
     CountDownTimer countDownTimer;
     boolean hasNegativePoint = false, isPaused = false, isCanceled = false, isMinus = false, isCross = false, isAnswered = false;
-    boolean isReusemTest = false;
+    boolean isResumeTest = false, isExit = false;
     int idTest = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0, questionState = 3;
     long timeRemaining = 0;
     String testName = "";
@@ -117,7 +117,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             idTest = bundle.getInt("idTest", 0);
             time = bundle.getInt("time", 0);
             testName = bundle.getString("testName", "");
-            isReusemTest = bundle.getBoolean("isResumeTest", false);
+            isResumeTest = bundle.getBoolean("isResumeTest", false);
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -127,10 +127,18 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             }
         }
 
-//        if (isReusemTest){
-//            Type type = new TypeToken<Model>() {}.getType();
-//            answerList = new Gson().fromJson(db.selectSavedTestAnswers(idTest),type);
-//        }
+        if (isResumeTest) {
+            try {
+                JSONObject json = new JSONObject(db.selectSavedTestAnswers(idTest));
+                JSONArray names = json.names();
+                for (int i = 0; i < names.length(); i++) {
+                    int key = names.getInt(i);
+                    answerList.put(key, json.getInt(String.valueOf(key)));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         timer(time * 1000);
 
@@ -140,20 +148,21 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         totalQuestion = pageTest.getQuestionNo() - 1;
         hideShowBackForward(question + 1);
 
-        showQuestions(0);
         questionZoomable = new PhotoViewAttacher(question_imgv);
 
-        numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
+        updatePage();
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        isPaused = true;
-        countDownTimer.cancel();
-        pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
-        blurPage();
+        if (!isExit) {
+            isPaused = true;
+            countDownTimer.cancel();
+            pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
+            blurPage();
+        }
     }
 
     @Override
@@ -170,6 +179,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     @Override
     public void onBackPressed() {
         showDialogSaveTest();
+        isPaused = true;
+        countDownTimer.cancel();
+        pausePlay_imgbtn.setImageResource(R.drawable.ic_play);
+        blurPage();
     }
 
     @Override
@@ -616,6 +629,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             public void onClick(View view) {
                 dialogResults.dismiss();
                 finish();
+                isExit = true;
                 startActivity(new Intent(context, CourseAnswersActivity.class).putExtra("idTest", idTest));
             }
         });
@@ -625,6 +639,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             public void onClick(View view) {
                 dialogResults.dismiss();
                 finish();
+                isExit = true;
             }
         });
 
@@ -653,6 +668,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isPaused = false;
+                timer(timeRemaining);
+                pausePlay_imgbtn.setImageResource(R.drawable.ic_pause);
+                blurPage();
                 dialogSaveTest.dismiss();
             }
         });
@@ -662,6 +681,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             public void onClick(View view) {
                 dialogSaveTest.dismiss();
                 finish();
+                isExit = true;
             }
         });
 
@@ -758,8 +778,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         HashMap<Integer, Integer> finalArrayList = new HashMap<>();
         finalArrayList.putAll(answerList);
         if (answerList.size() != pageTest.getQuestionInfo().size()) {
-            for (int i = 0; i < pageTest.getQuestionInfo().size() - answerList.size(); i++) {
-                finalArrayList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
+            for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
+                if (!Constants.containsKey(answerList, i + 1)) {
+                    finalArrayList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
+                }
             }
         }
 
@@ -783,6 +805,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
         dialogSaveTest.dismiss();
         finish();
+        isExit = true;
     }
 
     private void initMenu(AppCompatImageButton imgbtn) {

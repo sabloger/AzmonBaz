@@ -21,31 +21,25 @@ public class TestDefinitionObj {
         return idTest;
     }
 
-    public void setIdTest(int idTest) {
-        this.idTest = idTest;
-    }
-
     public int getQuestionNo() {
         return questionNo;
-    }
-
-    public void setQuestionNo(int questionNo) {
-        this.questionNo = questionNo;
     }
 
     public int getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
-    }
-
     public ArrayList<TestObj> getQuestionInfo() {
         return questionInfo;
     }
 
-    public void setQuestionInfo(ArrayList<TestObj> questionInfo) {
-        this.questionInfo = questionInfo;
+    @Override
+    public String toString() {
+        return "TestDefinitionObj{" +
+                "idTest=" + idTest +
+                ", questionNo=" + questionNo +
+                ", percentage=" + percentage +
+                ", questionInfo=" + questionInfo +
+                '}';
     }
 }

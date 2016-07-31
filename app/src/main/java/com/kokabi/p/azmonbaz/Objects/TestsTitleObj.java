@@ -21,6 +21,7 @@ public class TestsTitleObj implements Comparable<TestsTitleObj> {
         this.time = time;
     }
 
+    /*Getters*/
     public TestsTitleObj(int idTest) {
         this.idTest = idTest;
     }
@@ -29,48 +30,24 @@ public class TestsTitleObj implements Comparable<TestsTitleObj> {
         return idCat;
     }
 
-    public void setIdCat(int idCat) {
-        this.idCat = idCat;
-    }
-
     public int getIdTest() {
         return idTest;
-    }
-
-    public void setIdTest(int idTest) {
-        this.idTest = idTest;
     }
 
     public int getQuestionCount() {
         return questionCount;
     }
 
-    public void setQuestionCount(int questionCount) {
-        this.questionCount = questionCount;
-    }
-
     public String getTestOrder() {
         return testOrder;
-    }
-
-    public void setTestOrder(String testOrder) {
-        this.testOrder = testOrder;
     }
 
     public String getTestName() {
         return testName;
     }
 
-    public void setTestName(String testName) {
-        this.testName = testName;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getTime() {
@@ -85,12 +62,27 @@ public class TestsTitleObj implements Comparable<TestsTitleObj> {
         return hasNegativePoint;
     }
 
-    public void setHasNegativePoint(boolean hasNegativePoint) {
-        this.hasNegativePoint = hasNegativePoint;
+    /*Setters*/
+    public void setIdTest(int idTest) {
+        this.idTest = idTest;
     }
 
     @Override
     public int compareTo(@NonNull TestsTitleObj testsTitleObj) {
         return this.getTestOrder().compareTo(testsTitleObj.getTestOrder());
+    }
+
+    @Override
+    public String toString() {
+        return "TestsTitleObj{" +
+                "idCat=" + idCat +
+                ", idTest=" + idTest +
+                ", questionCount=" + questionCount +
+                ", time=" + time +
+                ", testName='" + testName + '\'' +
+                ", description='" + description + '\'' +
+                ", testOrder='" + testOrder + '\'' +
+                ", hasNegativePoint=" + hasNegativePoint +
+                '}';
     }
 }

@@ -11,7 +11,6 @@ import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DataBase extends SQLiteOpenHelper {
 
@@ -293,19 +292,19 @@ public class DataBase extends SQLiteOpenHelper {
         return state;
     }
 
-    public HashMap<String, String> selectSavedTestAnswers(int id) {
-        HashMap<String, String> savedTestHash = new HashMap<>();
+    public String selectSavedTestAnswers(int id) {
+        String savedTest = "";
         String query = "SELECT * FROM " + tableSavedTest
                 + " WHERE " + KEY_idSavedTest + " = " + id;
 
         Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                savedTestHash.put(cursor.getString(2), cursor.getString(3));
+                savedTest = cursor.getString(3);
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return savedTestHash;
+        return savedTest;
     }
 
     public ArrayList<TestsTitleObj> selectAllSavedTest() {

@@ -39,76 +39,55 @@ public class HistoryObj implements Comparable<HistoryObj> {
         return idHistory;
     }
 
-    public void setIdHistory(int idHistory) {
-        this.idHistory = idHistory;
-    }
-
     public int getIdTest() {
         return idTest;
-    }
-
-    public void setIdTest(int idTest) {
-        this.idTest = idTest;
     }
 
     public int getAnsweredQuestion() {
         return answeredQuestion;
     }
 
-    public void setAnsweredQuestion(int answeredQuestion) {
-        this.answeredQuestion = answeredQuestion;
-    }
-
     public int getIncorrectQuestion() {
         return incorrectQuestion;
-    }
-
-    public void setIncorrectQuestion(int incorrectQuestion) {
-        this.incorrectQuestion = incorrectQuestion;
     }
 
     public int getUnAnsweredQuestion() {
         return unAnsweredQuestion;
     }
 
-    public void setUnAnsweredQuestion(int unAnsweredQuestion) {
-        this.unAnsweredQuestion = unAnsweredQuestion;
-    }
-
     public String getTestName() {
         return testName;
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
     }
 
     public String getTestPercentage() {
         return testPercentage;
     }
 
-    public void setTestPercentage(String testPercentage) {
-        this.testPercentage = testPercentage;
-    }
-
     public String getTestTime() {
         return testTime;
-    }
-
-    public void setTestTime(String testTime) {
-        this.testTime = testTime;
     }
 
     public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
     @Override
     public int compareTo(@NonNull HistoryObj h) {
         return this.getTestTime().compareTo(h.getTestTime());
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryObj{" +
+                "idHistory=" + idHistory +
+                ", idTest=" + idTest +
+                ", answeredQuestion=" + answeredQuestion +
+                ", incorrectQuestion=" + incorrectQuestion +
+                ", unAnsweredQuestion=" + unAnsweredQuestion +
+                ", testName='" + testName + '\'' +
+                ", testPercentage='" + testPercentage + '\'' +
+                ", testTime='" + testTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                '}';
     }
 }

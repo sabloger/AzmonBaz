@@ -8,62 +8,34 @@ import android.support.annotation.NonNull;
 public class CategoryObj implements Comparable<CategoryObj> {
 
     int idCat, backImage, idParent;
-    String catName, resIcon,categoryOrder, backColor, textColor;
+    String catName, resIcon, categoryOrder, backColor, textColor;
 
     public int getIdCat() {
         return idCat;
-    }
-
-    public void setIdCat(int idCat) {
-        this.idCat = idCat;
     }
 
     public int getBackImage() {
         return backImage;
     }
 
-    public void setBackImage(int backImage) {
-        this.backImage = backImage;
-    }
-
     public String getResIcon() {
         return resIcon;
-    }
-
-    public void setResIcon(String resIcon) {
-        this.resIcon = resIcon;
     }
 
     public int getIdParent() {
         return idParent;
     }
 
-    public void setIdParent(int idParent) {
-        this.idParent = idParent;
-    }
-
     public String getCategoryOrder() {
         return categoryOrder;
-    }
-
-    public void setCategoryOrder(String categoryOrder) {
-        this.categoryOrder = categoryOrder;
     }
 
     public String getCatName() {
         return catName;
     }
 
-    public void setCatName(String catName) {
-        this.catName = catName;
-    }
-
     public String getBackColor() {
         return backColor;
-    }
-
-    public void setBackColor(String backColor) {
-        this.backColor = backColor;
     }
 
     public String getTextColor() {
@@ -77,5 +49,19 @@ public class CategoryObj implements Comparable<CategoryObj> {
     @Override
     public int compareTo(@NonNull CategoryObj c) {
         return this.getCategoryOrder().compareTo(c.getCategoryOrder());
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryObj{" +
+                "idCat=" + idCat +
+                ", backImage=" + backImage +
+                ", idParent=" + idParent +
+                ", catName='" + catName + '\'' +
+                ", resIcon='" + resIcon + '\'' +
+                ", categoryOrder='" + categoryOrder + '\'' +
+                ", backColor='" + backColor + '\'' +
+                ", textColor='" + textColor + '\'' +
+                '}';
     }
 }
