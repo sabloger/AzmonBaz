@@ -3,7 +3,6 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
     android:descendantFocusability="beforeDescendants"
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true">
@@ -78,7 +77,7 @@
         android:layout_width="@dimen/drawerWidth"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="@color/darkPrimaryColor"
+        android:background="@color/white"
         android:clickable="true"
         android:fitsSystemWindows="true">
 
@@ -87,7 +86,7 @@
             android:id="@+id/profileBox"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:background="@color/transparent"
+            android:background="@color/darkPrimaryColor"
             android:scaleType="centerCrop" />
 
         <!-- Navigation ListView -->
@@ -95,7 +94,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profileBox"
-            android:background="@color/gray"
             android:orientation="vertical"
             android:weightSum="2">
 
@@ -103,7 +101,6 @@
                 android:id="@+id/navList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray"
                 android:choiceMode="singleChoice"
                 android:divider="@color/transparent"
                 android:dividerHeight="0dp" />

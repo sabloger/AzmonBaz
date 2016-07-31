@@ -9,15 +9,21 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
         <item name="colorAccent">@color/accentColor</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="colorControlNormal">@color/primaryColor</item>
         <item name="colorControlActivated">@color/darkPrimaryColor</item>
         <item name="colorControlHighlight">@color/darkPrimaryColor</item>
     </style>
 
+    <style name="primaryBackground" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/primaryColor</item>
+    </style>
+
     <!--Linear ProgressView-->
     <style name="LinearProgress" parent="Material.Drawable.LinearProgress.Determinate">
-            <item name="lpd_strokeColor">@color/accentColor</item>
-            <item name="lpd_strokeSecondaryColor">@color/transparent</item>
+        <item name="lpd_strokeColor">@color/accentColor</item>
+        <item name="lpd_strokeSecondaryColor">@color/transparent</item>
     </style>
 
     <!--Circular ProgressView-->

@@ -59,7 +59,9 @@ public class TreeLVAdapter extends BaseAdapter {
 
         CategoryObj childItem = childList.get(position);
 
-        holder.mainContent.setBackgroundColor(Color.parseColor(childItem.getBackColor()));
+        if (childItem.getBackColor().length() > 0) {
+            holder.mainContent.setBackgroundColor(Color.parseColor(childItem.getBackColor()));
+        }
         holder.treeTitle_tv.setText(childItem.getCatName());
 
         return convertView;

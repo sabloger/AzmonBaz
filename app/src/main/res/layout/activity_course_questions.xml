@@ -4,7 +4,6 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
@@ -38,7 +37,6 @@
                 android:paddingEnd="6dp"
                 android:paddingStart="6dp"
                 android:scaleType="centerInside"
-                android:tint="@color/white"
                 app:srcCompat="@drawable/ic_more" />
 
             <com.balysv.materialripple.MaterialRippleLayout
@@ -55,7 +53,6 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/transparent"
                     android:scaleType="centerInside"
-                    android:tint="@color/white"
                     app:srcCompat="@drawable/ic_pause" />
 
             </com.balysv.materialripple.MaterialRippleLayout>
