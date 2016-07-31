@@ -4,8 +4,7 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:visibility="visible">
+    android:padding="8dp">
 
     <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
         android:id="@+id/treeTitle_tv"
@@ -13,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/delete_ripple"
         android:layout_toStartOf="@+id/delete_ripple"
         android:gravity="center_vertical|right"
         android:padding="8dp"

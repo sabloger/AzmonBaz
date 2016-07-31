@@ -40,7 +40,6 @@
         android:layout_height="@dimen/buttonHeight"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/sub_title_tv"
-        android:background="@color/transparent"
         app:mrl_rippleColor="@color/mediumGray"
         app:mrl_rippleRoundedCorners="2dp">
 
