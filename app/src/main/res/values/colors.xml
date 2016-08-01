@@ -1,55 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<resources>
-<color name="primaryColor">#3F51B5</color>
-<color name="darkPrimaryColor">#303F9F</color>
-<color name="lightPrimaryColor">#4FC3F7</color>
-<color name="accentColor">#FF5722</color>
-
-<color name="transparent">#00000000</color>
-<color name="deepOrange">#FF7043</color>
-<color name="gold">#F4CB17</color>
-<color name="white">#FFFFFF</color>
-<color name="gray">#F9F9F9</color>
-<color name="lightGray">#969696</color>
-<color name="mediumGray">#777777</color>
-<color name="darkGray">#424242</color>
-<color name="dividerColor">#969696</color>
-</resources>-->
-
-<!--<resources>
-<color name="primaryColor">#FF5722</color>
-<color name="darkPrimaryColor">#E64A19</color>
-<color name="lightPrimaryColor">#FF8a65</color>
-<color name="accentColor">#4FC3F7</color>
-
-<color name="transparent">#00000000</color>
-<color name="deepOrange">#FF7043</color>
-<color name="gold">#F4CB17</color>
-<color name="white">#FFFFFF</color>
-<color name="gray">#F9F9F9</color>
-<color name="lightGray">#969696</color>
-<color name="mediumGray">#777777</color>
-<color name="darkGray">#424242</color>
-<color name="dividerColor">#969696</color>
-</resources>-->
-
-<!--<resources>
-<color name="primaryColor">#F44336</color>
-<color name="darkPrimaryColor">#D32F2F</color>
-<color name="lightPrimaryColor">#EF5350</color>
-<color name="accentColor">#4FC3F7</color>
-
-<color name="transparent">#00000000</color>
-<color name="deepOrange">#FF7043</color>
-<color name="gold">#F4CB17</color>
-<color name="white">#FFFFFF</color>
-<color name="gray">#F9F9F9</color>
-<color name="lightGray">#969696</color>
-<color name="mediumGray">#777777</color>
-<color name="darkGray">#424242</color>
-<color name="dividerColor">#969696</color>
-</resources>-->
-
 <resources>
     <color name="primaryColor">#008CC9</color>
     <color name="darkPrimaryColor">#005E93</color>
@@ -66,4 +15,7 @@
     <color name="mediumGray">#777777</color>
     <color name="darkGray">#424242</color>
     <color name="dividerColor">#969696</color>
+    <color name="hard">#D80027</color>
+    <color name="medium">#FFDA44</color>
+    <color name="easy">#91DC5A</color>
 </resources>

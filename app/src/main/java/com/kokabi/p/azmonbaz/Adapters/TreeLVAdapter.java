@@ -1,7 +1,6 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,12 +56,7 @@ public class TreeLVAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        CategoryObj childItem = childList.get(position);
-
-        if (childItem.getBackColor().length() > 0) {
-            holder.mainContent.setBackgroundColor(Color.parseColor(childItem.getBackColor()));
-        }
-        holder.treeTitle_tv.setText(childItem.getCatName());
+        holder.treeTitle_tv.setText(childList.get(position).getCatName());
 
         return convertView;
     }

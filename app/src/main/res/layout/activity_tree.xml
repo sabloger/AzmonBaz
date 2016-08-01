@@ -20,13 +20,6 @@
             android:layout_gravity="fill_horizontal"
             android:background="@color/primaryColor">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:minHeight="?attr/actionBarSize"
-                android:paddingTop="0dp" />
-
             <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
                 android:id="@+id/title_tv"
                 android:layout_width="wrap_content"
@@ -67,6 +60,7 @@
             android:layout_height="match_parent"
             android:divider="@color/darkPrimaryColor"
             android:dividerHeight="1dp"
+            android:listSelector="@android:color/transparent"
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
             android:scrollbars="none" />

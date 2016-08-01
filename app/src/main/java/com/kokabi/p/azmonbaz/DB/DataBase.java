@@ -34,11 +34,12 @@ public class DataBase extends SQLiteOpenHelper {
     static final String KEY_incorrect = "incorrect";
     static final String KEY_unAnswered = "unAnswered";
     static final String KEY_updateTime = "updateTime";
+    static final String KEY_answerList = "answerList";
     static final String createHistory = "CREATE TABLE " +
             tableHistory + "(" + KEY_idHistory + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_idTestHistory + " INTEGER," + KEY_testName + " TEXT," + KEY_testTime + " TEXT,"
             + KEY_percentage + " TEXT," + KEY_answered + " INTEGER," + KEY_incorrect + " INTEGER," + KEY_unAnswered + " INTEGER,"
-            + KEY_updateTime + " TEXT );";
+            + KEY_updateTime + " TEXT," + KEY_answerList + " TEXT  );";
     /*Favored Question Table Info*/
     static final String tableFavoredQuestion = "favoredQuestion";
     static final String KEY_idFavoredQuestion = "idFavoredQuestion";
@@ -116,6 +117,7 @@ public class DataBase extends SQLiteOpenHelper {
         historyValue.put(KEY_incorrect, historyObj.getIncorrectQuestion());
         historyValue.put(KEY_unAnswered, historyObj.getUnAnsweredQuestion());
         historyValue.put(KEY_updateTime, historyObj.getUpdateTime());
+        historyValue.put(KEY_answerList, historyObj.getAnswerList());
         return db.insert(tableHistory, null, historyValue);
     }
 
@@ -153,16 +155,6 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     /*Update Methods*/
-    public long favoriteTestUpdate(TestsTitleObj testsTitleObj) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues favoriteTestValue = new ContentValues();
-
-        favoriteTestValue.put(KEY_idTest, testsTitleObj.getIdTest());
-
-        String whereClause = KEY_idTest + " = " + testsTitleObj.getIdTest();
-        return db.update(tableFavoriteTests, favoriteTestValue, whereClause, null);
-    }
-
     public long questionStateUpdate(int id, int state) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues questionStateValue = new ContentValues();
@@ -245,6 +237,21 @@ public class DataBase extends SQLiteOpenHelper {
         }
         cursor.close();
         return historyArrayList;
+    }
+
+    public String selectTestHistory(int id) {
+        String answerList = "";
+        String query = "SELECT * FROM " + tableHistory +
+                " WHERE " + KEY_idTestHistory + " = "
+                + id;
+        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                answerList = cursor.getString(9);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return answerList;
     }
 
     public ArrayList<TestObj> selectAllFavoredQuestion() {

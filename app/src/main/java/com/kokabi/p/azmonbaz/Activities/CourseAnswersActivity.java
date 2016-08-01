@@ -4,17 +4,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
@@ -25,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -34,16 +38,19 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class CourseAnswersActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context context;
+    DataBase db;
 
     CoordinatorLayout mainContent;
-    TextView title_tv, correctAnswer_tv, userAnswer_tv;
-    AppCompatImageButton close_imgbtn;
+    TextView title_tv, answerState_tv, questionLevel_tv;
+    AppCompatImageButton close_imgbtn, questionAnswer_imgbtn;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
-    ImageView answer_imgv;
+    AppCompatImageView answer_imgv, answerState_imgv, questionLevel_imgv;
 
     /*Activity Values*/
     PhotoViewAttacher answerZoomable;
     TestDefinitionObj pageTest;
+    HashMap<Integer, Integer> answerList = new HashMap<>();
+    boolean isAnswer = true;
     int idTest = 0, answer = 0, totalQuestion = 9;
 
     @Override
@@ -54,6 +61,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         context = this;
         AppController.setActivityContext(CourseAnswersActivity.this, this);
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
+        db = new DataBase(context);
 
         findViews();
 
@@ -66,15 +74,26 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             if (pageMaker().get(i).getIdTest() == idTest) {
                 pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
                         , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage());
+                break;
             }
+        }
+
+        try {
+            JSONObject json = new JSONObject(db.selectTestHistory(idTest));
+            JSONArray names = json.names();
+            for (int i = 0; i < names.length(); i++) {
+                int key = names.getInt(i);
+                answerList.put(key, json.getInt(String.valueOf(key)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         totalQuestion = pageTest.getQuestionNo() - 1;
         hideShowBackForward(answer + 1);
 
-        showAnswers(0);
         answerZoomable = new PhotoViewAttacher(answer_imgv);
-        title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
+        updatePage();
     }
 
     @Override
@@ -82,6 +101,19 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         switch (view.getId()) {
             case R.id.close_imgbtn:
                 finish();
+                break;
+            case R.id.questionAnswer_imgbtn:
+                if (!isAnswer) {
+                    isAnswer = true;
+                    questionAnswer_imgbtn.setImageResource(R.drawable.ic_question);
+                    showAnswers(answer);
+                    answerZoomable.update();
+                } else {
+                    isAnswer = false;
+                    questionAnswer_imgbtn.setImageResource(R.drawable.ic_answer);
+                    showAnswers(answer);
+                    answerZoomable.update();
+                }
                 break;
             case R.id.nextQuestion_ly:
                 if (answer < totalQuestion) {
@@ -104,15 +136,18 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
     private void findViews() {
         title_tv = (TextView) findViewById(R.id.title_tv);
-        correctAnswer_tv = (TextView) findViewById(R.id.correctAnswer_tv);
-        userAnswer_tv = (TextView) findViewById(R.id.userAnswer_tv);
+        answerState_tv = (TextView) findViewById(R.id.answerState_tv);
+        questionLevel_tv = (TextView) findViewById(R.id.questionLevel_tv);
 
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
+        questionAnswer_imgbtn = (AppCompatImageButton) findViewById(R.id.questionAnswer_imgbtn);
 
         nextQuestion_ly = (LinearLayout) findViewById(R.id.nextQuestion_ly);
         previousQuestion_ly = (LinearLayout) findViewById(R.id.previousQuestion_ly);
 
-        answer_imgv = (ImageView) findViewById(R.id.answer_imgv);
+        answer_imgv = (AppCompatImageView) findViewById(R.id.answer_imgv);
+        answerState_imgv = (AppCompatImageView) findViewById(R.id.answerState_imgv);
+        questionLevel_imgv = (AppCompatImageView) findViewById(R.id.questionLevel_imgv);
 
         setOnClick();
     }
@@ -121,35 +156,76 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         close_imgbtn.setOnClickListener(this);
         nextQuestion_ly.setOnClickListener(this);
         previousQuestion_ly.setOnClickListener(this);
+        questionAnswer_imgbtn.setOnClickListener(this);
     }
 
     private void updatePage() {
         title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
         showAnswers(answer);
         answerZoomable.update();
+        questionLevel(answer);
+        questionState(answer);
         hideShowBackForward(answer + 1);
+        Constants.freeMemory();
     }
 
     private void showAnswers(int position) {
-        new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(position).getAnswerImage(), answer_imgv);
-/*        File root = android.os.Environment.getExternalStorageDirectory();
-        File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.testDefinitionsFolder
-                + Constants.testFolder + Constants.questionsFolder + "/" + pageTest.getQuestionImages().get(position));
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
-            question_imgv.setImageDrawable(drawable);
-        }*/
+        if (isAnswer) {
+            new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(position).getAnswerImage(), answer_imgv);
+        } else {
+            new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage(), answer_imgv);
+        }
+    }
+
+    private void questionLevel(int position) {
+        Log.i("============", pageTest.getQuestionInfo().get(position).getLevel() + "");
+        Log.i("+++++++", position + "");
+        switch (pageTest.getQuestionInfo().get(position).getLevel()) {
+            case 0:
+                questionLevel_tv.setText("سطح این سوال سخت می باشد");
+                questionLevel_tv.setTextColor(ContextCompat.getColor(context, R.color.hard));
+                questionLevel_imgv.setImageResource(R.drawable.ic_hard);
+                break;
+            case 1:
+                questionLevel_tv.setText("سطح این سوال متوسط می باشد");
+                questionLevel_tv.setTextColor(ContextCompat.getColor(context, R.color.medium));
+                questionLevel_imgv.setImageResource(R.drawable.ic_medium);
+                break;
+            case 2:
+                questionLevel_tv.setText("سطح این سوال آسان می باشد");
+                questionLevel_tv.setTextColor(ContextCompat.getColor(context, R.color.easy));
+                questionLevel_imgv.setImageResource(R.drawable.ic_easy);
+                break;
+        }
+    }
+
+    private void questionState(int position) {
+        if (pageTest.getQuestionInfo().get(position).getKey() == answerList.get(position + 1)) {
+            answerState_tv.setText("شما به این سوال پاسخ صحیح داده اید");
+            answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.easy));
+            answerState_imgv.setImageResource(R.drawable.ic_correct_answer);
+            answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.easy));
+        } else if (answerList.get(position + 1) == 0) {
+            answerState_tv.setText("شما به این سوال پاسخ نداده اید");
+            answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
+            answerState_imgv.setImageResource(R.drawable.ic_unanswered);
+            answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
+        } else {
+            answerState_tv.setText("شما به این سوال پاسخ اشتباه داده اید");
+            answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.hard));
+            answerState_imgv.setImageResource(R.drawable.ic_incorrect_answer);
+            answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.hard));
+        }
     }
 
     private void hideShowBackForward(int question) {
         if (question == 1) {
-            previousQuestion_ly.setVisibility(View.GONE);
+            previousQuestion_ly.setVisibility(View.INVISIBLE);
         } else if (question > 1 && question < 10) {
             nextQuestion_ly.setVisibility(View.VISIBLE);
             previousQuestion_ly.setVisibility(View.VISIBLE);
         } else if (question == 10) {
-            nextQuestion_ly.setVisibility(View.GONE);
+            nextQuestion_ly.setVisibility(View.INVISIBLE);
         }
     }
 

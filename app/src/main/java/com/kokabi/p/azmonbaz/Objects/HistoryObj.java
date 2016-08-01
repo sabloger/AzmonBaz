@@ -8,10 +8,10 @@ import android.support.annotation.NonNull;
 public class HistoryObj implements Comparable<HistoryObj> {
 
     int idHistory, idTest, answeredQuestion, incorrectQuestion, unAnsweredQuestion;
-    String testName, testPercentage, testTime, updateTime;
+    String testName, testPercentage, testTime, updateTime, answerList;
 
     public HistoryObj(int idTest, String testName, String testTime, String testPercentage, int answeredQuestion,
-                      int incorrectQuestion, int unAnsweredQuestion, String updateTime) {
+                      int incorrectQuestion, int unAnsweredQuestion, String updateTime,String answerList) {
         this.idTest = idTest;
         this.testName = testName;
         this.testTime = testTime;
@@ -20,6 +20,7 @@ public class HistoryObj implements Comparable<HistoryObj> {
         this.incorrectQuestion = incorrectQuestion;
         this.unAnsweredQuestion = unAnsweredQuestion;
         this.updateTime = updateTime;
+        this.answerList = answerList;
     }
 
     public HistoryObj(int idHistory, int idTest, String testName, String testTime, String testPercentage, int answeredQuestion,
@@ -69,6 +70,10 @@ public class HistoryObj implements Comparable<HistoryObj> {
 
     public String getUpdateTime() {
         return updateTime;
+    }
+
+    public String getAnswerList() {
+        return answerList;
     }
 
     @Override

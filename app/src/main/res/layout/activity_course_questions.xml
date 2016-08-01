@@ -123,7 +123,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/question_imgv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -315,7 +315,7 @@
         android:visibility="gone"
         app:srcCompat="@drawable/ic_confirm" />
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/pauseLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

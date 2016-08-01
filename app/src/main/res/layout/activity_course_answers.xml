@@ -20,19 +20,26 @@
             android:layout_gravity="fill_horizontal"
             android:background="@color/primaryColor">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:minHeight="?attr/actionBarSize"
-                android:paddingTop="0dp" />
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/questionAnswer_ripple"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize">
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/questionAnswer_imgbtn"
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/transparent"
+                    app:srcCompat="@drawable/ic_question" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
                 android:id="@+id/title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/questionAnswer_ripple"
                 android:layout_toStartOf="@+id/close_ripple"
                 android:gravity="right|center_vertical"
                 android:paddingEnd="8dp"
@@ -62,99 +69,163 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/rootView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="2">
 
-            <ImageView
-                android:id="@+id/answer_imgv"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:padding="8dp"
-                android:scaleType="centerInside" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/primaryColor" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="16dp"
                 android:layout_weight="1">
 
-                <LinearLayout
-                    android:id="@+id/nextQuestion_ly"
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/answer_imgv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop" />
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/full_imgbtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:orientation="vertical">
+                    android:layout_gravity="right|bottom"
+                    android:background="@color/transparent"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_full_screen" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/primaryColor" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/nextQuestion_ly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/nextQuestion_imgv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/ic_next" />
+
+                        <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:text="@string/next"
+                            android:textColor="@color/darkGray" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/nextQuestion_ly"
+                        android:layout_toStartOf="@+id/previousQuestion_ly"
+                        android:gravity="center">
+
+                        <android.support.v7.widget.AppCompatImageButton
+                            android:id="@+id/addToFavoredQuestion_imgbtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/ic_bookmark_outline" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/previousQuestion_ly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/previousQuestion_imgv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/ic_previous" />
+
+                        <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:text="@string/previous"
+                            android:textColor="@color/darkGray" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/nextQuestion_imgv"
+                        android:id="@+id/answerState_imgv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/ic_next" />
+                        android:layout_marginEnd="8dp" />
 
-                    <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                        android:id="@+id/answerState_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/next" />
+                        android:textColor="@color/darkGray" />
 
                 </LinearLayout>
 
-                <android.support.v4.widget.Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/nextQuestion_ly"
-                    android:layout_toStartOf="@+id/previousQuestion_ly" />
-
                 <LinearLayout
-                    android:id="@+id/previousQuestion_ly"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="vertical">
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/previousQuestion_imgv"
+                        android:id="@+id/questionLevel_imgv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/ic_previous" />
+                        android:layout_marginEnd="8dp" />
 
-                    <com.kokabi.p.azmonbaz.Components.CTextViewSans
+                    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                        android:id="@+id/questionLevel_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="@string/previous" />
+                        android:textColor="@color/darkGray" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
-
-            <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                android:id="@+id/correctAnswer_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp" />
-
-            <com.kokabi.p.azmonbaz.Components.CTextViewSans
-                android:id="@+id/userAnswer_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp" />
+            </LinearLayout>
 
         </LinearLayout>
 

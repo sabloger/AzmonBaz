@@ -13,11 +13,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,7 +68,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     ProgressView progressBar;
     LinearLayout rootView, nextQuestion_ly, previousQuestion_ly;
     AppCompatImageButton addToFavoredQuestion_imgbtn, minus_imgbtn, cross_imgbtn;
-    ImageView question_imgv, pauseLayout;
+    AppCompatImageView question_imgv, pauseLayout;
     Button numberOfQuestions_btn, firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
     FloatingActionButton confirm_fab;
 
@@ -124,6 +124,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             if (pageMaker().get(i).getIdTest() == idTest) {
                 pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
                         , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage());
+                break;
             }
         }
 
@@ -366,8 +367,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         minus_imgbtn = (AppCompatImageButton) findViewById(R.id.minus_imgbtn);
         cross_imgbtn = (AppCompatImageButton) findViewById(R.id.cross_imgbtn);
 
-        question_imgv = (ImageView) findViewById(R.id.question_imgv);
-        pauseLayout = (ImageView) findViewById(R.id.pauseLayout);
+        question_imgv = (AppCompatImageView) findViewById(R.id.question_imgv);
+        pauseLayout = (AppCompatImageView) findViewById(R.id.pauseLayout);
 
         numberOfQuestions_btn = (Button) findViewById(R.id.numberOfQuestions_btn);
         firstChoice_btn = (Button) findViewById(R.id.firstChoice_btn);
@@ -645,7 +646,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
         db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(time - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
                 String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
-                inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000)));
+                inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000), saveAnswers()));
 
         pausePlay_imgbtn.setVisibility(View.GONE);
         isCanceled = true;
@@ -775,18 +776,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     private void saveTest() {
         addAnswer();
-        HashMap<Integer, Integer> finalArrayList = new HashMap<>();
-        finalArrayList.putAll(answerList);
-        if (answerList.size() != pageTest.getQuestionInfo().size()) {
-            for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
-                if (!Constants.containsKey(answerList, i + 1)) {
-                    finalArrayList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
-                }
-            }
-        }
-
-        String arrayList = new Gson().toJson(finalArrayList);
-        Log.i("======", arrayList);
+        String arrayList = saveAnswers();
         int hasNegativePointInt;
         if (hasNegativePoint) {
             hasNegativePointInt = 1;
@@ -806,6 +796,20 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         dialogSaveTest.dismiss();
         finish();
         isExit = true;
+    }
+
+    private String saveAnswers() {
+        HashMap<Integer, Integer> finalArrayList = new HashMap<>();
+        finalArrayList.putAll(answerList);
+        if (answerList.size() != pageTest.getQuestionInfo().size()) {
+            for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
+                if (!Constants.containsKey(answerList, i + 1)) {
+                    finalArrayList.put(pageTest.getQuestionInfo().get(i).getIdQuestion(), 0);
+                }
+            }
+        }
+
+        return new Gson().toJson(finalArrayList);
     }
 
     private void initMenu(AppCompatImageButton imgbtn) {
