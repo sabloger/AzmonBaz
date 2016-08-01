@@ -165,7 +165,9 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
         holder.answer_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, CourseAnswersActivity.class).putExtra("idTest", getIdTest()));
+                context.startActivity(new Intent(context, CourseAnswersActivity.class)
+                        .putExtra("idTest", getIdTest())
+                        .putExtra("testName", historyObj.getTestName()));
             }
         });
     }

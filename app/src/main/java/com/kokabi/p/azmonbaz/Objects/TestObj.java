@@ -5,7 +5,7 @@ package com.kokabi.p.azmonbaz.Objects;
  */
 public class TestObj {
 
-    int id, k, state, level;
+    int id, k, state, l;
     String q, a, testName;
 
     public TestObj() {
@@ -27,10 +27,6 @@ public class TestObj {
         return k;
     }
 
-    public int getState() {
-        return state;
-    }
-
     public String getQuestionImage() {
         return q;
     }
@@ -44,7 +40,7 @@ public class TestObj {
     }
 
     public int getLevel() {
-        return level;
+        return l;
     }
 
     @Override
@@ -53,7 +49,7 @@ public class TestObj {
                 "id=" + id +
                 ", k=" + k +
                 ", state=" + state +
-                ", level=" + level +
+                ", l=" + l +
                 ", q='" + q + '\'' +
                 ", a='" + a + '\'' +
                 ", testName='" + testName + '\'' +

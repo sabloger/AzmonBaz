@@ -631,7 +631,9 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 dialogResults.dismiss();
                 finish();
                 isExit = true;
-                startActivity(new Intent(context, CourseAnswersActivity.class).putExtra("idTest", idTest));
+                startActivity(new Intent(context, CourseAnswersActivity.class)
+                        .putExtra("idTest", idTest)
+                        .putExtra("testName", testName));
             }
         });
 

@@ -21,6 +21,7 @@ import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
+import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.R;
 
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
     CoordinatorLayout mainContent;
     TextView title_tv, answerState_tv, questionLevel_tv;
-    AppCompatImageButton close_imgbtn, questionAnswer_imgbtn;
+    AppCompatImageButton close_imgbtn, questionAnswer_imgbtn, addToFavoredQuestion_imgbtn;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
     AppCompatImageView answer_imgv, answerState_imgv, questionLevel_imgv;
 
@@ -52,6 +53,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     HashMap<Integer, Integer> answerList = new HashMap<>();
     boolean isAnswer = true;
     int idTest = 0, answer = 0, totalQuestion = 9;
+    String testName = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idTest = bundle.getInt("idTest", 0);
+            testName = bundle.getString("testName", "");
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -131,6 +134,18 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
                     title_tv.setText(String.valueOf("پاسخ سوال " + (answer + 1)));
                 }
                 break;
+            case R.id.addToFavoredQuestion_imgbtn:
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(answer).getIdQuestion())) {
+                    addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
+                    db.favoredQuestionDelete(pageTest.getQuestionInfo().get(answer).getIdQuestion());
+                } else {
+                    db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(answer).getIdQuestion(),
+                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(answer).getQuestionImage()),
+                            String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(answer).getAnswerImage()),
+                            pageTest.getQuestionInfo().get(answer).getKey()));
+                    addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
+                }
+                break;
         }
     }
 
@@ -141,6 +156,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
         questionAnswer_imgbtn = (AppCompatImageButton) findViewById(R.id.questionAnswer_imgbtn);
+        addToFavoredQuestion_imgbtn = (AppCompatImageButton) findViewById(R.id.addToFavoredQuestion_imgbtn);
 
         nextQuestion_ly = (LinearLayout) findViewById(R.id.nextQuestion_ly);
         previousQuestion_ly = (LinearLayout) findViewById(R.id.previousQuestion_ly);
@@ -157,6 +173,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         nextQuestion_ly.setOnClickListener(this);
         previousQuestion_ly.setOnClickListener(this);
         questionAnswer_imgbtn.setOnClickListener(this);
+        addToFavoredQuestion_imgbtn.setOnClickListener(this);
     }
 
     private void updatePage() {
@@ -165,6 +182,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         answerZoomable.update();
         questionLevel(answer);
         questionState(answer);
+        showQuestions(answer);
         hideShowBackForward(answer + 1);
         Constants.freeMemory();
     }
@@ -178,8 +196,6 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     }
 
     private void questionLevel(int position) {
-        Log.i("============", pageTest.getQuestionInfo().get(position).getLevel() + "");
-        Log.i("+++++++", position + "");
         switch (pageTest.getQuestionInfo().get(position).getLevel()) {
             case 0:
                 questionLevel_tv.setText("سطح این سوال سخت می باشد");
@@ -215,6 +231,14 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.hard));
             answerState_imgv.setImageResource(R.drawable.ic_incorrect_answer);
             answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.hard));
+        }
+    }
+
+    private void showQuestions(int position) {
+        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion())) {
+            addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
+        } else {
+            addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
         }
     }
 
