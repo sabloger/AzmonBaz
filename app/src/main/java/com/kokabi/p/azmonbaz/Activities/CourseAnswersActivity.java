@@ -135,7 +135,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
                 }
                 break;
             case R.id.addToFavoredQuestion_imgbtn:
-                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(answer).getIdQuestion())) {
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(answer).getIdQuestion(), testName)) {
                     addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
                     db.favoredQuestionDelete(pageTest.getQuestionInfo().get(answer).getIdQuestion());
                 } else {
@@ -235,7 +235,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     }
 
     private void showQuestions(int position) {
-        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion())) {
+        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName)) {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
         } else {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);

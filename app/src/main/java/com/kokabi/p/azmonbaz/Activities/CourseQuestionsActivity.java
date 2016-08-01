@@ -306,7 +306,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 addAnswer();
                 break;
             case R.id.addToFavoredQuestion_imgbtn:
-                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName)) {
                     addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
                     db.favoredQuestionDelete(pageTest.getQuestionInfo().get(question).getIdQuestion());
                 } else {
@@ -457,7 +457,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         questionZoomable.update();
         hideShowBackForward(question + 1);
         if (Constants.containsKey(answerList, question + 1)) {
-            Log.i("++++++++", answerList.get(question + 1).toString());
             switch (answerList.get(question + 1)) {
                 case 1:
                     whichAnswer = 1;
@@ -487,7 +486,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void showQuestions(int position) {
-        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion())) {
+        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName)) {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
         } else {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
@@ -498,13 +497,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     private void addAnswer() {
         if (answerList.size() > 0) {
-/*            if (answerList.size() < (question + 1)) {
-                answerList.put(question,whichAnswer);
-                isAnswered = true;
-            } else {
-                isAnswered = true;
-                answerList.put(question, whichAnswer);
-            }*/
             answerList.put(question + 1, whichAnswer);
             isAnswered = true;
         } else {
@@ -516,7 +508,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
     private void compareAnswers() {
         Set<Integer> values = answerList.keySet();
-        Log.i("==============", values.toString());
         for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
             if (Constants.containsKey(answerList, pageTest.getQuestionInfo().get(i).getIdQuestion())) {
                 if (pageTest.getQuestionInfo().get(i).getKey() == answerList.get(pageTest.getQuestionInfo().get(i).getIdQuestion())) {

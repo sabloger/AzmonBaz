@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class Constants {
 
     static SharedPreferences pref;
+    public static String TAG = "AzmonBaz";
 
     /*Setting Parameters*/
     public static boolean isShortcutCreated = false;

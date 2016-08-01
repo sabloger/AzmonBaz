@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
@@ -82,6 +84,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createFavoriteTests);
         db.execSQL(createHistory);
         db.execSQL(createFavoredQuestion);
+        Log.i("===================", createFavoredQuestion);
         db.execSQL(createQuestionState);
         db.execSQL(createSavedTest);
     }
@@ -209,63 +212,80 @@ public class DataBase extends SQLiteOpenHelper {
 
     /*Select Methods*/
     public ArrayList<Integer> selectAllFavorites() {
-        String query = "SELECT * FROM " + tableFavoriteTests +
-                " ORDER BY " + KEY_idFavoriteTest;
+        String query = "SELECT * FROM " + tableFavoriteTests
+                + " ORDER BY " + KEY_idFavoriteTest;
 
         ArrayList<Integer> testsArrayList = new ArrayList<>();
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                testsArrayList.add(cursor.getInt(1));
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    testsArrayList.add(cursor.getInt(1));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return testsArrayList;
     }
 
     public ArrayList<HistoryObj> selectAllHistory() {
-        String query = "SELECT * FROM " + tableHistory +
-                " ORDER BY " + KEY_idHistory;
+        String query = "SELECT * FROM " + tableHistory
+                + " ORDER BY " + KEY_idHistory;
 
         ArrayList<HistoryObj> historyArrayList = new ArrayList<>();
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                historyArrayList.add(new HistoryObj(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3)
-                        , cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8)));
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    historyArrayList.add(new HistoryObj(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3)
+                            , cursor.getString(4), cursor.getInt(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return historyArrayList;
     }
 
     public String selectTestHistory(int id) {
         String answerList = "";
-        String query = "SELECT * FROM " + tableHistory +
-                " WHERE " + KEY_idTestHistory + " = "
-                + id;
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                answerList = cursor.getString(9);
-            } while (cursor.moveToNext());
+        String query = "SELECT * FROM " + tableHistory
+                + " WHERE " + KEY_idTestHistory + " = " + id;
+
+        try {
+            Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    answerList = cursor.getString(9);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return answerList;
     }
 
     public ArrayList<TestObj> selectAllFavoredQuestion() {
-        String query = "SELECT * FROM " + tableFavoredQuestion +
-                " ORDER BY " + KEY_idQuestion;
+        String query = "SELECT * FROM " + tableFavoredQuestion
+                + " ORDER BY " + KEY_idQuestion;
 
         ArrayList<TestObj> testObjArrayList = new ArrayList<>();
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                testObjArrayList.add(new TestObj(cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    testObjArrayList.add(new TestObj(cursor.getString(1)
+                            , cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return testObjArrayList;
     }
 
@@ -274,13 +294,18 @@ public class DataBase extends SQLiteOpenHelper {
                 + " WHERE " + KEY_idQuestion + " = " + id;
 
         TestObj testObj = new TestObj();
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                testObj = new TestObj(cursor.getString(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5));
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    testObj = new TestObj(cursor.getString(1), cursor.getInt(2)
+                            , cursor.getString(3), cursor.getString(4), cursor.getInt(5));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return testObj;
     }
 
@@ -290,12 +315,16 @@ public class DataBase extends SQLiteOpenHelper {
                 + " WHERE " + KEY_question + " = " + id;
 
         Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                state = cursor.getInt(2);
-            } while (cursor.moveToNext());
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    state = cursor.getInt(2);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return state;
     }
 
@@ -305,67 +334,83 @@ public class DataBase extends SQLiteOpenHelper {
                 + " WHERE " + KEY_idSavedTest + " = " + id;
 
         Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                savedTest = cursor.getString(3);
-            } while (cursor.moveToNext());
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    savedTest = cursor.getString(3);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return savedTest;
     }
 
     public ArrayList<TestsTitleObj> selectAllSavedTest() {
-        String query = "SELECT * FROM " + tableSavedTest +
-                " ORDER BY " + KEY_id;
+        String query = "SELECT * FROM " + tableSavedTest
+                + " ORDER BY " + KEY_id;
 
         ArrayList<TestsTitleObj> testsTitleObjArrayList = new ArrayList<>();
-        Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                boolean hasNegative = cursor.getInt(4) == 1;
-                testsTitleObjArrayList.add(new TestsTitleObj(cursor.getInt(1), cursor.getString(5), hasNegative, cursor.getInt(2)));
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    boolean hasNegative = cursor.getInt(4) == 1;
+                    testsTitleObjArrayList.add(new TestsTitleObj(cursor.getInt(1), cursor.getString(5), hasNegative, cursor.getInt(2)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return testsTitleObjArrayList;
     }
 
     public boolean isTestFavored(int id) {
         boolean isFavored = false;
         String query = "SELECT * FROM " + tableFavoriteTests +
-                " WHERE " + KEY_idTest + " = "
-                + id;
+                " WHERE " + KEY_idTest + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                TestsTitleObj testsTitleObj = new TestsTitleObj();
-                testsTitleObj.setIdTest(cursor.getInt(1));
-                if (testsTitleObj.getIdTest() != 0) {
-                    isFavored = true;
-                }
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    TestsTitleObj testsTitleObj = new TestsTitleObj();
+                    testsTitleObj.setIdTest(cursor.getInt(1));
+                    if (testsTitleObj.getIdTest() != 0) {
+                        isFavored = true;
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return isFavored;
     }
 
-    public boolean isQuestionFavored(int id) {
+    public boolean isQuestionFavored(int id, String testName) {
         boolean isFavored = false;
-        String query = "SELECT * FROM " + tableFavoredQuestion +
-                " WHERE " + KEY_idQuestion + " = " + id;
+        String query = "SELECT * FROM " + tableFavoredQuestion
+                + " WHERE (" + KEY_idQuestion + " = " + id + " AND "
+                + KEY_favoredTestName + " = " + testName + ")";
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (cursor.getInt(2) != 0) {
-                    isFavored = true;
-                }
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    if (cursor.getInt(2) != 0) {
+                        isFavored = true;
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return isFavored;
     }
 
@@ -375,15 +420,19 @@ public class DataBase extends SQLiteOpenHelper {
                 " WHERE " + KEY_question + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (id == cursor.getInt(1)) {
-                    isCreated = true;
-                }
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    if (id == cursor.getInt(1)) {
+                        isCreated = true;
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return isCreated;
     }
 
@@ -393,15 +442,19 @@ public class DataBase extends SQLiteOpenHelper {
                 " WHERE " + KEY_idSavedTest + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (id == cursor.getInt(1)) {
-                    isCreated = true;
-                }
-            } while (cursor.moveToNext());
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    if (id == cursor.getInt(1)) {
+                        isCreated = true;
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
         }
-        cursor.close();
         return isCreated;
     }
 }
