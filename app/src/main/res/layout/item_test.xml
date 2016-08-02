@@ -155,7 +155,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
                     android:contentDescription="@string/startTest"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     android:tint="@color/darkGray"
                     app:srcCompat="@drawable/ic_play" />
 
@@ -181,7 +181,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
                     android:contentDescription="@string/addToFavoritesMenu"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     app:srcCompat="@drawable/ic_bookmark_outline" />
 
             </com.balysv.materialripple.MaterialRippleLayout>

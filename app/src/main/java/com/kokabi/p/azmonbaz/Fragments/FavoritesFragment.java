@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
+import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;

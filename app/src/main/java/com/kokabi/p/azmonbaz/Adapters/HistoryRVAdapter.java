@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseAnswersActivity;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
+import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.DateConverter;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.R;

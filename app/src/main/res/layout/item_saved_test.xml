@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
                     android:contentDescription="@string/resumeTest"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     android:tint="@color/darkGray"
                     app:srcCompat="@drawable/dr_saved_test" />
 
@@ -150,7 +150,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
                     android:contentDescription="@string/deletSavedtest"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     app:srcCompat="@drawable/ic_delete" />
 
             </com.balysv.materialripple.MaterialRippleLayout>

@@ -1,4 +1,4 @@
-package com.kokabi.p.azmonbaz.EventBussObj;
+package com.kokabi.p.azmonbaz.EventBuss;
 
 /**
  * Created by Payam on 10/3/15.
@@ -13,9 +13,5 @@ public class GeneralMSB {
 
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

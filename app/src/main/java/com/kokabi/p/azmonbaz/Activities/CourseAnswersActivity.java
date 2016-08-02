@@ -1,6 +1,7 @@
 package com.kokabi.p.azmonbaz.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -43,7 +44,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
     CoordinatorLayout mainContent;
     TextView title_tv, answerState_tv, questionLevel_tv;
-    AppCompatImageButton close_imgbtn, questionAnswer_imgbtn, addToFavoredQuestion_imgbtn;
+    AppCompatImageButton close_imgbtn, questionAnswer_imgbtn, addToFavoredQuestion_imgbtn, full_imgbtn;
     LinearLayout nextQuestion_ly, previousQuestion_ly;
     AppCompatImageView answer_imgv, answerState_imgv, questionLevel_imgv;
 
@@ -118,6 +119,19 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
                     answerZoomable.update();
                 }
                 break;
+            case R.id.full_imgbtn:
+                if (!isAnswer) {
+                    startActivity(new Intent(context, FullPageImageActivity.class)
+                            .putExtra("srcImage", "TestDefinitions/" + pageTest.getIdTest() + "/q/"
+                                    + pageTest.getQuestionInfo().get(answer).getQuestionImage())
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                } else {
+                    startActivity(new Intent(context, FullPageImageActivity.class)
+                            .putExtra("srcImage", "TestDefinitions/" + pageTest.getIdTest() + "/a/"
+                                    + pageTest.getQuestionInfo().get(answer).getAnswerImage())
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                }
+                break;
             case R.id.nextQuestion_ly:
                 if (answer < totalQuestion) {
                     answer++;
@@ -157,6 +171,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
         questionAnswer_imgbtn = (AppCompatImageButton) findViewById(R.id.questionAnswer_imgbtn);
         addToFavoredQuestion_imgbtn = (AppCompatImageButton) findViewById(R.id.addToFavoredQuestion_imgbtn);
+        full_imgbtn = (AppCompatImageButton) findViewById(R.id.full_imgbtn);
 
         nextQuestion_ly = (LinearLayout) findViewById(R.id.nextQuestion_ly);
         previousQuestion_ly = (LinearLayout) findViewById(R.id.previousQuestion_ly);
@@ -174,6 +189,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         previousQuestion_ly.setOnClickListener(this);
         questionAnswer_imgbtn.setOnClickListener(this);
         addToFavoredQuestion_imgbtn.setOnClickListener(this);
+        full_imgbtn.setOnClickListener(this);
     }
 
     private void updatePage() {

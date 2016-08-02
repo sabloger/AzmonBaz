@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.EventBussObj.GeneralMSB;
+import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.Collections;
