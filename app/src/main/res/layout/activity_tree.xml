@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/primaryColor">
+            android:background="@color/primaryColor"
+            android:elevation="4dp">
 
             <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
                 android:id="@+id/title_tv"

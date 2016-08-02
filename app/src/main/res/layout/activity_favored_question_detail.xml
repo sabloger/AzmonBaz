@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/primaryColor">
+            android:background="@color/primaryColor"
+            android:elevation="4dp">
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/questionAnswer_ripple"
@@ -68,12 +69,12 @@
 
         </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/questionAnswer_imgv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/questionAnswer_imgv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:scaleType="centerCrop" />
 
     </LinearLayout>
 
