@@ -32,6 +32,7 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
     int idQuestion;
     boolean isAnswer = false;
     TestObj testObj = new TestObj();
+    String testName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +48,10 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idQuestion = bundle.getInt("idQuestion", 0);
+            testName = bundle.getString("testName", "");
         }
 
-        testObj = db.selectFavoredQuestion(idQuestion);
+        testObj = db.selectFavoredQuestion(idQuestion, testName);
 
         new ImageLoad(testObj.getQuestionImage(), questionAnswer_imgv);
 

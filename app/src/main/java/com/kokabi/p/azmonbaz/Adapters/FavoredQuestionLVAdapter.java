@@ -80,7 +80,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
 
         final TestObj testItem = favoredList.get(position);
 
-        holder.treeTitle_tv.setText(testItem.getTestName());
+        holder.treeTitle_tv.setText(String.valueOf(testItem.getTestName() + " سوال " + testItem.getIdQuestion()));
 
         holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,8 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(context, FavoredQuestionDetailActivity.class)
-                        .putExtra("idQuestion", testItem.getIdQuestion()));
+                        .putExtra("idQuestion", testItem.getIdQuestion())
+                        .putExtra("testName", testItem.getTestName()));
             }
         });
 

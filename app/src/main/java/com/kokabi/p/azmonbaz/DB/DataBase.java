@@ -58,10 +58,11 @@ public class DataBase extends SQLiteOpenHelper {
     static final String tableQuestionState = "questionState";
     static final String KEY_idQuestionState = "idQuestionState";
     static final String KEY_question = "question";
+    static final String KEY_name = "questionName";
     static final String KEY_state = "state";
     static final String createQuestionState = "CREATE TABLE " +
             tableQuestionState + "(" + KEY_idQuestionState + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_question + " INTEGER," + KEY_state + " INTEGER );";
+            + KEY_question + " INTEGER," + KEY_name + " TEXT," + KEY_state + " INTEGER );";
     /*Saved Test Table Info*/
     static final String tableSavedTest = "savedTest";
     static final String KEY_id = "idRow";
@@ -84,7 +85,6 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createFavoriteTests);
         db.execSQL(createHistory);
         db.execSQL(createFavoredQuestion);
-        Log.i("===================", createFavoredQuestion);
         db.execSQL(createQuestionState);
         db.execSQL(createSavedTest);
     }
@@ -136,11 +136,12 @@ public class DataBase extends SQLiteOpenHelper {
         return db.insert(tableFavoredQuestion, null, favoredValue);
     }
 
-    public long questionStateInsert(int id, int state) {
+    public long questionStateInsert(int id, String name, int state) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues questionStateValue = new ContentValues();
 
         questionStateValue.put(KEY_question, id);
+        questionStateValue.put(KEY_name, name);
         questionStateValue.put(KEY_state, state);
         return db.insert(tableQuestionState, null, questionStateValue);
     }
@@ -289,9 +290,10 @@ public class DataBase extends SQLiteOpenHelper {
         return testObjArrayList;
     }
 
-    public TestObj selectFavoredQuestion(int id) {
+    public TestObj selectFavoredQuestion(int id, String testName) {
         String query = "SELECT * FROM " + tableFavoredQuestion
-                + " WHERE " + KEY_idQuestion + " = " + id;
+                + " WHERE " + KEY_favoredTestName + " = '" + testName + "' AND "
+                + KEY_idQuestion + " = " + id;
 
         TestObj testObj = new TestObj();
         try {
@@ -309,16 +311,17 @@ public class DataBase extends SQLiteOpenHelper {
         return testObj;
     }
 
-    public int selectQuestionState(int id) {
+    public int selectQuestionState(int id, String testName) {
         int state = 3;
         String query = "SELECT * FROM " + tableQuestionState
-                + " WHERE " + KEY_question + " = " + id;
+                + " WHERE " + KEY_name + " = '" + testName + "' AND "
+                + KEY_question + " = " + id;
 
         Cursor cursor = this.getReadableDatabase().rawQuery(query, null);
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    state = cursor.getInt(2);
+                    state = cursor.getInt(3);
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -394,8 +397,8 @@ public class DataBase extends SQLiteOpenHelper {
     public boolean isQuestionFavored(int id, String testName) {
         boolean isFavored = false;
         String query = "SELECT * FROM " + tableFavoredQuestion
-                + " WHERE (" + KEY_idQuestion + " = " + id + " AND "
-                + KEY_favoredTestName + " = " + testName + ")";
+                + " WHERE " + KEY_favoredTestName + " = '" + testName + "' AND "
+                + KEY_idQuestion + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         try {
@@ -414,10 +417,11 @@ public class DataBase extends SQLiteOpenHelper {
         return isFavored;
     }
 
-    public boolean isQuestionStateCreated(int id) {
+    public boolean isQuestionStateCreated(int id, String testName) {
         boolean isCreated = false;
         String query = "SELECT * FROM " + tableQuestionState +
-                " WHERE " + KEY_question + " = " + id;
+                " WHERE " + KEY_name + " = '" + testName + "' AND "
+                + KEY_question + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         try {

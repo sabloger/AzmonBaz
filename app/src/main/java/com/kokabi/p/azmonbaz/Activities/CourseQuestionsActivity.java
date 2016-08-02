@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -46,7 +47,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -67,6 +67,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn, full_imgbtn;
     ProgressView progressBar;
     LinearLayout rootView, nextQuestion_ly, previousQuestion_ly;
+    RelativeLayout numberOfQuestions_rly;
     AppCompatImageButton addToFavoredQuestion_imgbtn, minus_imgbtn, cross_imgbtn;
     AppCompatImageView question_imgv, pauseLayout;
     Button numberOfQuestions_btn, firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
@@ -230,8 +231,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             case R.id.more_imgbtn:
                 initMenu(more_imgbtn);
                 break;
-            case R.id.numberOfQuestions_btn:
-                initNavigationMenu(numberOfQuestions_btn);
+            case R.id.numberOfQuestions_rly:
+                initNavigationMenu(numberOfQuestions_rly);
                 break;
             case R.id.pausePlay_imgbtn:
                 if (isPaused) {
@@ -363,6 +364,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         nextQuestion_ly = (LinearLayout) findViewById(R.id.nextQuestion_ly);
         previousQuestion_ly = (LinearLayout) findViewById(R.id.previousQuestion_ly);
 
+        numberOfQuestions_rly = (RelativeLayout) findViewById(R.id.numberOfQuestions_rly);
+
         addToFavoredQuestion_imgbtn = (AppCompatImageButton) findViewById(R.id.addToFavoredQuestion_imgbtn);
         minus_imgbtn = (AppCompatImageButton) findViewById(R.id.minus_imgbtn);
         cross_imgbtn = (AppCompatImageButton) findViewById(R.id.cross_imgbtn);
@@ -382,7 +385,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void setOnClick() {
-        numberOfQuestions_btn.setOnClickListener(this);
+        numberOfQuestions_rly.setOnClickListener(this);
         more_imgbtn.setOnClickListener(this);
         close_imgbtn.setOnClickListener(this);
         pausePlay_imgbtn.setOnClickListener(this);
@@ -491,7 +494,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         } else {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
         }
-        showQuestionState(db.selectQuestionState(pageTest.getQuestionInfo().get(position).getIdQuestion()));
+        showQuestionState(db.selectQuestionState(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName));
         new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage(), question_imgv);
     }
 
@@ -507,7 +510,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void compareAnswers() {
-        Set<Integer> values = answerList.keySet();
         for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
             if (Constants.containsKey(answerList, pageTest.getQuestionInfo().get(i).getIdQuestion())) {
                 if (pageTest.getQuestionInfo().get(i).getKey() == answerList.get(pageTest.getQuestionInfo().get(i).getIdQuestion())) {
@@ -537,10 +539,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         } else if (!isAnswered && !isMinus) {
             questionState = 5;
         }
-        if (db.isQuestionStateCreated(pageTest.getQuestionInfo().get(question).getIdQuestion())) {
+        if (db.isQuestionStateCreated(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName)) {
             db.questionStateUpdate(pageTest.getQuestionInfo().get(question).getIdQuestion(), questionState);
         } else {
-            db.questionStateInsert(pageTest.getQuestionInfo().get(question).getIdQuestion(), questionState);
+            db.questionStateInsert(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName, questionState);
         }
     }
 
@@ -814,8 +816,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         droppyMenu.show();
     }
 
-    private void initNavigationMenu(Button btn) {
-        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, btn);
+    private void initNavigationMenu(RelativeLayout rly) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, rly);
         // Add normal items (text only)
         for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
             droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1))));
@@ -826,9 +828,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             public void call(View v, int id) {
                 question = id;
                 updatePage();
-                hideShowBackForward(question + 1);
-                numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
-                questionZoomable.update();
                 if (question == totalQuestion) {
                     confirm_fab.setVisibility(View.VISIBLE);
                 } else {
@@ -837,7 +836,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             }
         });
 
-        DroppyMenuPopup droppyMenu = droppyBuilder.build();
-        droppyMenu.show();
+        droppyBuilder.build().show();
     }
 }
