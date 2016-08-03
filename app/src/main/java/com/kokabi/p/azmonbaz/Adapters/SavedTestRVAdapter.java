@@ -57,7 +57,7 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
             resumeTest_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.resumeTest_imgbtn);
             deleteSaved_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.deleteSaved_imgbtn);
 
-            db = new DataBase(context);
+            db = new DataBase();
             
             /*Creating DialogDeleteItem===========================================================*/
             dialogDeleteItem = new Dialog(context);

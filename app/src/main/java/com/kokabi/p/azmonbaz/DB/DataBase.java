@@ -1,12 +1,12 @@
 package com.kokabi.p.azmonbaz.DB;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
@@ -77,8 +77,8 @@ public class DataBase extends SQLiteOpenHelper {
             + KEY_idSavedTest + " INTEGER," + KEY_time + " INTEGER," + KEY_answers + " TEXT,"
             + KEY_hasNegativePoint + " INTEGER," + KEY_savedTestName + " TEXT," + KEY_isDone + " INTEGER );";
 
-    public DataBase(Context context) {
-        super(context, name, null, version);
+    public DataBase() {
+        super(AppController.getCurrentContext(), name, null, version);
     }
 
     @Override

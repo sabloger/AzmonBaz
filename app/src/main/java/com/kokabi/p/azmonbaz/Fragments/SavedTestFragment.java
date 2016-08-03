@@ -42,7 +42,7 @@ public class SavedTestFragment extends Fragment {
 
         context = container.getContext();
         EventBus.getDefault().register(this);
-        db = new DataBase(context);
+        db = new DataBase();
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 
         findViews(v);

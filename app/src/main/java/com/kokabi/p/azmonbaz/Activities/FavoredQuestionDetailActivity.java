@@ -42,7 +42,7 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
 
         context = this;
         AppController.setActivityContext(FavoredQuestionDetailActivity.this, context);
-        db = new DataBase(context);
+        db = new DataBase();
 
         findViews();
 

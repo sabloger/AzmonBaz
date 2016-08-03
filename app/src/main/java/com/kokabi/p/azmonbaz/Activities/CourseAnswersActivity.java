@@ -64,7 +64,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         context = this;
         AppController.setActivityContext(CourseAnswersActivity.this, this);
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
-        db = new DataBase(context);
+        db = new DataBase();
 
         findViews();
 

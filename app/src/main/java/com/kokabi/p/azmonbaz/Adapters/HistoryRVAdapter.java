@@ -81,7 +81,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             dialogDeleteItem.setContentView(R.layout.dialog_delete_confirmation);
             /*====================================================================================*/
 
-            db = new DataBase(context);
+            db = new DataBase();
         }
     }
 

@@ -54,7 +54,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             startTest_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.startTest_imgbtn);
             addToFavorite_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.addToFavorite_imgbtn);
 
-            db = new DataBase(context);
+            db = new DataBase();
         }
     }
 

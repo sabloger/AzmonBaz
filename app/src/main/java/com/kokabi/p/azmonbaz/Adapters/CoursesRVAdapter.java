@@ -93,14 +93,6 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
         } catch (IOException e) {
             Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
         }
-/*        File root = android.os.Environment.getExternalStorageDirectory();
-        File imgFile = new File(root.getAbsolutePath() + Constants.appFolder + Constants.catFolder +
-                Constants.iconFolder + courses.get(position).getBackImage());
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            Drawable drawable = new BitmapDrawable(context.getResources(), myBitmap);
-            holder.course_fr.setBackground(drawable);
-        }*/
         holder.courseTitle_tv.setText(courses.get(position).getCatName());
         holder.courseTitle_tv.setTextColor(Color.parseColor(courses.get(position).getTextColor()));
         /*set Image Resources*/

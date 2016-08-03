@@ -69,7 +69,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
             dialogDeleteItem.setContentView(R.layout.dialog_delete_confirmation);
             /*====================================================================================*/
 
-            db = new DataBase(context);
+            db = new DataBase();
 
             convertView.setTag(holder);
         } else {

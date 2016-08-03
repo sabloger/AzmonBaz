@@ -95,7 +95,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         setContentView(R.layout.activity_course_questions);
 
         context = this;
-        db = new DataBase(context);
+        db = new DataBase();
         AppController.setActivityContext(CourseQuestionsActivity.this, this);
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
 

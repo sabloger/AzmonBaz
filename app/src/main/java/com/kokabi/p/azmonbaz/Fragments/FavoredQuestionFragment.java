@@ -37,7 +37,7 @@ public class FavoredQuestionFragment extends Fragment {
 
         context = container.getContext();
         EventBus.getDefault().register(this);
-        db = new DataBase(context);
+        db = new DataBase();
 
         findViews(v);
 
