@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.R;
@@ -58,18 +59,10 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
         questionAnswerZoomable = new PhotoViewAttacher(questionAnswer_imgv);
     }
 
-    private void findViews() {
-        questionAnswer_imgv = (ImageView) findViewById(R.id.questionAnswer_imgv);
-
-        close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
-        questionAnswer_imgbtn = (AppCompatImageButton) findViewById(R.id.questionAnswer_imgbtn);
-
-        setOnClick();
-    }
-
-    private void setOnClick() {
-        close_imgbtn.setOnClickListener(this);
-        questionAnswer_imgbtn.setOnClickListener(this);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Constants.freeMemory();
     }
 
     @Override
@@ -93,4 +86,19 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
                 break;
         }
     }
+
+    private void findViews() {
+        questionAnswer_imgv = (ImageView) findViewById(R.id.questionAnswer_imgv);
+
+        close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
+        questionAnswer_imgbtn = (AppCompatImageButton) findViewById(R.id.questionAnswer_imgbtn);
+
+        setOnClick();
+    }
+
+    private void setOnClick() {
+        close_imgbtn.setOnClickListener(this);
+        questionAnswer_imgbtn.setOnClickListener(this);
+    }
+
 }

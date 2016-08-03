@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.Collections;
@@ -51,15 +52,14 @@ public class SavedTestFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         savedTestRV.setHasFixedSize(true);
 
-        if (db.selectAllSavedTest().size() > 0) {
-            Collections.sort(db.selectAllSavedTest());
-            historyRVAdapter = new SavedTestRVAdapter(db.selectAllSavedTest());
-            savedTestRV.setAdapter(historyRVAdapter);
-        } else {
-            savedTestRV.setVisibility(View.GONE);
-            noItem_ly.setVisibility(View.VISIBLE);
-        }
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 
     @Override
@@ -67,6 +67,12 @@ public class SavedTestFragment extends Fragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         historyRVAdapter.clearSavedTest();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Constants.freeMemory();
     }
 
     private void findViews(View v) {
@@ -81,6 +87,17 @@ public class SavedTestFragment extends Fragment {
                 savedTestRV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
+        }
+    }
+
+    private void loadData() {
+        if (db.selectAllSavedTest().size() > 0) {
+            Collections.sort(db.selectAllSavedTest());
+            historyRVAdapter = new SavedTestRVAdapter(db.selectAllSavedTest());
+            savedTestRV.setAdapter(historyRVAdapter);
+        } else {
+            savedTestRV.setVisibility(View.GONE);
+            noItem_ly.setVisibility(View.VISIBLE);
         }
     }
 

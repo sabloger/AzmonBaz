@@ -191,6 +191,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     protected void onDestroy() {
         super.onDestroy();
         countDownTimer.cancel();
+        Constants.freeMemory();
     }
 
     @Override
@@ -645,6 +646,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
         pausePlay_imgbtn.setVisibility(View.GONE);
         isCanceled = true;
+        updateSavedTest();
 
         dialogResults.show();
     }
@@ -781,7 +783,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         if (db.isSavedTestCreated(pageTest.getIdTest())) {
             db.savedTestUpdate(pageTest.getIdTest()
                     , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
-                    , arrayList, hasNegativePointInt, testName);
+                    , arrayList, hasNegativePointInt, testName, 0);
         } else {
             db.savedTestInsert(pageTest.getIdTest()
                     , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
@@ -791,6 +793,22 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         dialogSaveTest.dismiss();
         finish();
         isExit = true;
+    }
+
+    private void updateSavedTest() {
+        if (isResumeTest) {
+            addAnswer();
+            String arrayList = saveAnswers();
+            int hasNegativePointInt;
+            if (hasNegativePoint) {
+                hasNegativePointInt = 1;
+            } else {
+                hasNegativePointInt = 0;
+            }
+            db.savedTestUpdate(pageTest.getIdTest()
+                    , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
+                    , arrayList, hasNegativePointInt, testName, 1);
+        }
     }
 
     private String saveAnswers() {

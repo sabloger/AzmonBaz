@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.R;
 
@@ -47,6 +48,21 @@ public class FullPageImageActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Constants.freeMemory();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.exit_full_imgbtn:
+                finish();
+                break;
+        }
+    }
+
     private void findViews() {
         question_imgv = (ImageView) findViewById(R.id.question_imgv);
 
@@ -59,12 +75,4 @@ public class FullPageImageActivity extends AppCompatActivity implements View.OnC
         exit_full_imgbtn.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.exit_full_imgbtn:
-                finish();
-                break;
-        }
-    }
 }

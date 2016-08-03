@@ -71,10 +71,11 @@ public class DataBase extends SQLiteOpenHelper {
     static final String KEY_answers = "answers";
     static final String KEY_hasNegativePoint = "hasNegativePoint";
     static final String KEY_savedTestName = "savedTestName";
+    static final String KEY_isDone = "isDone";
     static final String createSavedTest = "CREATE TABLE " +
             tableSavedTest + "(" + KEY_id + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_idSavedTest + " INTEGER," + KEY_time + " INTEGER," + KEY_answers + " TEXT,"
-            + KEY_hasNegativePoint + " INTEGER," + KEY_savedTestName + " TEXT );";
+            + KEY_hasNegativePoint + " INTEGER," + KEY_savedTestName + " TEXT," + KEY_isDone + " INTEGER );";
 
     public DataBase(Context context) {
         super(context, name, null, version);
@@ -155,6 +156,7 @@ public class DataBase extends SQLiteOpenHelper {
         savedTestValue.put(KEY_answers, answers);
         savedTestValue.put(KEY_hasNegativePoint, hasNegativePoint);
         savedTestValue.put(KEY_savedTestName, name);
+        savedTestValue.put(KEY_isDone, 0);
         return db.insert(tableSavedTest, null, savedTestValue);
     }
 
@@ -169,7 +171,7 @@ public class DataBase extends SQLiteOpenHelper {
         return db.update(tableQuestionState, questionStateValue, whereClause, null);
     }
 
-    public long savedTestUpdate(int id, int time, String answers, int hasNegativePoint, String name) {
+    public long savedTestUpdate(int id, int time, String answers, int hasNegativePoint, String name, int isDone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues savedTestValue = new ContentValues();
 
@@ -177,6 +179,7 @@ public class DataBase extends SQLiteOpenHelper {
         savedTestValue.put(KEY_answers, answers);
         savedTestValue.put(KEY_hasNegativePoint, hasNegativePoint);
         savedTestValue.put(KEY_savedTestName, name);
+        savedTestValue.put(KEY_isDone, isDone);
 
         String whereClause = KEY_idSavedTest + " = " + id;
         return db.update(tableSavedTest, savedTestValue, whereClause, null);
@@ -352,7 +355,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public ArrayList<TestsTitleObj> selectAllSavedTest() {
         String query = "SELECT * FROM " + tableSavedTest
-                + " ORDER BY " + KEY_id;
+                + " WHERE " + KEY_isDone + " = 0 ORDER BY " + KEY_id;
 
         ArrayList<TestsTitleObj> testsTitleObjArrayList = new ArrayList<>();
         try {
