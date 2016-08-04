@@ -239,17 +239,17 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
 
     private void questionState(int position) {
         if (pageTest.getQuestionInfo().get(position).getKey() == answerList.get(position + 1)) {
-            answerState_tv.setText(String.valueOf("شما به این سوال پاسخ صحیح داده اید ( گزینه" + "\n" + answerList.get(position + 1) + " )"));
+            answerState_tv.setText(String.valueOf("به این سوال پاسخ صحیح داده اید (گزینه" + answerList.get(position + 1) + ")"));
             answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.easy));
             answerState_imgv.setImageResource(R.drawable.ic_correct_answer);
             answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.easy));
         } else if (answerList.get(position + 1) == 0) {
-            answerState_tv.setText("شما به این سوال پاسخ نداده اید");
+            answerState_tv.setText("به این سوال پاسخ نداده اید");
             answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.darkGray));
             answerState_imgv.setImageResource(R.drawable.ic_unanswered);
             answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.darkGray));
         } else {
-            answerState_tv.setText(String.valueOf("شما به این سوال پاسخ اشتباه داده اید ( گزینه" + "\n" + answerList.get(position + 1) + " )"));
+            answerState_tv.setText(String.valueOf("به این سوال پاسخ اشتباه داده اید (گزینه" + answerList.get(position + 1) + ")"));
             answerState_tv.setTextColor(ContextCompat.getColor(context, R.color.hard));
             answerState_imgv.setImageResource(R.drawable.ic_incorrect_answer);
             answerState_imgv.setColorFilter(ContextCompat.getColor(context, R.color.hard));
