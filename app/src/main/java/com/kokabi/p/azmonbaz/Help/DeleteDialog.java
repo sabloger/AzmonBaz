@@ -1,6 +1,7 @@
 package com.kokabi.p.azmonbaz.Help;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,8 +19,8 @@ public abstract class DeleteDialog extends Dialog implements View.OnClickListene
 
     private CButton confirm_btn, cancel_btn;
 
-    public DeleteDialog() {
-        super(AppController.getCurrentActivity());
+    public DeleteDialog(Context context) {
+        super(context);
     }
 
     @Override

@@ -89,7 +89,7 @@ public class SavedTestFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DeleteDialog() {
+                new DeleteDialog(context) {
                     @Override
                     public void onConfirm() {
                         db.savedTestDelete(event.getId());

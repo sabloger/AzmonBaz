@@ -83,7 +83,7 @@ public class HistoryFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DeleteDialog() {
+                new DeleteDialog(context) {
                     @Override
                     public void onConfirm() {
                         db.historyDelete(event.getId());
