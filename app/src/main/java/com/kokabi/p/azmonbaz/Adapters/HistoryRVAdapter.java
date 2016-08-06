@@ -1,6 +1,5 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatImageButton;
@@ -9,12 +8,9 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseAnswersActivity;
-import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.DateConverter;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
@@ -32,8 +28,6 @@ import de.greenrobot.event.EventBus;
 public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.ViewHolder> {
 
     Context context;
-    Dialog dialogDeleteItem;
-    DataBase db;
     ArrayList<HistoryObj> historyList = new ArrayList<>();
     String decimal = "%d : %02d";
     int idTest;
@@ -74,14 +68,6 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             delete_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.delete_imgbtn);
             answer_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.answer_imgbtn);
 
-            /*Creating DialogDeleteItem===========================================================*/
-            dialogDeleteItem = new Dialog(context);
-            dialogDeleteItem.setCancelable(false);
-            dialogDeleteItem.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialogDeleteItem.setContentView(R.layout.dialog_delete_confirmation);
-            /*====================================================================================*/
-
-            db = new DataBase();
         }
     }
 
@@ -149,17 +135,22 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
     }
 
     /*Update Method*/
-    public void updateHistory() {
+    public void updateHistory(int position) {
+        historyList.remove(position);
+        notifyItemRemoved(position);
         notifyDataSetChanged();
+        if (historyList.size() == 0) {
+            EventBus.getDefault().post(new GeneralMSB("isEmpty"));
+        }
     }
 
     /*Click Listener Method*/
-    private void onClick(final ViewHolder holder, int p) {
+    private void onClick(final ViewHolder holder, final int p) {
         final HistoryObj historyObj = historyList.get(p);
         holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogDeleteItem(historyObj, holder.getAdapterPosition());
+                EventBus.getDefault().post(new GeneralMSB("isDelete", historyObj, p));
             }
         });
         holder.answer_imgbtn.setOnClickListener(new View.OnClickListener() {
@@ -170,34 +161,5 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
                         .putExtra("testName", historyObj.getTestName()));
             }
         });
-    }
-
-    /*DeleteDialog Method*/
-    private void showDialogDeleteItem(final HistoryObj historyObj, final int position) {
-        Button confirm_btn = (Button) dialogDeleteItem.findViewById(R.id.confirm_btn);
-        Button cancel_btn = (Button) dialogDeleteItem.findViewById(R.id.cancel_btn);
-
-        confirm_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.historyDelete(historyObj.getIdHistory());
-                historyList.remove(position);
-                notifyItemRemoved(position);
-                notifyDataSetChanged();
-                if (historyList.size() == 0) {
-                    EventBus.getDefault().post(new GeneralMSB("isEmpty"));
-                }
-                dialogDeleteItem.dismiss();
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogDeleteItem.dismiss();
-            }
-        });
-
-        dialogDeleteItem.show();
     }
 }

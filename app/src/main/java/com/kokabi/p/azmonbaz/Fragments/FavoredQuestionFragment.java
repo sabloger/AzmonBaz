@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.kokabi.p.azmonbaz.Adapters.FavoredQuestionLVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
+import com.kokabi.p.azmonbaz.Help.DeleteDialog;
 import com.kokabi.p.azmonbaz.R;
 
 import de.greenrobot.event.EventBus;
@@ -69,11 +70,20 @@ public class FavoredQuestionFragment extends Fragment {
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
 
-    public void onEvent(GeneralMSB event) {
+    public void onEvent(final GeneralMSB event) {
         switch (event.getMessage()) {
             case "isEmpty":
                 favoredQuestionLV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
+                break;
+            case "isDelete":
+                new DeleteDialog() {
+                    @Override
+                    public void onConfirm() {
+                        db.favoredQuestionDelete(event.getTestItem().getIdQuestion());
+                        favoredAdapter.updateList(event.getPosition());
+                    }
+                }.show();
                 break;
         }
     }

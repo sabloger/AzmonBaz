@@ -1,19 +1,15 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.FavoredQuestionDetailActivity;
-import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.R;
@@ -25,8 +21,6 @@ import de.greenrobot.event.EventBus;
 public class FavoredQuestionLVAdapter extends BaseAdapter {
 
     Context context;
-    Dialog dialogDeleteItem;
-    DataBase db;
     ArrayList<TestObj> favoredList = new ArrayList<>();
     ViewHolder holder;
 
@@ -62,15 +56,6 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
 
             holder.delete_imgbtn = (AppCompatImageButton) convertView.findViewById(R.id.delete_imgbtn);
 
-            /*Creating DialogDeleteItem===========================================================*/
-            dialogDeleteItem = new Dialog(context);
-            dialogDeleteItem.setCancelable(false);
-            dialogDeleteItem.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialogDeleteItem.setContentView(R.layout.dialog_delete_confirmation);
-            /*====================================================================================*/
-
-            db = new DataBase();
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -85,7 +70,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
         holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogDeleteItem(testItem, position);
+                EventBus.getDefault().post(new GeneralMSB("isDelete", testItem, position));
             }
         });
 
@@ -106,32 +91,12 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    /*DeleteDialog Method*/
-    private void showDialogDeleteItem(final TestObj testItem, final int position) {
-        Button confirm_btn = (Button) dialogDeleteItem.findViewById(R.id.confirm_btn);
-        Button cancel_btn = (Button) dialogDeleteItem.findViewById(R.id.cancel_btn);
-
-        confirm_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.favoredQuestionDelete(testItem.getIdQuestion());
-                favoredList.remove(position);
-                notifyDataSetChanged();
-                if (favoredList.size() == 0) {
-                    EventBus.getDefault().post(new GeneralMSB("isEmpty"));
-                }
-                dialogDeleteItem.dismiss();
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogDeleteItem.dismiss();
-            }
-        });
-
-        dialogDeleteItem.show();
+    public void updateList(int position) {
+        favoredList.remove(position);
+        notifyDataSetChanged();
+        if (favoredList.size() == 0) {
+            EventBus.getDefault().post(new GeneralMSB("isEmpty"));
+        }
     }
 
     private class ViewHolder {

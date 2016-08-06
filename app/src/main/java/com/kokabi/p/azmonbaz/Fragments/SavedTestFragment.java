@@ -16,6 +16,7 @@ import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.DeleteDialog;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.Collections;
@@ -81,11 +82,20 @@ public class SavedTestFragment extends Fragment {
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
 
-    public void onEvent(GeneralMSB event) {
+    public void onEvent(final GeneralMSB event) {
         switch (event.getMessage()) {
             case "isEmpty":
                 savedTestRV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
+                break;
+            case "isDelete":
+                new DeleteDialog() {
+                    @Override
+                    public void onConfirm() {
+                        db.savedTestDelete(event.getTestsTitleObj().getIdTest());
+                        historyRVAdapter.updateSavedTest(event.getPosition());
+                    }
+                }.show();
                 break;
         }
     }

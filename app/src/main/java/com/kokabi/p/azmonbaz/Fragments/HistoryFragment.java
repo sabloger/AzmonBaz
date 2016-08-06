@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.kokabi.p.azmonbaz.Adapters.HistoryRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
+import com.kokabi.p.azmonbaz.Help.DeleteDialog;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.Collections;
@@ -75,11 +76,20 @@ public class HistoryFragment extends Fragment {
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
 
-    public void onEvent(GeneralMSB event) {
+    public void onEvent(final GeneralMSB event) {
         switch (event.getMessage()) {
             case "isEmpty":
                 historyRV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
+                break;
+            case "isDelete":
+                new DeleteDialog() {
+                    @Override
+                    public void onConfirm() {
+                        db.historyDelete(event.getHistoryObj().getIdHistory());
+                        historyRVAdapter.updateHistory(event.getPosition());
+                    }
+                }.show();
                 break;
         }
     }

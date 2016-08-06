@@ -1,6 +1,5 @@
 package com.kokabi.p.azmonbaz.Adapters;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatImageButton;
@@ -8,12 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
-import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
@@ -29,8 +25,6 @@ import de.greenrobot.event.EventBus;
 public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.ViewHolder> {
 
     Context context;
-    Dialog dialogDeleteItem;
-    DataBase db;
     ArrayList<TestsTitleObj> savedList = new ArrayList<>();
     String decimal = "%02d : %02d";
 
@@ -56,15 +50,6 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
 
             resumeTest_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.resumeTest_imgbtn);
             deleteSaved_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.deleteSaved_imgbtn);
-
-            db = new DataBase();
-            
-            /*Creating DialogDeleteItem===========================================================*/
-            dialogDeleteItem = new Dialog(context);
-            dialogDeleteItem.setCancelable(false);
-            dialogDeleteItem.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialogDeleteItem.setContentView(R.layout.dialog_delete_confirmation);
-            /*====================================================================================*/
         }
     }
 
@@ -111,36 +96,12 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
     }
 
     /*Update Method*/
-    public void updateTest() {
+    public void updateSavedTest(int position) {
+        savedList.remove(position);
         notifyDataSetChanged();
-    }
-
-    /*DeleteDialog Method*/
-    private void showDialogDeleteItem(final int id, final int position) {
-        Button confirm_btn = (Button) dialogDeleteItem.findViewById(R.id.confirm_btn);
-        Button cancel_btn = (Button) dialogDeleteItem.findViewById(R.id.cancel_btn);
-
-        confirm_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.savedTestDelete(id);
-                savedList.remove(position);
-                notifyDataSetChanged();
-                if (savedList.size() == 0) {
-                    EventBus.getDefault().post(new GeneralMSB("isEmpty"));
-                }
-                dialogDeleteItem.dismiss();
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogDeleteItem.dismiss();
-            }
-        });
-
-        dialogDeleteItem.show();
+        if (savedList.size() == 0) {
+            EventBus.getDefault().post(new GeneralMSB("isEmpty"));
+        }
     }
 
     /*Click Listener Methods*/
@@ -149,7 +110,7 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
         holder.deleteSaved_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogDeleteItem(testsTitleObj.getIdTest(), position);
+                EventBus.getDefault().post(new GeneralMSB("isDelete",testsTitleObj,position));
             }
         });
 

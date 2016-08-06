@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <com.kokabi.p.azmonbaz.Components.CTextViewSans
+    <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
         android:id="@+id/title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:paddingTop="0dp"
         android:text="@string/titleDelete"
-        android:textColor="@color/mediumGray"
+        android:textColor="@color/darkGray"
         android:textSize="14sp" />
 
     <com.balysv.materialripple.MaterialRippleLayout
