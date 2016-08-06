@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
                 lvNav.setItemChecked(0, true);
                 selectedNavItem = 0;
+                lastSelectedItem = 0;
                 changeNavSelectedColor(selectedNavItem);
             } else {
                 if (doubleBackToExitPressedOnce) {
