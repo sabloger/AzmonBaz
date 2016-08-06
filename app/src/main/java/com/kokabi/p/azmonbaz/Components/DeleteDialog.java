@@ -1,4 +1,4 @@
-package com.kokabi.p.azmonbaz.Help;
+package com.kokabi.p.azmonbaz.Components;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
-import com.kokabi.p.azmonbaz.Components.CButton;
 import com.kokabi.p.azmonbaz.R;
 
 
@@ -28,7 +27,7 @@ public abstract class DeleteDialog extends Dialog implements View.OnClickListene
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_delete_confirmation);
-        setCancelable(false);
+        setCancelable(true);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         findViews();

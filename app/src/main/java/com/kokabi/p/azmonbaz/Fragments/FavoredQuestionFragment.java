@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.kokabi.p.azmonbaz.Adapters.FavoredQuestionLVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
-import com.kokabi.p.azmonbaz.Help.DeleteDialog;
+import com.kokabi.p.azmonbaz.Components.DeleteDialog;
 import com.kokabi.p.azmonbaz.R;
 
 import de.greenrobot.event.EventBus;
