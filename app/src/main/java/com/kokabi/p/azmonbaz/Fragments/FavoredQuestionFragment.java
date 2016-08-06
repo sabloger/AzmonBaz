@@ -80,8 +80,8 @@ public class FavoredQuestionFragment extends Fragment {
                 new DeleteDialog() {
                     @Override
                     public void onConfirm() {
-                        db.favoredQuestionDelete(event.getTestItem().getIdQuestion());
-                        favoredAdapter.updateList(event.getPosition());
+                        db.favoredQuestionDelete(event.getId());
+                        favoredAdapter.updateList(favoredAdapter.getPosition(event.getId()));
                     }
                 }.show();
                 break;

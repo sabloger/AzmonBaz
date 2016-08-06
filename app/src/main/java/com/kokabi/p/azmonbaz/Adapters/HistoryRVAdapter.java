@@ -144,13 +144,20 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
         }
     }
 
+    public int getPosition(int id) {
+        for (int position = 0; position < historyList.size(); position++)
+            if (historyList.get(position).getIdHistory() == id)
+                return position;
+        return 0;
+    }
+
     /*Click Listener Method*/
     private void onClick(final ViewHolder holder, final int p) {
         final HistoryObj historyObj = historyList.get(p);
         holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new GeneralMSB("isDelete", historyObj, p));
+                EventBus.getDefault().post(new GeneralMSB("isDelete", historyObj.getIdHistory()));
             }
         });
         holder.answer_imgbtn.setOnClickListener(new View.OnClickListener() {

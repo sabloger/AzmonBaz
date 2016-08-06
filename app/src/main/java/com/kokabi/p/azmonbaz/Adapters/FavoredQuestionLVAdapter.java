@@ -70,7 +70,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
         holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new GeneralMSB("isDelete", testItem, position));
+                EventBus.getDefault().post(new GeneralMSB("isDelete", testItem.getIdQuestion()));
             }
         });
 
@@ -97,6 +97,13 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
         if (favoredList.size() == 0) {
             EventBus.getDefault().post(new GeneralMSB("isEmpty"));
         }
+    }
+
+    public int getPosition(int id) {
+        for (int position = 0; position < favoredList.size(); position++)
+            if (favoredList.get(position).getIdQuestion() == id)
+                return position;
+        return 0;
     }
 
     private class ViewHolder {

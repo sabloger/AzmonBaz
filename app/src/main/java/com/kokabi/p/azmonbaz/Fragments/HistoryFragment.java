@@ -86,8 +86,8 @@ public class HistoryFragment extends Fragment {
                 new DeleteDialog() {
                     @Override
                     public void onConfirm() {
-                        db.historyDelete(event.getHistoryObj().getIdHistory());
-                        historyRVAdapter.updateHistory(event.getPosition());
+                        db.historyDelete(event.getId());
+                        historyRVAdapter.updateHistory(historyRVAdapter.getPosition(event.getId()));
                     }
                 }.show();
                 break;

@@ -104,13 +104,20 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
         }
     }
 
+    public int getPosition(int id) {
+        for (int position = 0; position < savedList.size(); position++)
+            if (savedList.get(position).getIdTest() == id)
+                return position;
+        return 0;
+    }
+
     /*Click Listener Methods*/
     private void onClick(final ViewHolder holder, final int position) {
         final TestsTitleObj testsTitleObj = savedList.get(position);
         holder.deleteSaved_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new GeneralMSB("isDelete",testsTitleObj,position));
+                EventBus.getDefault().post(new GeneralMSB("isDelete", testsTitleObj.getIdTest()));
             }
         });
 

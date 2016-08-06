@@ -92,8 +92,8 @@ public class SavedTestFragment extends Fragment {
                 new DeleteDialog() {
                     @Override
                     public void onConfirm() {
-                        db.savedTestDelete(event.getTestsTitleObj().getIdTest());
-                        historyRVAdapter.updateSavedTest(event.getPosition());
+                        db.savedTestDelete(event.getId());
+                        historyRVAdapter.updateSavedTest(historyRVAdapter.getPosition(event.getId()));
                     }
                 }.show();
                 break;
