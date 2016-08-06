@@ -33,7 +33,6 @@ public abstract class DeleteDialog extends Dialog implements View.OnClickListene
         findViews();
     }
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
