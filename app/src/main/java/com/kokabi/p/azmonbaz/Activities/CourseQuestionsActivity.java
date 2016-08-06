@@ -756,6 +756,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             thirdChoice_btn.setClickable(false);
             fourthChoice_btn.setClickable(false);
             full_imgbtn.setClickable(false);
+            questionZoomable.setZoomable(false);
         } else {
             pauseLayout.setVisibility(View.GONE);
             nextQuestion_ly.setClickable(true);
@@ -767,6 +768,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             secondChoice_btn.setClickable(true);
             thirdChoice_btn.setClickable(true);
             fourthChoice_btn.setClickable(true);
+            questionZoomable.setZoomable(true);
         }
         Constants.freeMemory();
     }

@@ -38,7 +38,7 @@
             android:background="@color/transparent"
             android:padding="8dp"
             android:text="@string/cancel"
-            android:textColor="@color/darkGray"
+            android:textColor="@color/primaryColor"
             android:textSize="14sp" />
 
     </com.balysv.materialripple.MaterialRippleLayout>
@@ -59,7 +59,7 @@
             android:background="@color/transparent"
             android:padding="8dp"
             android:text="@string/confirm"
-            android:textColor="@color/darkGray"
+            android:textColor="@color/primaryColor"
             android:textSize="14sp" />
 
     </com.balysv.materialripple.MaterialRippleLayout>

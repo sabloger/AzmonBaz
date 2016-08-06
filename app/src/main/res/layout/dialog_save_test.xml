@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:paddingTop="0dp"
         android:text="@string/saveTestTitle"
-        android:textColor="@color/mediumGray"
+        android:textColor="@color/darkGray"
         android:textSize="14sp" />
 
     <com.balysv.materialripple.MaterialRippleLayout
@@ -38,7 +38,7 @@
             android:background="@color/transparent"
             android:padding="8dp"
             android:text="@string/cancel"
-            android:textColor="@color/darkGray"
+            android:textColor="@color/primaryColor"
             android:textSize="14sp" />
 
     </com.balysv.materialripple.MaterialRippleLayout>
@@ -60,7 +60,7 @@
             android:background="@color/transparent"
             android:padding="8dp"
             android:text="@string/exitTest"
-            android:textColor="@color/darkGray"
+            android:textColor="@color/primaryColor"
             android:textSize="14sp" />
 
     </com.balysv.materialripple.MaterialRippleLayout>
@@ -81,7 +81,7 @@
             android:background="@color/transparent"
             android:padding="8dp"
             android:text="@string/saveTest"
-            android:textColor="@color/darkGray"
+            android:textColor="@color/primaryColor"
             android:textSize="14sp" />
 
     </com.balysv.materialripple.MaterialRippleLayout>
