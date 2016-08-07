@@ -12,8 +12,8 @@ import android.view.View;
  * Created by P.Kokabi on 7/21/16.
  */
 public class BlurBuilder {
-    private static final float BITMAP_SCALE = 0.4f;
-    private static final float BLUR_RADIUS = 20.0f;
+    private static final float BITMAP_SCALE = 0.5f;
+    private static final float BLUR_RADIUS = 15.0f;
 
     public static Bitmap blur(Bitmap image) {
         int width = Math.round(image.getWidth() * BITMAP_SCALE);
