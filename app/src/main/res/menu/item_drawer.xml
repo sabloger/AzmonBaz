@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_feature"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/dr_test"
+            android:checked="true"
+            android:icon="@drawable/dr_test"
+            android:title="@string/dr_test" />
+        <item
+            android:id="@+id/dr_favorite"
+            android:icon="@drawable/dr_favorite"
+            android:title="@string/dr_favorite" />
+        <item
+            android:id="@+id/dr_favored_question"
+            android:icon="@drawable/dr_favored_question"
+            android:title="@string/dr_favored_question" />
+        <item
+            android:id="@+id/dr_history"
+            android:icon="@drawable/dr_history"
+            android:title="@string/dr_history" />
+        <item
+            android:id="@+id/dr_saved_test"
+            android:icon="@drawable/dr_saved_test"
+            android:title="@string/dr_saved_test" />
+    </group>
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/dr_about"
+            android:icon="@drawable/dr_about"
+            android:title="@string/dr_about" />
+        <item
+            android:id="@+id/dr_share"
+            android:icon="@drawable/dr_share"
+            android:title="@string/dr_share" />
+    </group>
+</menu>

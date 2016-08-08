@@ -2,12 +2,13 @@ package com.kokabi.p.azmonbaz.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -15,15 +16,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.kokabi.p.azmonbaz.Adapters.MainActivityNavLVAdapter;
 import com.kokabi.p.azmonbaz.Fragments.AboutFragment;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Fragments.FavoredQuestionFragment;
@@ -33,7 +32,8 @@ import com.kokabi.p.azmonbaz.Fragments.SavedTestFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
-import com.kokabi.p.azmonbaz.Objects.MainActivityNavObj;
+import com.kokabi.p.azmonbaz.Help.CustomTypefaceSpan;
+import com.kokabi.p.azmonbaz.Help.FontChange;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
@@ -43,24 +43,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Context context;
     ActionBar actionbar;
     boolean doubleBackToExitPressedOnce = false;
-    ActionBarDrawerToggle actionBarDrawerToggle;
     public static CustomSnackBar snackBar;
 
     CoordinatorLayout mainContent;
     DrawerLayout drawerLayout;
-    RelativeLayout drawerPane;
+    NavigationView navDrawer;
+    ActionBarDrawerToggle drawerToggle;
     Toolbar toolBar;
     AppCompatImageButton menu_imgbtn;
     public static TextView title_tv;
-    ListView lvNav;
 
     /*Activity Values*/
-    public static FragmentManager fragmentManager;
-    int selectedNavItem = 0;
-    int lastSelectedItem = 0;
-    boolean isNavItemSelected = false;
-    MainActivityNavLVAdapter mainActivityNavLVAdapter;
-    ArrayList<MainActivityNavObj> listMainActivityNavObj;
     ArrayList<Fragment> listFragments = new ArrayList<>();
 
     @Override
@@ -73,19 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
 
         findViews();
-        navListCreation();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        changeNavSelectedColor(lastSelectedItem);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        drawerLayout.closeDrawer(GravityCompat.END);
+        setupDrawer();
+        setupDrawerContent(navDrawer);
+        setMenuFont();
     }
 
     @Override
@@ -95,29 +78,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            drawerLayout.closeDrawer(GravityCompat.END);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            if (selectedNavItem != 0) {
-                drawerLayout.closeDrawer(drawerPane);
+            if (!navDrawer.getMenu().findItem(R.id.dr_test).isChecked()) {
+                drawerLayout.closeDrawer(GravityCompat.START);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
-                lvNav.setItemChecked(0, true);
-                selectedNavItem = 0;
-                lastSelectedItem = 0;
-                changeNavSelectedColor(selectedNavItem);
+                // Highlight the selected item has been done by NavigationView
+                navDrawer.getMenu().findItem(R.id.dr_test).setChecked(true);
+                // Set action bar title
+                title_tv.setText(navDrawer.getMenu().findItem(R.id.dr_test).getTitle());
+                // Close the navigation drawer
             } else {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed();
@@ -141,12 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.menu_imgbtn:
-                if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                    drawerLayout.closeDrawer(GravityCompat.END);
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.END);
-                    Constants.hideKeyboard();
-                }
+                drawerLayout.openDrawer(GravityCompat.START);
                 break;
         }
     }
@@ -156,9 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
-        drawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
-
-        lvNav = (ListView) findViewById(R.id.navList);
+        navDrawer = (NavigationView) findViewById(R.id.navDrawer);
 
         menu_imgbtn = (AppCompatImageButton) findViewById(R.id.menu_imgbtn);
 
@@ -171,11 +142,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu_imgbtn.setOnClickListener(this);
     }
 
-    /*Additional Methods==========================================================================*/
-    private void navListCreation() {
-        /*Make Lists show Scroll from left*/
-        lvNav.setVerticalScrollbarPosition(View.SCROLLBAR_POSITION_LEFT);
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, drawerLayout, toolBar, R.string.drawer_opened, R.string.drawer_closed);
+    }
 
+    private void setupDrawer() {
         /*Setting Custom ActionBar*/
         setSupportActionBar(toolBar);
         actionbar = getSupportActionBar();
@@ -183,20 +154,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionbar.setDisplayShowHomeEnabled(false);
         actionbar.setDisplayShowTitleEnabled(false);
 
-        /*Fill NavListView with Items*/
-        listMainActivityNavObj = new ArrayList<>();
-        listMainActivityNavObj.add(new MainActivityNavObj("آزمون", R.drawable.dr_test));
-        listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های منتخب شما", R.drawable.dr_favorite));
-        listMainActivityNavObj.add(new MainActivityNavObj("سوالات منتخب شما", R.drawable.dr_favored_question));
-        listMainActivityNavObj.add(new MainActivityNavObj("تاریخچه ی آزمون‌های شما", R.drawable.dr_history));
-        listMainActivityNavObj.add(new MainActivityNavObj("آزمون‌های ذخیره شده", R.drawable.dr_saved_test));
-        listMainActivityNavObj.add(new MainActivityNavObj(true));
-        listMainActivityNavObj.add(new MainActivityNavObj("درباره", R.drawable.dr_aboutus));
-        listMainActivityNavObj.add(new MainActivityNavObj("معرفی به دوستان", R.drawable.dr_share));
-//        listMainActivityNavObj.add(new MainActivityNavObj("تنظیمات", R.drawable.dr_setting));
-
-        mainActivityNavLVAdapter = new MainActivityNavLVAdapter(context, listMainActivityNavObj);
-        lvNav.setAdapter(mainActivityNavLVAdapter);
+        // Find our drawer view
+        drawerToggle = setupDrawerToggle();
+        // Tie DrawerLayout events to the ActionBarToggle
+        drawerLayout.addDrawerListener(drawerToggle);
 
         listFragments.add(new CoursesFragment());
         listFragments.add(new FavoritesFragment());
@@ -206,129 +167,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listFragments.add(new AboutFragment());
 
         /*Load first fragment as default*/
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
-        drawerLayout.closeDrawer(drawerPane);
-
-        /*Set Listener for navigation*/
-        lvNav.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                selectedNavItem = position;
-                isNavItemSelected = true;
-                changeNavSelectedColor(position);
-                drawerLayout.closeDrawer(drawerPane);
-            }
-        });
-
-        /*Create listener for drawer layout*/
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_opened, R.string.drawer_closed) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                if (isNavItemSelected) {
-                    navItemController();
-                }
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, 0); // this disables the animation
-            }
-
-        };
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
+        title_tv.setText(navDrawer.getMenu().findItem(R.id.dr_test).getTitle());
     }
 
-    public void navItemController() {
-        isNavItemSelected = false;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
 
-        switch (selectedNavItem) {
+    public void selectDrawerItem(MenuItem menuItem) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        switch (menuItem.getItemId()) {
             /*Test Fragment*/
-            case 0:
+            case R.id.dr_test:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
-                lastSelectedItem = 0;
                 break;
             /*Favorites Fragment*/
-            case 1:
+            case R.id.dr_favorite:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(1)).commit();
-                lastSelectedItem = 1;
                 break;
             /*FavoredQuestion Fragment*/
-            case 2:
+            case R.id.dr_favored_question:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(2)).commit();
-                lastSelectedItem = 2;
                 break;
             /*History Fragment*/
-            case 3:
+            case R.id.dr_history:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(3)).commit();
-                lastSelectedItem = 3;
                 break;
             /*SavedTest Fragment*/
-            case 4:
+            case R.id.dr_saved_test:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(4)).commit();
-                lastSelectedItem = 4;
                 break;
             /*About Fragment*/
-            case 6:
+            case R.id.dr_about:
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(5)).commit();
-                lastSelectedItem = 6;
                 break;
-            /*Sharing Application*/
-            case 7:
+            case R.id.dr_share:
                 String shareBody = "آزمون باز";
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری ازطریق"));
                 break;
-            /*Setting*/
-            case 8:
-//                Intent intent = new Intent(context, Setting.class);
-//                startActivity(intent);
-                break;
+            default:
+                fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
         }
 
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        title_tv.setText(menuItem.getTitle());
+        // Close the navigation drawer
+        drawerLayout.closeDrawers();
     }
 
-    /*get view of selected item in ListView*/
-    public View getViewByPosition(int position, ListView listView) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
-
-        if (position < firstListItemPosition || position > lastListItemPosition) {
-            return listView.getAdapter().getView(position, null, listView);
-        } else {
-            final int childIndex = position - firstListItemPosition;
-            return listView.getChildAt(childIndex);
-        }
-
+    private void applyFontToMenuItem(MenuItem mi) {
+        Typeface font = FontChange.getTypeface(Constants.font.SANS, this);
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
     }
 
-    public void changeNavSelectedColor(int position) {
-        View view1 = getViewByPosition(position, lvNav);
-        TextView navTitle = (TextView) view1.findViewById(R.id.navTitle_tv);
-        ImageView navIcon = (ImageView) view1.findViewById(R.id.navIcon_imgv);
-
-        navTitle.setTextColor(ContextCompat.getColor(context, R.color.accentColor));
-        navIcon.setColorFilter(ContextCompat.getColor(context, R.color.accentColor));
-
-        for (int i = 0; i < mainActivityNavLVAdapter.getCount(); i++) {
-            if (i != position) {
-                View view2 = getViewByPosition(i, lvNav);
-                TextView navTitle1 = (TextView) view2.findViewById(R.id.navTitle_tv);
-                ImageView navIcon1 = (ImageView) view2.findViewById(R.id.navIcon_imgv);
-
-                navTitle1.setTextColor(ContextCompat.getColor(context, R.color.mediumGray));
-                navIcon1.setColorFilter(ContextCompat.getColor(context, R.color.mediumGray));
-            }
+    private void setMenuFont() {
+        Menu m = navDrawer.getMenu();
+        for (int i = 0; i < m.size(); i++) {
+            MenuItem mi = m.getItem(i);
+            applyFontToMenuItem(mi);
         }
     }
-
 }

@@ -1,0 +1,123 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primaryColor"
+    android:contentInsetStart="0dp"
+    android:elevation="4dp"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="fill_horizontal"
+        android:background="@color/primaryColor"
+        android:elevation="4dp">
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/more_imgbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_more" />
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/pausePlay_ripple"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/more_imgbtn"
+            app:mrl_rippleColor="@color/white">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/pausePlay_imgbtn"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_pause" />
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <RelativeLayout
+            android:id="@+id/numberOfQuestions_rly"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_toStartOf="@+id/close_ripple">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/arrowDown_imgv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/ic_down" />
+
+            <com.kokabi.p.azmonbaz.Components.CButton
+                android:id="@+id/numberOfQuestions_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/arrowDown_imgv"
+                android:background="@color/transparent"
+                android:clickable="false"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="2dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/timer_tv"
+            android:layout_toStartOf="@+id/numberOfQuestions_rly" />
+
+        <com.kokabi.p.azmonbaz.Components.CTextViewSans
+            android:id="@+id/timer_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_toEndOf="@+id/pausePlay_ripple"
+            android:gravity="left|center_vertical"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/close_ripple"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:mrl_rippleColor="@color/white">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/close_imgbtn"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/transparent"
+                android:scaleType="centerInside"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_clear" />
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.Toolbar>

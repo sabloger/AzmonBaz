@@ -18,6 +18,7 @@
             android:id="@+id/courseIcon_imgv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
             android:padding="16dp"
             android:scaleType="centerInside" />
 
@@ -25,7 +26,7 @@
             android:id="@+id/courseTitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="start|center_vertical"
             android:layout_margin="8dp"
             android:padding="8dp"
             android:textColor="@color/white"

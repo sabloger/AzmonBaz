@@ -7,6 +7,14 @@
     <string name="cancel">بی خیال</string>
     <string name="confirm">حذف</string>
 
+    <string name="dr_test">آزمون</string>
+    <string name="dr_favorite">آزمون‌های منتخب شما</string>
+    <string name="dr_favored_question">سوالات منتخب شما</string>
+    <string name="dr_history">تاریخچه آزمون‌های شما</string>
+    <string name="dr_saved_test">آزمون‌های ذخیره شده</string>
+    <string name="dr_about">درباره</string>
+    <string name="dr_share">معرفی به دوستان</string>
+
     <!--CoursesTest Activity-->
     <string name="firstChoice">گزینه ۱</string>
     <string name="secondChoice">گزینه ۲</string>

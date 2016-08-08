@@ -1,0 +1,57 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primaryColor"
+    android:contentInsetStart="0dp"
+    android:elevation="4dp"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="fill_horizontal"
+        android:background="@color/primaryColor"
+        android:elevation="4dp">
+
+        <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/back_ripple"
+            android:gravity="right|center_vertical"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/back_ripple"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            app:mrl_rippleColor="@color/white">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/back_imgbtn"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/transparent"
+                android:scaleType="centerInside"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_previous" />
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.Toolbar>

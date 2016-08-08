@@ -35,9 +35,9 @@
                         android:id="@+id/testTitle_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:gravity="center_vertical|right"
+                        android:gravity="center_vertical|start"
                         android:padding="2dp"
                         android:singleLine="true"
                         android:textColor="@color/darkGray"
@@ -48,8 +48,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="5dp"
-                        android:layout_toStartOf="@+id/testTitle_tv"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@+id/testTitle_tv"
                         android:gravity="center_vertical|right"
                         android:padding="2dp"
                         android:singleLine="true"
@@ -62,14 +62,14 @@
                     android:id="@+id/testTime_rly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
                     android:layout_below="@+id/title_rly">
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/testTime_imgv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:tint="@color/accentColor"
                         app:srcCompat="@drawable/ic_timer" />
@@ -79,8 +79,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/testTime_imgv"
-                        android:gravity="center_vertical|right"
+                        android:layout_toEndOf="@+id/testTime_imgv"
+                        android:gravity="center_vertical|start"
                         android:padding="2dp"
                         android:singleLine="true"
                         android:textColor="@color/accentColor"
@@ -90,8 +90,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/testTime_tv"
-                        android:gravity="center_vertical|right"
+                        android:layout_toEndOf="@+id/testTime_tv"
+                        android:gravity="center_vertical|start"
                         android:padding="2dp"
                         android:singleLine="true"
                         android:text="@string/minute"
@@ -104,9 +104,9 @@
                     android:id="@+id/testDesc_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
                     android:layout_below="@+id/testTime_rly"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center_vertical|start"
                     android:padding="2dp"
                     android:textColor="@color/lightGray"
                     android:textSize="16sp" />
@@ -117,10 +117,9 @@
                 android:id="@+id/negativePoint_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="end"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/negative_point"
-                android:clickable="false"
                 android:paddingBottom="4dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
@@ -145,7 +144,7 @@
                 android:id="@+id/startTest_ripple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 app:mrl_rippleColor="@color/mediumGray">
 
@@ -164,14 +163,14 @@
             <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/startTest_ripple"
-                android:layout_toStartOf="@+id/addToFavorite_ripple" />
+                android:layout_toEndOf="@+id/addToFavorite_ripple"
+                android:layout_toStartOf="@+id/startTest_ripple" />
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/addToFavorite_ripple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 app:mrl_rippleColor="@color/mediumGray">
 
