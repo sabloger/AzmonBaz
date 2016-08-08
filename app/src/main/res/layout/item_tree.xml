@@ -4,6 +4,7 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
     android:padding="8dp">
 
     <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
@@ -12,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/delete_ripple"
         android:layout_toEndOf="@+id/delete_ripple"
+        android:layout_toStartOf="@+id/delete_ripple"
         android:gravity="center_vertical|start"
         android:padding="8dp"
         android:singleLine="true"
