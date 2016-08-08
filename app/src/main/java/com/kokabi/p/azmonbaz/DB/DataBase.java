@@ -72,10 +72,12 @@ public class DataBase extends SQLiteOpenHelper {
     static final String KEY_hasNegativePoint = "hasNegativePoint";
     static final String KEY_savedTestName = "savedTestName";
     static final String KEY_isDone = "isDone";
+    static final String KEY_initTime = "initTime";
     static final String createSavedTest = "CREATE TABLE " +
             tableSavedTest + "(" + KEY_id + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_idSavedTest + " INTEGER," + KEY_time + " INTEGER," + KEY_answers + " TEXT,"
-            + KEY_hasNegativePoint + " INTEGER," + KEY_savedTestName + " TEXT," + KEY_isDone + " INTEGER );";
+            + KEY_hasNegativePoint + " INTEGER," + KEY_savedTestName + " TEXT," + KEY_isDone + " INTEGER,"
+            + KEY_initTime + " INTEGER );";
 
     public DataBase() {
         super(AppController.getCurrentContext(), name, null, version);
@@ -88,6 +90,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createFavoredQuestion);
         db.execSQL(createQuestionState);
         db.execSQL(createSavedTest);
+        Log.i(Constants.TAG,createSavedTest);
     }
 
     @Override
@@ -147,7 +150,8 @@ public class DataBase extends SQLiteOpenHelper {
         return db.insert(tableQuestionState, null, questionStateValue);
     }
 
-    public long savedTestInsert(int id, int time, String answers, int hasNegativePoint, String name) {
+    public long savedTestInsert(int id, int time, String answers
+            , int hasNegativePoint, String name, int initTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues savedTestValue = new ContentValues();
 
@@ -157,6 +161,7 @@ public class DataBase extends SQLiteOpenHelper {
         savedTestValue.put(KEY_hasNegativePoint, hasNegativePoint);
         savedTestValue.put(KEY_savedTestName, name);
         savedTestValue.put(KEY_isDone, 0);
+        savedTestValue.put(KEY_initTime, initTime);
         return db.insert(tableSavedTest, null, savedTestValue);
     }
 
@@ -363,7 +368,8 @@ public class DataBase extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     boolean hasNegative = cursor.getInt(4) == 1;
-                    testsTitleObjArrayList.add(new TestsTitleObj(cursor.getInt(1), cursor.getString(5), hasNegative, cursor.getInt(2)));
+                    testsTitleObjArrayList.add(new TestsTitleObj(cursor.getInt(1), cursor.getString(5)
+                            , hasNegative, cursor.getInt(2),cursor.getInt(7)));
                 } while (cursor.moveToNext());
             }
             cursor.close();

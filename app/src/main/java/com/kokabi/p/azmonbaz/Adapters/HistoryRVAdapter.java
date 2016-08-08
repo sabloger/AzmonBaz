@@ -95,7 +95,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         final HistoryObj historyObj = historyList.get(position);
 
         /*set Title*/
@@ -116,9 +116,9 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             holder.testTime_tv.setText(String.valueOf(historyObj.getTestTime() + " ثانیه"));
         } else {
             holder.testTime_tv.setText(String.format(decimal,
-                    TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(historyObj.getTestTime()) * 1000),
                     TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(historyObj.getTestTime()) * 1000) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(historyObj.getTestTime()) * 1000))));
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(historyObj.getTestTime()) * 1000)),
+                    TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(historyObj.getTestTime()) * 1000)));
             holder.testTimeLabel_tv.setVisibility(View.VISIBLE);
         }
         /*set Correct Answer*/

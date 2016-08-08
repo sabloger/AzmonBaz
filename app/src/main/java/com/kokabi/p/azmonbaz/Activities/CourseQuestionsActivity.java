@@ -78,7 +78,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     CountDownTimer countDownTimer;
     boolean hasNegativePoint = false, isPaused = false, isCanceled = false, isMinus = false, isCross = false, isAnswered = false;
     boolean isResumeTest = false, isExit = false;
-    int idTest = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0, questionState = 3;
+    int idTest = 0, initTime = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0, questionState = 3;
     long timeRemaining = 0;
     String testName = "";
     TestDefinitionObj pageTest;
@@ -119,6 +119,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             time = bundle.getInt("time", 0);
             testName = bundle.getString("testName", "");
             isResumeTest = bundle.getBoolean("isResumeTest", false);
+            initTime = bundle.getInt("initTime", 0);
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -640,7 +641,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             }
         });
 
-        db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(time - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
+        db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(initTime - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
                 String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
                 inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000), saveAnswers()));
 
@@ -791,7 +792,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         } else {
             db.savedTestInsert(pageTest.getIdTest()
                     , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
-                    , arrayList, hasNegativePointInt, testName);
+                    , arrayList, hasNegativePointInt, testName, initTime);
         }
 
         dialogSaveTest.dismiss();

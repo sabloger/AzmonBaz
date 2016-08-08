@@ -7,18 +7,19 @@ import android.support.annotation.NonNull;
  */
 public class TestsTitleObj implements Comparable<TestsTitleObj> {
 
-    int idCat, idTest, questionCount, time;
+    int idCat, idTest, questionCount, time, initTime;
     String testName, description, testOrder;
     boolean hasNegativePoint;
 
     public TestsTitleObj() {
     }
 
-    public TestsTitleObj(int idTest, String testName, boolean hasNegativePoint, int time) {
+    public TestsTitleObj(int idTest, String testName, boolean hasNegativePoint, int time, int initTime) {
         this.idTest = idTest;
         this.testName = testName;
         this.hasNegativePoint = hasNegativePoint;
         this.time = time;
+        this.initTime = initTime;
     }
 
     /*Getters*/
@@ -54,17 +55,21 @@ public class TestsTitleObj implements Comparable<TestsTitleObj> {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
-
     public boolean isHasNegativePoint() {
         return hasNegativePoint;
+    }
+
+    public int getInitTime() {
+        return initTime;
     }
 
     /*Setters*/
     public void setIdTest(int idTest) {
         this.idTest = idTest;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 
     @Override

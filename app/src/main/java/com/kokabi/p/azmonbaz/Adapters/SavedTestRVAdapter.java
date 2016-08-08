@@ -66,7 +66,8 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
                             .putExtra("time", savedList.get(getAdapterPosition()).getTime())
                             .putExtra("testName", savedList.get(getAdapterPosition()).getTestName())
                             .putExtra("hasNegativePoint", savedList.get(getAdapterPosition()).isHasNegativePoint())
-                            .putExtra("isResumeTest", true));
+                            .putExtra("isResumeTest", true)
+                            .putExtra("initTime",savedList.get(getAdapterPosition()).getInitTime()));
                 }
             });
         }
@@ -81,14 +82,14 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = savedList.get(position);
 
         holder.testTitle_tv.setText(testsTitleObj.getTestName());
         holder.testTimeElapsed_tv.setText(String.format(decimal,
-                TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000),
                 TimeUnit.MILLISECONDS.toSeconds(testsTitleObj.getTime() * 1000) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000))));
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000)),
+                TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000)));
 
         if (testsTitleObj.isHasNegativePoint()) {
             holder.negativePoint_tv.setVisibility(View.VISIBLE);

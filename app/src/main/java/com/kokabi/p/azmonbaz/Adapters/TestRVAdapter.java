@@ -86,7 +86,8 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                             .putExtra("time", testList.get(getAdapterPosition()).getTime())
                             .putExtra("testName", testList.get(getAdapterPosition()).getTestName())
                             .putExtra("hasNegativePoint", testList.get(getAdapterPosition()).isHasNegativePoint())
-                            .putExtra("isResumeTest", false));
+                            .putExtra("isResumeTest", false)
+                            .putExtra("initTime", testList.get(getAdapterPosition()).getTime()));
                 }
             });
         }
@@ -101,14 +102,14 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = testList.get(position);
 
         holder.testTitle_tv.setText(testsTitleObj.getTestName());
         holder.testTime_tv.setText(String.format(decimal,
-                TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000),
                 TimeUnit.MILLISECONDS.toSeconds(testsTitleObj.getTime() * 1000) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000))));
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000)),
+                TimeUnit.MILLISECONDS.toMinutes(testsTitleObj.getTime() * 1000)));
         holder.testDesc_tv.setText(testsTitleObj.getDescription());
         holder.testCount_tv.setText(String.valueOf("( " + testsTitleObj.getQuestionCount() + " سوال )"));
 
