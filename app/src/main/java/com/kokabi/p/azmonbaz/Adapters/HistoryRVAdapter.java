@@ -68,6 +68,21 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             delete_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.delete_imgbtn);
             answer_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.answer_imgbtn);
 
+            delete_imgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EventBus.getDefault().post(new GeneralMSB("isDelete", historyList.get(getAdapterPosition()).getIdHistory()));
+                }
+            });
+            answer_imgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, CourseAnswersActivity.class)
+                            .putExtra("idTest", getIdTest())
+                            .putExtra("testName", historyList.get(getAdapterPosition()).getTestName()));
+                }
+            });
+
         }
     }
 
@@ -113,8 +128,6 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
         /*set Incorrect Answer*/
         holder.incorrectAnswer_tv.setText(String.valueOf(historyObj.getIncorrectQuestion() + " پاسخ اشتباه"));
 
-        /*onClickListeners*/
-        onClick(holder, position);
         setIdTest(historyObj.getIdTest());
     }
 
@@ -149,24 +162,5 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             if (historyList.get(position).getIdHistory() == id)
                 return position;
         return 0;
-    }
-
-    /*Click Listener Method*/
-    private void onClick(final ViewHolder holder, final int p) {
-        final HistoryObj historyObj = historyList.get(p);
-        holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new GeneralMSB("isDelete", historyObj.getIdHistory()));
-            }
-        });
-        holder.answer_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, CourseAnswersActivity.class)
-                        .putExtra("idTest", getIdTest())
-                        .putExtra("testName", historyObj.getTestName()));
-            }
-        });
     }
 }

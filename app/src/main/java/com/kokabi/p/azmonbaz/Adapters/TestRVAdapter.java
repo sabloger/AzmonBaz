@@ -55,6 +55,40 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
             addToFavorite_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.addToFavorite_imgbtn);
 
             db = new DataBase();
+
+            addToFavorite_imgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (db.isTestFavored(testList.get(getAdapterPosition()).getIdTest())) {
+                        addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
+                        db.favoriteTestDelete(testList.get(getAdapterPosition()).getIdTest());
+                        if (isFavoredFragment) {
+                            testList.remove(getAdapterPosition());
+                            notifyItemRemoved(getAdapterPosition());
+                            notifyDataSetChanged();
+                            if (testList.size() == 0) {
+                                EventBus.getDefault().post(new GeneralMSB("isEmpty"));
+                            }
+                        }
+                    } else {
+                        addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
+                        db.favoriteTestInsert(testList.get(getAdapterPosition()));
+                    }
+                    db.selectAllFavorites();
+                }
+            });
+
+            startTest_imgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, CourseQuestionsActivity.class)
+                            .putExtra("idTest", testList.get(getAdapterPosition()).getIdTest())
+                            .putExtra("time", testList.get(getAdapterPosition()).getTime())
+                            .putExtra("testName", testList.get(getAdapterPosition()).getTestName())
+                            .putExtra("hasNegativePoint", testList.get(getAdapterPosition()).isHasNegativePoint())
+                            .putExtra("isResumeTest", false));
+                }
+            });
         }
     }
 
@@ -83,7 +117,6 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         }
 
         if (db.isTestFavored(testsTitleObj.getIdTest())) {
-            holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
             holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
         }
 
@@ -115,38 +148,6 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     /*Click Listener Methods*/
     private void onClick(final ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = testList.get(position);
-        holder.addToFavorite_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (db.isTestFavored(testsTitleObj.getIdTest())) {
-                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
-                    db.favoriteTestDelete(testsTitleObj.getIdTest());
-                    if (isFavoredFragment) {
-                        testList.remove(holder.getAdapterPosition());
-                        notifyItemRemoved(holder.getAdapterPosition());
-                        notifyDataSetChanged();
-                        if (testList.size() == 0) {
-                            EventBus.getDefault().post(new GeneralMSB("isEmpty"));
-                        }
-                    }
-                } else {
-                    holder.addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
-                    db.favoriteTestInsert(testsTitleObj);
-                }
-                db.selectAllFavorites();
-            }
-        });
 
-        holder.startTest_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, CourseQuestionsActivity.class)
-                        .putExtra("idTest", testsTitleObj.getIdTest())
-                        .putExtra("time", testsTitleObj.getTime())
-                        .putExtra("testName", testsTitleObj.getTestName())
-                        .putExtra("hasNegativePoint", testsTitleObj.isHasNegativePoint())
-                        .putExtra("isResumeTest", false));
-            }
-        });
     }
 }

@@ -50,6 +50,25 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
 
             resumeTest_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.resumeTest_imgbtn);
             deleteSaved_imgbtn = (AppCompatImageButton) itemView.findViewById(R.id.deleteSaved_imgbtn);
+
+            deleteSaved_imgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EventBus.getDefault().post(new GeneralMSB("isDelete", savedList.get(getAdapterPosition()).getIdTest()));
+                }
+            });
+
+            resumeTest_imgbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, CourseQuestionsActivity.class)
+                            .putExtra("idTest", savedList.get(getAdapterPosition()).getIdTest())
+                            .putExtra("time", savedList.get(getAdapterPosition()).getTime())
+                            .putExtra("testName", savedList.get(getAdapterPosition()).getTestName())
+                            .putExtra("hasNegativePoint", savedList.get(getAdapterPosition()).isHasNegativePoint())
+                            .putExtra("isResumeTest", true));
+                }
+            });
         }
     }
 
@@ -74,9 +93,6 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
         if (testsTitleObj.isHasNegativePoint()) {
             holder.negativePoint_tv.setVisibility(View.VISIBLE);
         }
-
-        /*onClickListeners*/
-        onClick(holder, position);
     }
 
     @Override
@@ -109,28 +125,5 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
             if (savedList.get(position).getIdTest() == id)
                 return position;
         return 0;
-    }
-
-    /*Click Listener Methods*/
-    private void onClick(final ViewHolder holder, final int position) {
-        final TestsTitleObj testsTitleObj = savedList.get(position);
-        holder.deleteSaved_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new GeneralMSB("isDelete", testsTitleObj.getIdTest()));
-            }
-        });
-
-        holder.resumeTest_imgbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, CourseQuestionsActivity.class)
-                        .putExtra("idTest", testsTitleObj.getIdTest())
-                        .putExtra("time", testsTitleObj.getTime())
-                        .putExtra("testName", testsTitleObj.getTestName())
-                        .putExtra("hasNegativePoint", testsTitleObj.isHasNegativePoint())
-                        .putExtra("isResumeTest", true));
-            }
-        });
     }
 }
