@@ -90,7 +90,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createFavoredQuestion);
         db.execSQL(createQuestionState);
         db.execSQL(createSavedTest);
-        Log.i(Constants.TAG,createSavedTest);
+        Log.i(Constants.TAG, createSavedTest);
     }
 
     @Override
@@ -236,6 +236,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return testsArrayList;
     }
 
@@ -256,6 +257,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return historyArrayList;
     }
 
@@ -275,6 +277,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return answerList;
     }
 
@@ -295,6 +298,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return testObjArrayList;
     }
 
@@ -316,6 +320,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return testObj;
     }
 
@@ -336,6 +341,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return state;
     }
 
@@ -355,6 +361,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return savedTest;
     }
 
@@ -369,13 +376,14 @@ public class DataBase extends SQLiteOpenHelper {
                 do {
                     boolean hasNegative = cursor.getInt(4) == 1;
                     testsTitleObjArrayList.add(new TestsTitleObj(cursor.getInt(1), cursor.getString(5)
-                            , hasNegative, cursor.getInt(2),cursor.getInt(7)));
+                            , hasNegative, cursor.getInt(2), cursor.getInt(7)));
                 } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return testsTitleObjArrayList;
     }
 
@@ -400,6 +408,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return isFavored;
     }
 
@@ -423,6 +432,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return isFavored;
     }
 
@@ -446,6 +456,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return isCreated;
     }
 
@@ -468,6 +479,7 @@ public class DataBase extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.i(Constants.TAG, e.toString());
         }
+        this.getReadableDatabase().close();
         return isCreated;
     }
 }

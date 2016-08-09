@@ -91,11 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawerLayout.closeDrawer(GravityCompat.START);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.mainContent, listFragments.get(0)).commit();
-                // Highlight the selected item has been done by NavigationView
                 navDrawer.getMenu().findItem(R.id.dr_test).setChecked(true);
-                // Set action bar title
                 title_tv.setText(navDrawer.getMenu().findItem(R.id.dr_test).getTitle());
-                // Close the navigation drawer
             } else {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed();
