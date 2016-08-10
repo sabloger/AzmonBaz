@@ -770,6 +770,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             secondChoice_btn.setClickable(true);
             thirdChoice_btn.setClickable(true);
             fourthChoice_btn.setClickable(true);
+            full_imgbtn.setClickable(true);
             confirm_fab.setClickable(true);
             questionZoomable.setZoomable(true);
         }

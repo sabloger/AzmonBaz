@@ -54,6 +54,7 @@
         <activity
             android:name=".Activities.FullPageImageActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/ThemeWithStatueBar"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Activities.FavoredQuestionDetailActivity"

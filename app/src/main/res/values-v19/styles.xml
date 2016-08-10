@@ -10,4 +10,12 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="ThemeWithStatueBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
 </resources>
