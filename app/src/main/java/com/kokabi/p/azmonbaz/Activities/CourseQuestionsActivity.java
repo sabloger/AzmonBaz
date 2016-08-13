@@ -19,10 +19,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.kokabi.p.azmonbaz.Components.CSpinner;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
@@ -67,10 +67,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     AppCompatImageButton more_imgbtn, close_imgbtn, pausePlay_imgbtn, full_imgbtn;
     ProgressView progressBar;
     LinearLayout rootView, nextQuestion_ly, previousQuestion_ly;
-    RelativeLayout numberOfQuestions_rly;
+    CSpinner numberOfQuestions_sp;
     AppCompatImageButton addToFavoredQuestion_imgbtn, minus_imgbtn, cross_imgbtn;
     AppCompatImageView question_imgv, pauseLayout;
-    Button numberOfQuestions_btn, firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
+    Button firstChoice_btn, secondChoice_btn, thirdChoice_btn, fourthChoice_btn;
     FloatingActionButton confirm_fab;
 
     /*Activity Values*/
@@ -233,8 +233,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             case R.id.more_imgbtn:
                 initMenu(more_imgbtn);
                 break;
-            case R.id.numberOfQuestions_rly:
-                initNavigationMenu(numberOfQuestions_rly);
+            case R.id.numberOfQuestions_sp:
+                initNavigationMenu(numberOfQuestions_sp);
                 break;
             case R.id.pausePlay_imgbtn:
                 if (isPaused) {
@@ -366,7 +366,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         nextQuestion_ly = (LinearLayout) findViewById(R.id.nextQuestion_ly);
         previousQuestion_ly = (LinearLayout) findViewById(R.id.previousQuestion_ly);
 
-        numberOfQuestions_rly = (RelativeLayout) findViewById(R.id.numberOfQuestions_rly);
+        numberOfQuestions_sp = (CSpinner) findViewById(R.id.numberOfQuestions_sp);
 
         addToFavoredQuestion_imgbtn = (AppCompatImageButton) findViewById(R.id.addToFavoredQuestion_imgbtn);
         minus_imgbtn = (AppCompatImageButton) findViewById(R.id.minus_imgbtn);
@@ -375,7 +375,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         question_imgv = (AppCompatImageView) findViewById(R.id.question_imgv);
         pauseLayout = (AppCompatImageView) findViewById(R.id.pauseLayout);
 
-        numberOfQuestions_btn = (Button) findViewById(R.id.numberOfQuestions_btn);
         firstChoice_btn = (Button) findViewById(R.id.firstChoice_btn);
         secondChoice_btn = (Button) findViewById(R.id.secondChoice_btn);
         thirdChoice_btn = (Button) findViewById(R.id.thirdChoice_btn);
@@ -387,7 +386,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void setOnClick() {
-        numberOfQuestions_rly.setOnClickListener(this);
+        numberOfQuestions_sp.setOnClickListener(this);
         more_imgbtn.setOnClickListener(this);
         close_imgbtn.setOnClickListener(this);
         pausePlay_imgbtn.setOnClickListener(this);
@@ -457,7 +456,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void updatePage() {
-        numberOfQuestions_btn.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
+        numberOfQuestions_sp.spinner.setText(String.valueOf((question + 1) + " / " + (totalQuestion + 1)));
         showQuestions(question);
         questionZoomable.update();
         hideShowBackForward(question + 1);
@@ -840,8 +839,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         droppyMenu.show();
     }
 
-    private void initNavigationMenu(RelativeLayout rly) {
-        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, rly);
+    private void initNavigationMenu(CSpinner sp) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, sp);
         // Add normal items (text only)
         for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
             droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1))));

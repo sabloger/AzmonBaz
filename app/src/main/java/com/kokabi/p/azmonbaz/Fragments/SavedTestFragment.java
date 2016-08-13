@@ -16,7 +16,7 @@ import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.Constants;
-import com.kokabi.p.azmonbaz.Components.DeleteDialog;
+import com.kokabi.p.azmonbaz.Components.DialogDelete;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.Collections;
@@ -89,7 +89,7 @@ public class SavedTestFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DeleteDialog(context) {
+                new DialogDelete(context) {
                     @Override
                     public void onConfirm() {
                         db.savedTestDelete(event.getId());

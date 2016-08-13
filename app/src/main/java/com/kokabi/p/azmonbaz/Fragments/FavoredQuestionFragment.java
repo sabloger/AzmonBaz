@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.kokabi.p.azmonbaz.Adapters.FavoredQuestionLVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
-import com.kokabi.p.azmonbaz.Components.DeleteDialog;
+import com.kokabi.p.azmonbaz.Components.DialogDelete;
 import com.kokabi.p.azmonbaz.R;
 
 import de.greenrobot.event.EventBus;
@@ -77,7 +77,7 @@ public class FavoredQuestionFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DeleteDialog(context) {
+                new DialogDelete(context) {
                     @Override
                     public void onConfirm() {
                         db.favoredQuestionDelete(event.getId());

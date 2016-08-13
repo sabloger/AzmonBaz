@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="fill_horizontal"
-        android:background="@color/primaryColor"
-        android:elevation="4dp">
+        android:background="@color/primaryColor">
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/more_imgbtn"
@@ -50,42 +49,18 @@
 
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <RelativeLayout
-            android:id="@+id/numberOfQuestions_rly"
+        <com.kokabi.p.azmonbaz.Components.CSpinner
+            android:id="@+id/numberOfQuestions_sp"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:layout_toStartOf="@+id/close_ripple">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/arrowDown_imgv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                app:srcCompat="@drawable/ic_down" />
-
-            <com.kokabi.p.azmonbaz.Components.CButton
-                android:id="@+id/numberOfQuestions_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/arrowDown_imgv"
-                android:background="@color/transparent"
-                android:clickable="false"
-                android:gravity="center"
-                android:paddingEnd="8dp"
-                android:paddingStart="2dp"
-                android:paddingTop="4dp"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
+            android:layout_toStartOf="@+id/close_ripple"
+            android:gravity="center" />
 
         <android.support.v4.widget.Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/timer_tv"
-            android:layout_toStartOf="@+id/numberOfQuestions_rly" />
+            android:layout_toStartOf="@+id/numberOfQuestions_sp" />
 
         <com.kokabi.p.azmonbaz.Components.CTextViewSans
             android:id="@+id/timer_tv"

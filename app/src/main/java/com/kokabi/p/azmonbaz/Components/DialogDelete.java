@@ -14,11 +14,11 @@ import com.kokabi.p.azmonbaz.R;
 /**
  * Created by P.kokabi on 8/6/2016.
  */
-public abstract class DeleteDialog extends Dialog implements View.OnClickListener {
+public abstract class DialogDelete extends Dialog implements View.OnClickListener {
 
     private CButton confirm_btn, cancel_btn;
 
-    public DeleteDialog(Context context) {
+    public DialogDelete(Context context) {
         super(context);
     }
 
