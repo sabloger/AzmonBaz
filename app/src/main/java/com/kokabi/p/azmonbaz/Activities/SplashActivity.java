@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
     CPermissionDeniedDialog dialogPermissionDenied;
 
     /*Activity Values*/
-    int SPLASH_TIME_OUT = 2000;
+    int SPLASH_TIME_OUT = 1000;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
