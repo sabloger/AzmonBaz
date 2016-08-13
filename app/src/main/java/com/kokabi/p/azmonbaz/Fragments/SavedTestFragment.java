@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
+import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Components.DialogDelete;
 import com.kokabi.p.azmonbaz.R;
@@ -43,6 +44,7 @@ public class SavedTestFragment extends Fragment {
 
         context = container.getContext();
         EventBus.getDefault().register(this);
+        AppController.setCurrentContext(context);
         db = new DataBase();
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 
@@ -89,7 +91,7 @@ public class SavedTestFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DialogDelete(context) {
+                new DialogDelete() {
                     @Override
                     public void onConfirm() {
                         db.savedTestDelete(event.getId());

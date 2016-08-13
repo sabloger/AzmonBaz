@@ -16,6 +16,7 @@ import com.kokabi.p.azmonbaz.Adapters.HistoryRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Components.DialogDelete;
+import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.Collections;
@@ -42,6 +43,7 @@ public class HistoryFragment extends Fragment {
 
         context = container.getContext();
         EventBus.getDefault().register(this);
+        AppController.setCurrentContext(context);
         db = new DataBase();
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 
@@ -83,7 +85,7 @@ public class HistoryFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DialogDelete(context) {
+                new DialogDelete() {
                     @Override
                     public void onConfirm() {
                         db.historyDelete(event.getId());

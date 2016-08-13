@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
+import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
@@ -52,6 +53,7 @@ public class FavoritesFragment extends Fragment {
 
         context = container.getContext();
         EventBus.getDefault().register(this);
+        AppController.setCurrentContext(context);
         db = new DataBase();
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 

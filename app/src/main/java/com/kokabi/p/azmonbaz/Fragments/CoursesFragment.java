@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Activities.TestActivity;
 import com.kokabi.p.azmonbaz.Activities.TreeActivity;
 import com.kokabi.p.azmonbaz.Adapters.CoursesRVAdapter;
+import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
@@ -49,6 +50,7 @@ public class CoursesFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_courses, container, false);
 
         context = container.getContext();
+        AppController.setCurrentContext(context);
         mainContent = (CoordinatorLayout) v.findViewById(R.id.mainContent);
 
         findViews(v);
