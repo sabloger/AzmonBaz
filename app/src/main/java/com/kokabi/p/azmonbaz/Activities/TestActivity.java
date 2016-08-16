@@ -45,6 +45,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     /*Activity Values*/
     TestRVAdapter testRVAdapter;
     int idCategory;
+    String breadCrumb;
     ArrayList<TestsTitleObj> pageTests = new ArrayList<>();
 
     @Override
@@ -66,6 +67,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idCategory = bundle.getInt("idCat", 0);
+            breadCrumb = bundle.getString("breadCrumb", "");
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -79,7 +81,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Collections.sort(pageTests);
-        testRVAdapter = new TestRVAdapter(pageTests, false);
+        testRVAdapter = new TestRVAdapter(pageTests, false,breadCrumb);
         testRV.setAdapter(testRVAdapter);
 
         // TODO Remove when Project is finished
@@ -135,7 +137,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<TestsTitleObj> pageMaker() {
         ArrayList<TestsTitleObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests_title)).getJSONArray("test_titles");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("tests_title.json")).getJSONArray("test_titles");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {

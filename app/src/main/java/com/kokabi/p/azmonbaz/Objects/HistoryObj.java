@@ -8,10 +8,10 @@ import android.support.annotation.NonNull;
 public class HistoryObj implements Comparable<HistoryObj> {
 
     int idHistory, idTest, answeredQuestion, incorrectQuestion, unAnsweredQuestion;
-    String testName, testPercentage, testTime, updateTime, answerList;
+    String testName, testPercentage, testTime, updateTime, answerList, breadCrumb;
 
     public HistoryObj(int idTest, String testName, String testTime, String testPercentage, int answeredQuestion,
-                      int incorrectQuestion, int unAnsweredQuestion, String updateTime,String answerList) {
+                      int incorrectQuestion, int unAnsweredQuestion, String updateTime, String answerList, String breadCrumb) {
         this.idTest = idTest;
         this.testName = testName;
         this.testTime = testTime;
@@ -21,10 +21,11 @@ public class HistoryObj implements Comparable<HistoryObj> {
         this.unAnsweredQuestion = unAnsweredQuestion;
         this.updateTime = updateTime;
         this.answerList = answerList;
+        this.breadCrumb = breadCrumb;
     }
 
     public HistoryObj(int idHistory, int idTest, String testName, String testTime, String testPercentage, int answeredQuestion,
-                      int incorrectQuestion, int unAnsweredQuestion, String updateTime) {
+                      int incorrectQuestion, int unAnsweredQuestion, String updateTime, String breadCrumb) {
         this.idHistory = idHistory;
         this.idTest = idTest;
         this.testName = testName;
@@ -34,6 +35,7 @@ public class HistoryObj implements Comparable<HistoryObj> {
         this.incorrectQuestion = incorrectQuestion;
         this.unAnsweredQuestion = unAnsweredQuestion;
         this.updateTime = updateTime;
+        this.breadCrumb = breadCrumb;
     }
 
     public int getIdHistory() {
@@ -74,6 +76,10 @@ public class HistoryObj implements Comparable<HistoryObj> {
 
     public String getAnswerList() {
         return answerList;
+    }
+
+    public String getBreadCrumb() {
+        return breadCrumb;
     }
 
     @Override

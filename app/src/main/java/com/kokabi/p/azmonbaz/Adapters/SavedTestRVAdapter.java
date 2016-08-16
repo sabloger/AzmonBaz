@@ -37,13 +37,14 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView testTitle_tv, testTimeElapsed_tv, negativePoint_tv;
+        TextView breadCrumb_tv, testTitle_tv, testTimeElapsed_tv, negativePoint_tv;
         AppCompatImageButton resumeTest_imgbtn, deleteSaved_imgbtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
 
+            breadCrumb_tv = (TextView) itemView.findViewById(R.id.breadCrumb_tv);
             testTitle_tv = (TextView) itemView.findViewById(R.id.testTitle_tv);
             testTimeElapsed_tv = (TextView) itemView.findViewById(R.id.testTimeElapsed_tv);
             negativePoint_tv = (TextView) itemView.findViewById(R.id.negativePoint_tv);
@@ -67,7 +68,8 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
                             .putExtra("testName", savedList.get(getAdapterPosition()).getTestName())
                             .putExtra("hasNegativePoint", savedList.get(getAdapterPosition()).isHasNegativePoint())
                             .putExtra("isResumeTest", true)
-                            .putExtra("initTime",savedList.get(getAdapterPosition()).getInitTime()));
+                            .putExtra("initTime", savedList.get(getAdapterPosition()).getInitTime())
+                            .putExtra("breadCrumb", savedList.get(getAdapterPosition()).getBreadCrumb()));
                 }
             });
         }
@@ -85,6 +87,7 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = savedList.get(position);
 
+        holder.breadCrumb_tv.setText(testsTitleObj.getBreadCrumb());
         holder.testTitle_tv.setText(testsTitleObj.getTestName());
         holder.testTimeElapsed_tv.setText(String.format(decimal,
                 TimeUnit.MILLISECONDS.toSeconds(testsTitleObj.getTime() * 1000) -

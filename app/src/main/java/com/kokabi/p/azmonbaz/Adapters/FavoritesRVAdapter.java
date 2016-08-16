@@ -23,7 +23,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by P.kokabi on 6/20/2016.
  */
-public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder> {
+public class FavoritesRVAdapter extends RecyclerView.Adapter<FavoritesRVAdapter.ViewHolder> {
 
     Context context;
     DataBase db;
@@ -31,7 +31,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     boolean isFavoredFragment = false;
     String decimal = "%02d : %02d", breadCrumb;
 
-    public TestRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment, String breadCrumb) {
+    public FavoritesRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment, String breadCrumb) {
         testList = dataInput;
         this.isFavoredFragment = isFavoredFragment;
         this.breadCrumb = breadCrumb;
@@ -95,7 +95,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                                 .putExtra("breadCrumb", breadCrumb));
                     } else {
                         EventBus.getDefault().post(new GeneralMSB("isResume"
-                                , testList.get(getAdapterPosition()), breadCrumb));
+                                , testList.get(getAdapterPosition())));
                     }
                 }
             });
@@ -129,11 +129,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = testList.get(position);
 
-        if (isFavoredFragment) {
-            holder.breadCrumb_tv.setText(breadCrumb);
-        } else {
-            holder.breadCrumb_tv.setText(breadCrumb);
-        }
+        holder.breadCrumb_tv.setText(breadCrumb);
         holder.testTitle_tv.setText(testsTitleObj.getTestName());
         holder.testTime_tv.setText(String.format(decimal,
                 TimeUnit.MILLISECONDS.toSeconds(testsTitleObj.getTime() * 1000) -

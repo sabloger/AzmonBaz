@@ -3,7 +3,7 @@
     {
       "idCat": 7,
       "idTest": 2,
-      "testName": "حسابان",
+      "testName": "آزمون ۱",
       "description": "سخته نوشتنش",
       "time": 600,
       "hasNegativePoint": false,
@@ -13,7 +13,7 @@
     {
       "idCat": 10,
       "idTest": 4,
-      "testName": "دیفرانسیل",
+      "testName": "آزمون ۱",
       "description": "سخته نوشتنش",
       "time": 930,
       "hasNegativePoint": true,

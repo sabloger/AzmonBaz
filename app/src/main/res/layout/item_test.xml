@@ -26,11 +26,24 @@
                 android:padding="8dp"
                 android:visibility="visible">
 
+                <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                    android:id="@+id/breadCrumb_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical|start"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/darkPrimaryColor"
+                    android:textSize="16sp" />
+
                 <RelativeLayout
                     android:id="@+id/title_rly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true">
+                    android:layout_below="@+id/breadCrumb_tv">
 
                     <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
                         android:id="@+id/testTitle_tv"
@@ -161,11 +174,32 @@
 
             </com.balysv.materialripple.MaterialRippleLayout>
 
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/resumeTest_ripple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/startTest_ripple"
+                app:mrl_rippleColor="@color/mediumGray">
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/resumeTest_imgbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:contentDescription="@string/startTest"
+                    android:padding="16dp"
+                    android:tint="@color/darkGray"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/dr_saved_test" />
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+
             <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/addToFavorite_ripple"
-                android:layout_toStartOf="@+id/startTest_ripple" />
+                android:layout_toStartOf="@+id/resumeTest_ripple" />
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/addToFavorite_ripple"

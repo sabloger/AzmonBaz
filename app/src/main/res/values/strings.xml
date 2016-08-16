@@ -63,4 +63,7 @@
     <string name="deleteSavedTest">حذف آزمون</string>
     <string name="resumeTest">ادامه آزمون</string>
 
+    <!--Dialog Resume-->
+    <string name="resumeTestTitle">این آزمون را قبلا ذخیره کرده اید.\nمایل به شروه مجدد هستید؟</string>
+
 </resources>

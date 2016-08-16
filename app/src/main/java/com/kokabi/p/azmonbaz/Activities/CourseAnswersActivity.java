@@ -54,7 +54,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     HashMap<Integer, Integer> answerList = new HashMap<>();
     boolean isAnswer = true;
     int idTest = 0, answer = 0, totalQuestion = 9;
-    String testName = "";
+    String testName = "", breadCrumb = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
         if (bundle != null) {
             idTest = bundle.getInt("idTest", 0);
             testName = bundle.getString("testName", "");
+            breadCrumb = bundle.getString("breadCrumb", "");
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -155,14 +156,14 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
                 }
                 break;
             case R.id.addToFavoredQuestion_imgbtn:
-                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(answer).getIdQuestion(), testName)) {
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(answer).getIdQuestion(), testName, breadCrumb)) {
                     addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
-                    db.favoredQuestionDelete(pageTest.getQuestionInfo().get(answer).getIdQuestion());
+                    db.favoredQuestionDelete(pageTest.getQuestionInfo().get(answer).getIdQuestion(), breadCrumb, testName);
                 } else {
                     db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(answer).getIdQuestion(),
                             String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(answer).getQuestionImage()),
                             String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(answer).getAnswerImage()),
-                            pageTest.getQuestionInfo().get(answer).getKey()));
+                            pageTest.getQuestionInfo().get(answer).getKey(), breadCrumb));
                     addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
                 }
                 break;
@@ -257,7 +258,7 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     }
 
     private void showQuestions(int position) {
-        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName)) {
+        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName, breadCrumb)) {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
         } else {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
@@ -278,10 +279,9 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
     private ArrayList<TestDefinitionObj> pageMaker() {
         ArrayList<TestDefinitionObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.test_definition)).getJSONArray("testDefinition");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("test_definition.json")).getJSONArray("testDefinition");
 
-            int length = categoryArray.length();
-            for (int i = 0; i < length; ++i) {
+            for (int i = 0; i < categoryArray.length(); ++i) {
                 JSONObject event = categoryArray.getJSONObject(i);
                 result.add(new Gson().fromJson(event.toString(), TestDefinitionObj.class));
             }

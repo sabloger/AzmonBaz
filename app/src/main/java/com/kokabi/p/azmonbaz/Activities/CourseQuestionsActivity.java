@@ -60,7 +60,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     DataBase db;
     Dialog dialogResults;
     Dialog dialogSaveTest;
-    CustomSnackBar snackBar;
 
     CoordinatorLayout mainContent;
     TextView timer_tv;
@@ -74,13 +73,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     FloatingActionButton confirm_fab;
 
     /*Activity Values*/
+    DroppyMenuPopup navigationMenu;
     PhotoViewAttacher questionZoomable;
     CountDownTimer countDownTimer;
     boolean hasNegativePoint = false, isPaused = false, isCanceled = false, isMinus = false, isCross = false, isAnswered = false;
     boolean isResumeTest = false, isExit = false;
     int idTest = 0, initTime = 0, time = 0, question = 0, totalQuestion = 0, whichAnswer = 0, questionState = 3;
     long timeRemaining = 0;
-    String testName = "";
+    String testName = "", breadCrumb = "";
     TestDefinitionObj pageTest;
     HashMap<Integer, Integer> answerList = new HashMap<>();
     ArrayList<Integer> correctAnsweredList = new ArrayList<>();
@@ -120,6 +120,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             testName = bundle.getString("testName", "");
             isResumeTest = bundle.getBoolean("isResumeTest", false);
             initTime = bundle.getInt("initTime", 0);
+            breadCrumb = bundle.getString("breadCrumb", "");
         }
 
         for (int i = 0; i < pageMaker().size(); i++) {
@@ -193,6 +194,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         super.onDestroy();
         countDownTimer.cancel();
         Constants.freeMemory();
+        db.questionStateDelete(idTest, breadCrumb);
     }
 
     @Override
@@ -211,10 +213,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 break;
             case R.id.addToFavorite:
                 if (db.isTestFavored(idTest)) {
-                    snackBar = new CustomSnackBar(mainContent, "این آزمون قبلا به آزمون های منتخب اضافه شده", Constants.SNACK.ERROR);
+                    new CustomSnackBar(mainContent, "این آزمون قبلا به آزمون های منتخب اضافه شده", Constants.SNACK.ERROR);
                 } else {
-                    db.favoriteTestInsert(new TestsTitleObj(idTest));
-                    snackBar = new CustomSnackBar(mainContent, "این آزمون به آزمون‌های منتخب شما اضافه شد", Constants.SNACK.SUCCESS);
+                    db.favoriteTestInsert(new TestsTitleObj(idTest), breadCrumb);
+                    new CustomSnackBar(mainContent, "این آزمون به آزمون‌های منتخب شما اضافه شد", Constants.SNACK.SUCCESS);
                 }
                 break;
         }
@@ -234,7 +236,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 initMenu(more_imgbtn);
                 break;
             case R.id.numberOfQuestions_sp:
-                initNavigationMenu(numberOfQuestions_sp);
+                initNavigationMenu(numberOfQuestions_sp).build().show();
+                Log.i(Constants.TAG, "Clicked");
                 break;
             case R.id.pausePlay_imgbtn:
                 if (isPaused) {
@@ -309,14 +312,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 addAnswer();
                 break;
             case R.id.addToFavoredQuestion_imgbtn:
-                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName)) {
+                if (db.isQuestionFavored(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName, breadCrumb)) {
                     addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
-                    db.favoredQuestionDelete(pageTest.getQuestionInfo().get(question).getIdQuestion());
+                    db.favoredQuestionDelete(pageTest.getQuestionInfo().get(question).getIdQuestion(), breadCrumb, testName);
                 } else {
                     db.favoredQuestionInsert(new TestObj(testName, pageTest.getQuestionInfo().get(question).getIdQuestion(),
                             String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(question).getQuestionImage()),
                             String.valueOf("TestDefinitions/" + pageTest.getIdTest() + "/a/" + pageTest.getQuestionInfo().get(question).getAnswerImage()),
-                            pageTest.getQuestionInfo().get(question).getKey()));
+                            pageTest.getQuestionInfo().get(question).getKey(), breadCrumb));
                     addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
                 }
                 break;
@@ -407,7 +410,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     private ArrayList<TestDefinitionObj> pageMaker() {
         ArrayList<TestDefinitionObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.test_definition)).getJSONArray("testDefinition");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("test_definition.json")).getJSONArray("testDefinition");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {
@@ -490,13 +493,14 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     }
 
     private void showQuestions(int position) {
-        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName)) {
+        if (db.isQuestionFavored(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName, breadCrumb)) {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark);
         } else {
             addToFavoredQuestion_imgbtn.setImageResource(R.drawable.ic_bookmark_outline);
         }
-        showQuestionState(db.selectQuestionState(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName));
-        new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/" + pageTest.getQuestionInfo().get(position).getQuestionImage(), question_imgv);
+        showQuestionState(db.selectQuestionState(pageTest.getQuestionInfo().get(position).getIdQuestion(), testName, breadCrumb));
+        new ImageLoad("TestDefinitions/" + pageTest.getIdTest() + "/q/"
+                + pageTest.getQuestionInfo().get(position).getQuestionImage(), question_imgv);
     }
 
     private void addAnswer() {
@@ -543,7 +547,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         if (db.isQuestionStateCreated(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName)) {
             db.questionStateUpdate(pageTest.getQuestionInfo().get(question).getIdQuestion(), questionState);
         } else {
-            db.questionStateInsert(pageTest.getQuestionInfo().get(question).getIdQuestion(), testName, questionState);
+            db.questionStateInsert(idTest, pageTest.getQuestionInfo().get(question).getIdQuestion()
+                    , testName, questionState, breadCrumb);
         }
     }
 
@@ -627,7 +632,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
                 isExit = true;
                 startActivity(new Intent(context, CourseAnswersActivity.class)
                         .putExtra("idTest", idTest)
-                        .putExtra("testName", testName));
+                        .putExtra("testName", testName)
+                        .putExtra("breadCrumb", breadCrumb));
             }
         });
 
@@ -642,7 +648,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
 
         db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(initTime - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
                 String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
-                inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000), saveAnswers()));
+                inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000), saveAnswers(),
+                breadCrumb));
 
         pausePlay_imgbtn.setVisibility(View.GONE);
         isCanceled = true;
@@ -792,7 +799,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         } else {
             db.savedTestInsert(pageTest.getIdTest()
                     , (int) TimeUnit.MILLISECONDS.toSeconds(timeRemaining)
-                    , arrayList, hasNegativePointInt, testName, initTime);
+                    , arrayList, hasNegativePointInt, testName, initTime, breadCrumb);
         }
 
         dialogSaveTest.dismiss();
@@ -839,11 +846,32 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         droppyMenu.show();
     }
 
-    private void initNavigationMenu(CSpinner sp) {
+    private DroppyMenuPopup.Builder initNavigationMenu(CSpinner sp) {
         DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, sp);
         // Add normal items (text only)
+        String is = "";
         for (int i = 0; i < pageTest.getQuestionInfo().size(); i++) {
-            droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1))));
+            switch (questionState) {
+                case 0:
+                    droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1)), R.drawable.state_0));
+                    break;
+                case 1:
+                    droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1)), R.drawable.state_1));
+                    break;
+                case 2:
+                    droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1)), R.drawable.state_2));
+                    break;
+                case 3:
+                    droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1)), R.drawable.state_3));
+                    break;
+                case 4:
+                    droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1)), R.drawable.state_4));
+                    break;
+                case 5:
+                    droppyBuilder.addMenuItem(new DroppyMenuItem(String.valueOf("سوال " + (i + 1)), R.drawable.state_5));
+                    break;
+            }
+            is = "Nav is Created";
         }
         // Set Callback handler
         droppyBuilder.setOnClick(new DroppyClickCallbackInterface() {
@@ -859,6 +887,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             }
         });
 
-        droppyBuilder.build().show();
+        Log.i(Constants.TAG, is);
+
+        return droppyBuilder;
     }
 }

@@ -88,10 +88,12 @@ public class CoursesFragment extends Fragment {
                 }
                 if (isIntent) {
                     startActivity(new Intent(getActivity(), TreeActivity.class)
-                            .putExtra("idCat", rootCategories.get(position).getIdCat()));
+                            .putExtra("idCat", rootCategories.get(position).getIdCat())
+                            .putExtra("breadCrumb", rootCategories.get(position).getCatName()));
                 } else {
                     startActivity(new Intent(getActivity(), TestActivity.class)
-                            .putExtra("idCat", rootCategories.get(position).getIdCat()));
+                            .putExtra("idCat", rootCategories.get(position).getIdCat())
+                            .putExtra("breadCrumb", rootCategories.get(position).getCatName()));
                 }
             }
         }));
@@ -106,7 +108,7 @@ public class CoursesFragment extends Fragment {
     private ArrayList<CategoryObj> pageMaker() {
         ArrayList<CategoryObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.categories)).getJSONArray("categories");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("categories.json")).getJSONArray("categories");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {

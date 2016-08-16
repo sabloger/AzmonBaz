@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardCornerRadius="2dp"
     android:layoutDirection="rtl"
+    app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true">
 
@@ -14,6 +14,16 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:orientation="vertical">
+
+        <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+            android:id="@+id/breadCrumb_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:textColor="@color/darkGray"
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"

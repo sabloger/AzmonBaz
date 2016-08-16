@@ -1,6 +1,7 @@
 package com.kokabi.p.azmonbaz.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
+import com.kokabi.p.azmonbaz.Components.DialogGeneral;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
@@ -44,6 +47,7 @@ public class FavoritesFragment extends Fragment {
     TestRVAdapter testRVAdapter;
     ArrayList<TestsTitleObj> favoritesTests = new ArrayList<>();
     ArrayList<Integer> idFavoredTests = new ArrayList<>();
+    ArrayList<String> breadCrumbFavoredTests = new ArrayList<>();
 
     @Nullable
     @Override
@@ -59,7 +63,8 @@ public class FavoritesFragment extends Fragment {
 
         findViews(v);
 
-        idFavoredTests.addAll(db.selectAllFavorites());
+        idFavoredTests.addAll(db.selectAllIdFavorites());
+        breadCrumbFavoredTests.addAll(db.selectAllBreadCrumbFavorites());
 
         // use a linear layout manager
         favoriteTestRV.setLayoutManager(new LinearLayoutManager(context));
@@ -69,7 +74,9 @@ public class FavoritesFragment extends Fragment {
         for (int i = 0; i < pageMaker().size(); i++) {
             for (int j = 0; j < idFavoredTests.size(); j++) {
                 if (pageMaker().get(i).getIdTest() == idFavoredTests.get(j)) {
-                    favoritesTests.add(pageMaker().get(i));
+                    TestsTitleObj finalTest = pageMaker().get(i);
+                    finalTest.setBreadCrumb(breadCrumbFavoredTests.get(j));
+                    favoritesTests.add(finalTest);
                 }
             }
         }
@@ -80,7 +87,7 @@ public class FavoritesFragment extends Fragment {
         }
 
         Collections.sort(favoritesTests);
-        testRVAdapter = new TestRVAdapter(favoritesTests, true);
+        testRVAdapter = new TestRVAdapter(favoritesTests, true, "");
         favoriteTestRV.setAdapter(testRVAdapter);
 
         return v;
@@ -100,11 +107,29 @@ public class FavoritesFragment extends Fragment {
         noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
     }
 
-    public void onEvent(GeneralMSB event) {
+    public void onEvent(final GeneralMSB event) {
         switch (event.getMessage()) {
             case "isEmpty":
                 favoriteTestRV.setVisibility(View.GONE);
                 noItem_ly.setVisibility(View.VISIBLE);
+                break;
+            case "isResume":
+                new DialogGeneral(context.getResources().getString(R.string.resumeTestTitle)
+                        , context.getResources().getString(R.string.startTest)
+                        , context.getResources().getString(R.string.cancel)) {
+                    @Override
+                    public void onConfirm() {
+                        context.startActivity(new Intent(context, CourseQuestionsActivity.class)
+                                .putExtra("idTest", event.getTestsTitleObj().getIdTest())
+                                .putExtra("time", event.getTestsTitleObj().getTime())
+                                .putExtra("testName", event.getTestsTitleObj().getTestName())
+                                .putExtra("hasNegativePoint", event.getTestsTitleObj().isHasNegativePoint())
+                                .putExtra("isResumeTest", false)
+                                .putExtra("initTime", event.getTestsTitleObj().getTime())
+                                .putExtra("breadCrumb", event.getBreadCrumb()));
+
+                    }
+                }.show();
                 break;
         }
     }
@@ -112,7 +137,7 @@ public class FavoritesFragment extends Fragment {
     private ArrayList<TestsTitleObj> pageMaker() {
         ArrayList<TestsTitleObj> result = new ArrayList<>();
         try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource(R.raw.tests_title)).getJSONArray("test_titles");
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("tests_title.json")).getJSONArray("test_titles");
 
             int length = categoryArray.length();
             for (int i = 0; i < length; ++i) {

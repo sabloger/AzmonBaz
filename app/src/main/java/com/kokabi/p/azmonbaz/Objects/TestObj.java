@@ -6,17 +6,18 @@ package com.kokabi.p.azmonbaz.Objects;
 public class TestObj {
 
     int id, k, state, l;
-    String q, a, testName;
+    String q, a, testName, breadCrumb;
 
     public TestObj() {
     }
 
-    public TestObj(String testName, int idQuestion, String questionImage, String answerImage, int key) {
+    public TestObj(String testName, int idQuestion, String questionImage, String answerImage, int key, String breadCrumb) {
         this.testName = testName;
         this.id = idQuestion;
         this.q = questionImage;
         this.a = answerImage;
         this.k = key;
+        this.breadCrumb = breadCrumb;
     }
 
     public int getIdQuestion() {
@@ -41,6 +42,10 @@ public class TestObj {
 
     public int getLevel() {
         return l;
+    }
+
+    public String getBreadCrumb() {
+        return breadCrumb;
     }
 
     @Override

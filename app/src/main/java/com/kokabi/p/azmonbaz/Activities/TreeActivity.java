@@ -36,6 +36,7 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
     /*Activity Values*/
     TreeLVAdapter treeLVAdapter;
     int idCategory;
+    String breadCrumb;
     private boolean isIntent = false;
     ArrayList<CategoryObj> pageCategories = new ArrayList<>();
 
@@ -53,6 +54,7 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idCategory = bundle.getInt("idCat", 0);
+            breadCrumb = bundle.getString("breadCrumb", "");
         }
 
         for (int i = 0; i < Constants.totalCategories.size(); i++) {
@@ -62,7 +64,7 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Collections.sort(pageCategories);
-        treeLVAdapter = new TreeLVAdapter(context, pageCategories);
+        treeLVAdapter = new TreeLVAdapter(context, pageCategories, breadCrumb);
         childLV.setAdapter(treeLVAdapter);
 
         for (int i = 0; i < Constants.totalCategories.size(); i++) {
@@ -82,10 +84,12 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 if (isIntent) {
                     startActivity(new Intent(context, TreeActivity.class)
-                            .putExtra("idCat", pageCategories.get(position).getIdCat()));
+                            .putExtra("idCat", pageCategories.get(position).getIdCat())
+                            .putExtra("breadCrumb", breadCrumb + " - " + pageCategories.get(position).getCatName()));
                 } else {
                     startActivity(new Intent(context, TestActivity.class)
-                            .putExtra("idCat", pageCategories.get(position).getIdCat()));
+                            .putExtra("idCat", pageCategories.get(position).getIdCat())
+                            .putExtra("breadCrumb", breadCrumb + " - " + pageCategories.get(position).getCatName()));
                 }
             }
         });

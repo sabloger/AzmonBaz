@@ -1,7 +1,6 @@
 package com.kokabi.p.azmonbaz.Help;
 
-import android.support.annotation.RawRes;
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -10,8 +9,13 @@ import java.util.Scanner;
  */
 public class ReadJSON {
 
-    public static String readRawResource(@RawRes int res) {
-        return readStream(AppController.getCurrentContext().getResources().openRawResource(res));
+    public static String readRawResource(String jsonPathName) {
+        try {
+            return readStream(AppController.getCurrentContext().getAssets().open("Json/" + jsonPathName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static String readStream(InputStream is) {

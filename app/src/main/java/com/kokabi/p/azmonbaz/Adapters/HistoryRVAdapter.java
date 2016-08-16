@@ -49,13 +49,14 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title_tv, updateTime_tv, percentage_tv, testTimeLabel_tv, testTime_tv, correctAnswer_tv, unAnswered_tv, incorrectAnswer_tv;
+        TextView breadCrumb_tv, title_tv, updateTime_tv, percentage_tv, testTimeLabel_tv, testTime_tv, correctAnswer_tv, unAnswered_tv, incorrectAnswer_tv;
         AppCompatImageButton delete_imgbtn, answer_imgbtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
 
+            breadCrumb_tv = (TextView) itemView.findViewById(R.id.breadCrumb_tv);
             title_tv = (TextView) itemView.findViewById(R.id.title_tv);
             updateTime_tv = (TextView) itemView.findViewById(R.id.updateTime_tv);
             percentage_tv = (TextView) itemView.findViewById(R.id.percentage_tv);
@@ -79,7 +80,8 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
                 public void onClick(View view) {
                     context.startActivity(new Intent(context, CourseAnswersActivity.class)
                             .putExtra("idTest", getIdTest())
-                            .putExtra("testName", historyList.get(getAdapterPosition()).getTestName()));
+                            .putExtra("testName", historyList.get(getAdapterPosition()).getTestName())
+                            .putExtra("breadCrumb", historyList.get(getAdapterPosition()).getBreadCrumb()));
                 }
             });
 
@@ -98,6 +100,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         final HistoryObj historyObj = historyList.get(position);
 
+        holder.breadCrumb_tv.setText(historyObj.getBreadCrumb());
         /*set Title*/
         holder.title_tv.setText(historyObj.getTestName());
         /*set Update Time*/

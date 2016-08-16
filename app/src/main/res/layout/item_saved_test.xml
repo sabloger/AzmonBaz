@@ -27,12 +27,23 @@
                 android:visibility="visible">
 
                 <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
-                    android:id="@+id/testTitle_tv"
+                    android:id="@+id/breadCrumb_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical|start"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:textColor="@color/darkPrimaryColor"
+                    android:textSize="16sp" />
+
+                <com.kokabi.p.azmonbaz.Components.CTextViewSansMedium
+                    android:id="@+id/testTitle_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/breadCrumb_tv"
+                    android:layout_alignParentStart="true"
                     android:gravity="center_vertical|start"
                     android:padding="2dp"
                     android:singleLine="true"

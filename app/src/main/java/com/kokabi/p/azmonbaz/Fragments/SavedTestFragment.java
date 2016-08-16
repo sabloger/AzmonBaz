@@ -13,14 +13,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kokabi.p.azmonbaz.Adapters.SavedTestRVAdapter;
+import com.kokabi.p.azmonbaz.Components.DialogGeneral;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
-import com.kokabi.p.azmonbaz.Components.GeneralDialog;
 import com.kokabi.p.azmonbaz.R;
-
-import java.util.Collections;
 
 import de.greenrobot.event.EventBus;
 
@@ -91,7 +89,7 @@ public class SavedTestFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new GeneralDialog(getString(R.string.titleDelete), getString(R.string.confirm), getString(R.string.cancel)) {
+                new DialogGeneral(getString(R.string.titleDelete), getString(R.string.confirm), getString(R.string.cancel)) {
                     @Override
                     public void onConfirm() {
                         db.savedTestDelete(event.getId());
@@ -104,7 +102,7 @@ public class SavedTestFragment extends Fragment {
 
     private void loadData() {
         if (db.selectAllSavedTest().size() > 0) {
-            Collections.sort(db.selectAllSavedTest());
+//            Collections.sort(db.selectAllSavedTest());
             historyRVAdapter = new SavedTestRVAdapter(db.selectAllSavedTest());
             savedTestRV.setAdapter(historyRVAdapter);
         } else {

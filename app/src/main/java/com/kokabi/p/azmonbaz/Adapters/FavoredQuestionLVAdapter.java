@@ -52,6 +52,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_tree, null);
             holder = new ViewHolder();
 
+            holder.breadCrumb_tv = (TextView) convertView.findViewById(R.id.breadCrumb_tv);
             holder.treeTitle_tv = (TextView) convertView.findViewById(R.id.treeTitle_tv);
 
             holder.delete_imgbtn = (AppCompatImageButton) convertView.findViewById(R.id.delete_imgbtn);
@@ -65,12 +66,14 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
 
         final TestObj testItem = favoredList.get(position);
 
+        holder.breadCrumb_tv.setText(testItem.getBreadCrumb());
         holder.treeTitle_tv.setText(String.valueOf(testItem.getTestName() + " سوال " + testItem.getIdQuestion()));
 
         holder.delete_imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new GeneralMSB("isDelete", testItem.getIdQuestion()));
+                EventBus.getDefault().post(new GeneralMSB("isDelete", testItem.getIdQuestion()
+                        , testItem.getBreadCrumb(), testItem.getTestName()));
             }
         });
 
@@ -79,7 +82,8 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
             public void onClick(View view) {
                 context.startActivity(new Intent(context, FavoredQuestionDetailActivity.class)
                         .putExtra("idQuestion", testItem.getIdQuestion())
-                        .putExtra("testName", testItem.getTestName()));
+                        .putExtra("testName", testItem.getTestName())
+                        .putExtra("breadCrumb", testItem.getBreadCrumb()));
             }
         });
 
@@ -107,7 +111,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView treeTitle_tv;
+        TextView breadCrumb_tv, treeTitle_tv;
         AppCompatImageButton delete_imgbtn;
     }
 }

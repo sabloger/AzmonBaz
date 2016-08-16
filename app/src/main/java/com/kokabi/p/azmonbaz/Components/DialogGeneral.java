@@ -16,13 +16,13 @@ import com.kokabi.p.azmonbaz.R;
 /**
  * Created by P.kokabi on 8/6/2016.
  */
-public abstract class GeneralDialog extends Dialog implements View.OnClickListener {
+public abstract class DialogGeneral extends Dialog implements View.OnClickListener {
 
     private CButton confirm_btn, cancel_btn;
     TextView title_tv;
     String titleText, confirmTitle, cancelTitle;
 
-    public GeneralDialog(@Nullable String titleText, @Nullable String confirmTitle, @Nullable String cancelTitle) {
+    public DialogGeneral(@Nullable String titleText, @Nullable String confirmTitle, @Nullable String cancelTitle) {
         super(AppController.getCurrentContext());
         this.titleText = titleText;
         this.confirmTitle = confirmTitle;

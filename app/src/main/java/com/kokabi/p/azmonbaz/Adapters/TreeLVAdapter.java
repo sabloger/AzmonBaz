@@ -18,10 +18,12 @@ public class TreeLVAdapter extends BaseAdapter {
     Context context;
     ArrayList<CategoryObj> childList = new ArrayList<>();
     ViewHolder holder;
+    String breadCrumb;
 
-    public TreeLVAdapter(Context context, ArrayList<CategoryObj> dataInput) {
+    public TreeLVAdapter(Context context, ArrayList<CategoryObj> dataInput,String breadCrumb) {
         this.context = context;
         childList = dataInput;
+        this.breadCrumb = breadCrumb;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class TreeLVAdapter extends BaseAdapter {
 
             holder.mainContent = (RelativeLayout) convertView.findViewById(R.id.mainContent);
 
+            holder.breadCrumb_tv = (TextView) convertView.findViewById(R.id.breadCrumb_tv);
             holder.treeTitle_tv = (TextView) convertView.findViewById(R.id.treeTitle_tv);
 
             convertView.setTag(holder);
@@ -57,12 +60,13 @@ public class TreeLVAdapter extends BaseAdapter {
         }
 
         holder.treeTitle_tv.setText(childList.get(position).getCatName());
+        holder.breadCrumb_tv.setText(breadCrumb);
 
         return convertView;
     }
 
     private class ViewHolder {
         RelativeLayout mainContent;
-        TextView treeTitle_tv;
+        TextView breadCrumb_tv,treeTitle_tv;
     }
 }
