@@ -60,7 +60,7 @@
     <string name="titleDelete">مطمئن به حذف هستید؟</string>
 
     <!--Saved Tests-->
-    <string name="deletSavedtest">حذف آزمون</string>
+    <string name="deleteSavedTest">حذف آزمون</string>
     <string name="resumeTest">ادامه آزمون</string>
 
 </resources>
