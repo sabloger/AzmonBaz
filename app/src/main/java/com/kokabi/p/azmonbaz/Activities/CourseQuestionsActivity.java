@@ -73,7 +73,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     FloatingActionButton confirm_fab;
 
     /*Activity Values*/
-    DroppyMenuPopup navigationMenu;
     PhotoViewAttacher questionZoomable;
     CountDownTimer countDownTimer;
     boolean hasNegativePoint = false, isPaused = false, isCanceled = false, isMinus = false, isCross = false, isAnswered = false;
