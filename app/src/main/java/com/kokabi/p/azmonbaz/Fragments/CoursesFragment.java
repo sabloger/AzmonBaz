@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Activities.TestActivity;
 import com.kokabi.p.azmonbaz.Activities.TreeActivity;
 import com.kokabi.p.azmonbaz.Adapters.CoursesRVAdapter;
+import com.kokabi.p.azmonbaz.Components.EndlessRecyclerList;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
@@ -38,10 +39,11 @@ public class CoursesFragment extends Fragment {
     RecyclerView coursesRecycleView;
 
     /*Fragment Values*/
+    LinearLayoutManager linearLayoutManager;
     CoursesRVAdapter rvAdapter;
     ArrayList<CategoryObj> totalCategories = new ArrayList<>();
     ArrayList<CategoryObj> rootCategories = new ArrayList<>();
-    private boolean isIntent = false;
+    private boolean isIntent = false, isFirstTime = true;
 
     @Nullable
     @Override
@@ -56,7 +58,8 @@ public class CoursesFragment extends Fragment {
         findViews(v);
 
         // use a linear layout manager
-        coursesRecycleView.setLayoutManager(new LinearLayoutManager(context));
+        linearLayoutManager = new LinearLayoutManager(context);
+        coursesRecycleView.setLayoutManager(linearLayoutManager);
         // in content do not change the layout size of the RecyclerView
         coursesRecycleView.setHasFixedSize(true);
 
@@ -66,17 +69,9 @@ public class CoursesFragment extends Fragment {
 
         totalCategories.addAll(pageMaker());
         Constants.totalCategories.addAll(pageMaker());
-
-        for (int i = 0; i < totalCategories.size(); i++) {
-            if (totalCategories.get(i).getIdParent() == 0) {
-                rootCategories.add(totalCategories.get(i));
-            }
-        }
-
-        Collections.sort(rootCategories);
-        rvAdapter = new CoursesRVAdapter(rootCategories);
-        coursesRecycleView.setAdapter(rvAdapter);
-
+        loadData(0);
+        loadMore();
+        isFirstTime = false;
         coursesRecycleView.addOnItemTouchListener(new CoursesRVAdapter(context, new CoursesRVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -101,8 +96,42 @@ public class CoursesFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isFirstTime = true;
+    }
+
     private void findViews(View v) {
         coursesRecycleView = (RecyclerView) v.findViewById(R.id.coursesRecycleView);
+    }
+
+    private void loadData(int pageIndex) {
+        for (int i = pageIndex; i < pageIndex + 10; i++) {
+            if (totalCategories.get(i).getIdParent() == 0) {
+                rootCategories.add(totalCategories.get(i));
+            }
+        }
+
+        if (isFirstTime) {
+            Collections.sort(rootCategories);
+            rvAdapter = new CoursesRVAdapter(rootCategories);
+            coursesRecycleView.setAdapter(rvAdapter);
+        } else {
+            Collections.sort(rootCategories);
+            rvAdapter.updateCourses();
+        }
+    }
+
+    private void loadMore() {
+        coursesRecycleView.addOnScrollListener(new EndlessRecyclerList(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!isFirstTime) {
+                    loadData(current_page * 10);
+                }
+            }
+        });
     }
 
     private ArrayList<CategoryObj> pageMaker() {
@@ -110,8 +139,7 @@ public class CoursesFragment extends Fragment {
         try {
             JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("categories.json")).getJSONArray("categories");
 
-            int length = categoryArray.length();
-            for (int i = 0; i < length; ++i) {
+            for (int i = 0; i < categoryArray.length(); ++i) {
                 JSONObject event = categoryArray.getJSONObject(i);
                 result.add(new Gson().fromJson(event.toString(), CategoryObj.class));
             }

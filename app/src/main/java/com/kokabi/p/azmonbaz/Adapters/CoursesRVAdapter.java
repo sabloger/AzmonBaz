@@ -136,4 +136,8 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
 
     }
 
+    public void updateCourses() {
+        notifyDataSetChanged();
+    }
+
 }

@@ -533,7 +533,7 @@ public class DataBase extends SQLiteOpenHelper {
     public boolean isSavedTestCreated(int id) {
         boolean isCreated = false;
         String query = "SELECT * FROM " + tableSavedTest +
-                " WHERE " + KEY_idSavedTest + " = " + id;
+                " WHERE " + KEY_isDone + " = 0 AND " + KEY_idSavedTest + " = " + id;
 
         SQLiteDatabase db = this.getReadableDatabase();
         try {

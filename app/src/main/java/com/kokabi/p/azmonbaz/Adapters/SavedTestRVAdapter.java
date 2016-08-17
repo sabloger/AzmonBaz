@@ -96,6 +96,8 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
 
         if (testsTitleObj.isHasNegativePoint()) {
             holder.negativePoint_tv.setVisibility(View.VISIBLE);
+        } else {
+            holder.negativePoint_tv.setVisibility(View.GONE);
         }
     }
 
