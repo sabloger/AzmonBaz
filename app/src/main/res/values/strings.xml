@@ -6,6 +6,9 @@
     <string name="minute">دقیقه</string>
     <string name="cancel">بی خیال</string>
     <string name="confirm">حذف</string>
+    <string name="correctAnswer"> پاسخ صحیح</string>
+    <string name="incorrectAnswer"> پاسخ اشتباه </string>
+    <string name="unAnswered"> سوال نزده </string>
 
     <string name="dr_test">آزمون</string>
     <string name="dr_favorite">آزمون‌های منتخب شما</string>
@@ -26,6 +29,8 @@
     <string name="saveTestTitle">مایل به ذخیره آزمون برای آینده هستید؟</string>
     <string name="saveTest">ذخیره آزمون</string>
     <string name="exitTest">خروج از آزمون</string>
+    <string name="resultTitle">نتایج</string>
+    <string name="resultDesc">نتیجه آزمون شما : </string>
 
     <!--Permission Dialog-->
     <string name="permissionDeniedTitle">عدم دسترسی</string>
@@ -64,6 +69,6 @@
     <string name="resumeTest">ادامه آزمون</string>
 
     <!--Dialog Resume-->
-    <string name="resumeTestTitle">این آزمون را قبلا ذخیره کرده اید.\nمایل به شروه مجدد هستید؟</string>
+    <string name="resumeTestTitle">این آزمون قبلا ذخیره شده.\nمایل به شروع مجدد هستید؟</string>
 
 </resources>

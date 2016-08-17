@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
     CPermissionDeniedDialog dialogPermissionDenied;
 
     /*Activity Values*/
-    int SPLASH_TIME_OUT = 1000;
+    int SPLASH_TIME_OUT = 500;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
@@ -28,7 +28,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        overridePendingTransition(0, 0);
         setContentView(R.layout.activity_splash);
 
         context = this;

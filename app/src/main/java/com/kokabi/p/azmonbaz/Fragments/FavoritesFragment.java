@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.Components.DialogGeneral;
+import com.kokabi.p.azmonbaz.Components.EndlessRecyclerList;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
@@ -30,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import de.greenrobot.event.EventBus;
 
@@ -45,9 +45,11 @@ public class FavoritesFragment extends Fragment {
 
     /*Activity Values*/
     TestRVAdapter testRVAdapter;
+    LinearLayoutManager linearLayoutManager;
     ArrayList<TestsTitleObj> favoritesTests = new ArrayList<>();
     ArrayList<Integer> idFavoredTests = new ArrayList<>();
     ArrayList<String> breadCrumbFavoredTests = new ArrayList<>();
+    boolean isFirstTime = true;
 
     @Nullable
     @Override
@@ -63,13 +65,37 @@ public class FavoritesFragment extends Fragment {
 
         findViews(v);
 
-        idFavoredTests.addAll(db.selectAllIdFavorites());
-        breadCrumbFavoredTests.addAll(db.selectAllBreadCrumbFavorites());
-
         // use a linear layout manager
-        favoriteTestRV.setLayoutManager(new LinearLayoutManager(context));
+        linearLayoutManager = new LinearLayoutManager(context);
+        favoriteTestRV.setLayoutManager(linearLayoutManager);
         // in content do not change the layout size of the RecyclerView
         favoriteTestRV.setHasFixedSize(true);
+
+        loadData(0);
+        loadMore();
+        isFirstTime = true;
+
+        return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        idFavoredTests.clear();
+        testRVAdapter.clearTest();
+        breadCrumbFavoredTests.clear();
+    }
+
+    private void findViews(View v) {
+        favoriteTestRV = (RecyclerView) v.findViewById(R.id.favoriteTestRV);
+
+        noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
+    }
+
+    private void loadData(int pageIndex) {
+        idFavoredTests.addAll(db.selectPagingIdFavorites(pageIndex));
+        breadCrumbFavoredTests.addAll(db.selectAllBreadCrumbFavorites(pageIndex));
 
         for (int i = 0; i < pageMaker().size(); i++) {
             for (int j = 0; j < idFavoredTests.size(); j++) {
@@ -86,25 +112,13 @@ public class FavoritesFragment extends Fragment {
             noItem_ly.setVisibility(View.VISIBLE);
         }
 
-        Collections.sort(favoritesTests);
-        testRVAdapter = new TestRVAdapter(favoritesTests, true, "");
-        favoriteTestRV.setAdapter(testRVAdapter);
-
-        return v;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        idFavoredTests.clear();
-        testRVAdapter.clearTest();
-    }
-
-    private void findViews(View v) {
-        favoriteTestRV = (RecyclerView) v.findViewById(R.id.favoriteTestRV);
-
-        noItem_ly = (LinearLayout) v.findViewById(R.id.noItem_ly);
+        if (isFirstTime) {
+            testRVAdapter = new TestRVAdapter(favoritesTests, true, null);
+            favoriteTestRV.setAdapter(testRVAdapter);
+            isFirstTime = false;
+        } else {
+            testRVAdapter.addMoreData();
+        }
     }
 
     public void onEvent(final GeneralMSB event) {
@@ -149,6 +163,17 @@ public class FavoritesFragment extends Fragment {
             Log.e(CoursesFragment.class.getName(), e.getMessage());
         }
         return result;
+    }
+
+    private void loadMore() {
+        favoriteTestRV.addOnScrollListener(new EndlessRecyclerList(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!isFirstTime) {
+                    loadData(current_page);
+                }
+            }
+        });
     }
 
 }

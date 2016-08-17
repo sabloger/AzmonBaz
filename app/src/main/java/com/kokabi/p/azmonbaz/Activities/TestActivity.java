@@ -1,6 +1,7 @@
 package com.kokabi.p.azmonbaz.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
+import com.kokabi.p.azmonbaz.Components.DialogGeneral;
+import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
@@ -28,6 +31,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by P.Kokabi on 6/30/16.
@@ -55,6 +60,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
         context = this;
         AppController.setActivityContext(TestActivity.this, this);
+        EventBus.getDefault().register(this);
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
 
         findViews();
@@ -81,7 +87,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Collections.sort(pageTests);
-        testRVAdapter = new TestRVAdapter(pageTests, false,breadCrumb);
+        testRVAdapter = new TestRVAdapter(pageTests, false, breadCrumb);
         testRV.setAdapter(testRVAdapter);
 
         // TODO Remove when Project is finished
@@ -104,6 +110,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         Constants.freeMemory();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -132,6 +139,28 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setOnClick() {
         back_imgbtn.setOnClickListener(this);
+    }
+
+    public void onEvent(final GeneralMSB event) {
+        switch (event.getMessage()) {
+            case "isResume":
+                new DialogGeneral(context.getResources().getString(R.string.resumeTestTitle)
+                        , context.getResources().getString(R.string.startTest)
+                        , context.getResources().getString(R.string.cancel)) {
+                    @Override
+                    public void onConfirm() {
+                        context.startActivity(new Intent(context, CourseQuestionsActivity.class)
+                                .putExtra("idTest", event.getTestsTitleObj().getIdTest())
+                                .putExtra("time", event.getTestsTitleObj().getTime())
+                                .putExtra("testName", event.getTestsTitleObj().getTestName())
+                                .putExtra("hasNegativePoint", event.getTestsTitleObj().isHasNegativePoint())
+                                .putExtra("isResumeTest", false)
+                                .putExtra("initTime", event.getTestsTitleObj().getTime())
+                                .putExtra("breadCrumb", event.getBreadCrumb()));
+                    }
+                }.show();
+                break;
+        }
     }
 
     private ArrayList<TestsTitleObj> pageMaker() {

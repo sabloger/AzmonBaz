@@ -243,9 +243,9 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     /*Select Methods*/
-    public ArrayList<Integer> selectAllIdFavorites() {
+    public ArrayList<Integer> selectPagingIdFavorites(int pageIndex) {
         String query = "SELECT * FROM " + tableFavoriteTests
-                + " ORDER BY " + KEY_idFavoriteTest + " DESC";
+                + " ORDER BY " + KEY_idFavoriteTest + " DESC LIMIT " + pageIndex + ", 10";
 
         ArrayList<Integer> testsArrayList = new ArrayList<>();
         try {
@@ -263,9 +263,9 @@ public class DataBase extends SQLiteOpenHelper {
         return testsArrayList;
     }
 
-    public ArrayList<String> selectAllBreadCrumbFavorites() {
+    public ArrayList<String> selectAllBreadCrumbFavorites(int pageIndex) {
         String query = "SELECT * FROM " + tableFavoriteTests
-                + " ORDER BY " + KEY_idFavoriteTest + " DESC";
+                + " ORDER BY " + KEY_idFavoriteTest + " DESC LIMIT " + pageIndex + ", 10";
 
         ArrayList<String> testsArrayList = new ArrayList<>();
         try {
@@ -283,9 +283,9 @@ public class DataBase extends SQLiteOpenHelper {
         return testsArrayList;
     }
 
-    public ArrayList<HistoryObj> selectAllHistory() {
+    public ArrayList<HistoryObj> selectAllHistory(int pageIndex) {
         String query = "SELECT * FROM " + tableHistory
-                + " ORDER BY " + KEY_idHistory + " DESC";
+                + " ORDER BY " + KEY_idHistory + " DESC LIMIT " + pageIndex + ", 10";
 
         ArrayList<HistoryObj> historyArrayList = new ArrayList<>();
         try {
@@ -412,9 +412,9 @@ public class DataBase extends SQLiteOpenHelper {
         return savedTest;
     }
 
-    public ArrayList<TestsTitleObj> selectAllSavedTest() {
+    public ArrayList<TestsTitleObj> selectAllSavedTest(int pageIndex) {
         String query = "SELECT * FROM " + tableSavedTest
-                + " WHERE " + KEY_isDone + " = 0 ORDER BY " + KEY_id + " DESC";
+                + " WHERE " + KEY_isDone + " = 0 ORDER BY " + KEY_id + " DESC LIMIT " + pageIndex + ", 10";
 
         ArrayList<TestsTitleObj> testsTitleObjArrayList = new ArrayList<>();
         try {

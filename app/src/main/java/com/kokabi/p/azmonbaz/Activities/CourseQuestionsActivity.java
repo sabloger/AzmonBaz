@@ -86,7 +86,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
     ArrayList<Integer> unAnsweredList = new ArrayList<>();
     ArrayList<Integer> inCorrectAnsweredList = new ArrayList<>();
     //Declare a variable to hold CountDownTimer remaining time
-    String decimal = "%02d : %02d";
+    String decimal = "%02d : %02d", floatDigits = "%.02f";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +117,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             idTest = bundle.getInt("idTest", 0);
             time = bundle.getInt("time", 0);
             testName = bundle.getString("testName", "");
+            hasNegativePoint = bundle.getBoolean("hasNegativePoint", false);
             isResumeTest = bundle.getBoolean("isResumeTest", false);
             initTime = bundle.getInt("initTime", 0);
             breadCrumb = bundle.getString("breadCrumb", "");
@@ -618,10 +619,20 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         Button seeResults_btn = (Button) dialogResults.findViewById(R.id.seeResults_btn);
         Button cancel_btn = (Button) dialogResults.findViewById(R.id.cancel_btn);
 
-        title_tv.setText(String.valueOf("نتایج "));
-        sub_title_tv.setText(String.valueOf("شما به " + (correctAnsweredList.size() * 10) + "٪ از سوالات پاسخ داده اید "));
-        results_tv.setText(String.valueOf(correctAnsweredList.size() + " پاسخ صحیح " + "\n" + unAnsweredList.size()
-                + " سوال جواب نداده" + "\n" + inCorrectAnsweredList.size() + " پاسخ اشتباه"));
+        String result;
+        if (hasNegativePoint) {
+            result = String.format(floatDigits
+                    , (float) ((correctAnsweredList.size() * 3) - inCorrectAnsweredList.size()) / ((totalQuestion + 1) * 3) * 10)
+                    + " % ";
+        } else {
+            result = String.format(floatDigits, (float) ((correctAnsweredList.size() * 3)) / ((totalQuestion + 1) * 3) * 10) + " % ";
+        }
+
+        title_tv.setText(getString(R.string.resultTitle));
+        sub_title_tv.setText(String.valueOf(getString(R.string.resultDesc) + result));
+        results_tv.setText(String.valueOf(correctAnsweredList.size() + getString(R.string.correctAnswer)
+                + "\n" + unAnsweredList.size() + getString(R.string.unAnswered) + "\n"
+                + inCorrectAnsweredList.size() + getString(R.string.incorrectAnswer)));
 
         seeResults_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -646,9 +657,8 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         });
 
         db.historyInsert(new HistoryObj(idTest, testName, String.valueOf(initTime - TimeUnit.MILLISECONDS.toSeconds(timeRemaining)),
-                String.valueOf(correctAnsweredList.size() * 10), correctAnsweredList.size(),
-                inCorrectAnsweredList.size(), unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000), saveAnswers(),
-                breadCrumb));
+                String.valueOf(result), correctAnsweredList.size(), inCorrectAnsweredList.size()
+                , unAnsweredList.size(), String.valueOf(System.currentTimeMillis() / 1000), saveAnswers(), breadCrumb));
 
         pausePlay_imgbtn.setVisibility(View.GONE);
         isCanceled = true;

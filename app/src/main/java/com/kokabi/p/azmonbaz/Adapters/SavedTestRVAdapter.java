@@ -130,4 +130,13 @@ public class SavedTestRVAdapter extends RecyclerView.Adapter<SavedTestRVAdapter.
                 return position;
         return 0;
     }
+
+    public int getSize() {
+        return savedList.size();
+    }
+
+    public void addMoreData(ArrayList<TestsTitleObj> myDataSet) {
+        savedList.addAll(myDataSet);
+        notifyDataSetChanged();
+    }
 }

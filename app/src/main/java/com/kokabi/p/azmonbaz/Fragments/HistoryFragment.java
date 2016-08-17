@@ -13,13 +13,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kokabi.p.azmonbaz.Adapters.HistoryRVAdapter;
+import com.kokabi.p.azmonbaz.Components.DialogGeneral;
+import com.kokabi.p.azmonbaz.Components.EndlessRecyclerList;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
-import com.kokabi.p.azmonbaz.Components.DialogGeneral;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.R;
-
-import java.util.Collections;
 
 import de.greenrobot.event.EventBus;
 
@@ -34,6 +33,8 @@ public class HistoryFragment extends Fragment {
 
     /*Activity Values*/
     HistoryRVAdapter historyRVAdapter = new HistoryRVAdapter();
+    LinearLayoutManager linearLayoutManager;
+    boolean isFirstTime = true;
 
     @Nullable
     @Override
@@ -50,14 +51,16 @@ public class HistoryFragment extends Fragment {
         findViews(v);
 
         // use a linear layout manager
-        historyRV.setLayoutManager(new LinearLayoutManager(context));
+        linearLayoutManager = new LinearLayoutManager(context);
+        historyRV.setLayoutManager(linearLayoutManager);
         // in content do not change the layout size of the RecyclerView
         historyRV.setHasFixedSize(true);
 
-        if (db.selectAllHistory().size() > 0) {
-            Collections.sort(db.selectAllHistory());
-            historyRVAdapter = new HistoryRVAdapter(db.selectAllHistory());
+        if (db.selectAllHistory(0).size() > 0) {
+            historyRVAdapter = new HistoryRVAdapter(db.selectAllHistory(0));
             historyRV.setAdapter(historyRVAdapter);
+            loadMore();
+            isFirstTime = false;
         } else {
             historyRV.setVisibility(View.GONE);
             noItem_ly.setVisibility(View.VISIBLE);
@@ -96,4 +99,14 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    private void loadMore() {
+        historyRV.addOnScrollListener(new EndlessRecyclerList(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (!isFirstTime) {
+                    historyRVAdapter.addMoreData(db.selectAllHistory(current_page));
+                }
+            }
+        });
+    }
 }

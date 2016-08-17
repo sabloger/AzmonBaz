@@ -37,7 +37,7 @@
                     android:padding="2dp"
                     android:singleLine="true"
                     android:textColor="@color/darkPrimaryColor"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:id="@+id/title_rly"

@@ -77,7 +77,6 @@ public class FavoritesRVAdapter extends RecyclerView.Adapter<FavoritesRVAdapter.
                         addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
                         db.favoriteTestInsert(testList.get(getAdapterPosition()), breadCrumb);
                     }
-                    db.selectAllIdFavorites();
                 }
             });
 

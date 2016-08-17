@@ -125,11 +125,11 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             holder.testTimeLabel_tv.setVisibility(View.VISIBLE);
         }
         /*set Correct Answer*/
-        holder.correctAnswer_tv.setText(String.valueOf(historyObj.getAnsweredQuestion() + " پاسخ صحیح "));
+        holder.correctAnswer_tv.setText(String.valueOf(historyObj.getAnsweredQuestion() + context.getString(R.string.correctAnswer)));
         /*set Unanswered*/
-        holder.unAnswered_tv.setText(String.valueOf(historyObj.getUnAnsweredQuestion() + " سوال جواب نداده"));
+        holder.unAnswered_tv.setText(String.valueOf(historyObj.getUnAnsweredQuestion() + context.getString(R.string.unAnswered)));
         /*set Incorrect Answer*/
-        holder.incorrectAnswer_tv.setText(String.valueOf(historyObj.getIncorrectQuestion() + " پاسخ اشتباه"));
+        holder.incorrectAnswer_tv.setText(String.valueOf(historyObj.getIncorrectQuestion() + context.getString(R.string.correctAnswer)));
 
         setIdTest(historyObj.getIdTest());
     }
@@ -165,5 +165,10 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
             if (historyList.get(position).getIdHistory() == id)
                 return position;
         return 0;
+    }
+
+    public void addMoreData(ArrayList<HistoryObj> myDataSet) {
+        historyList.addAll(myDataSet);
+        notifyDataSetChanged();
     }
 }

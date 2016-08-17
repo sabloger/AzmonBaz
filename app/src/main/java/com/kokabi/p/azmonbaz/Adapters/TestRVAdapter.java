@@ -2,6 +2,7 @@ package com.kokabi.p.azmonbaz.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +32,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
     boolean isFavoredFragment = false;
     String decimal = "%02d : %02d", breadCrumb;
 
-    public TestRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment, String breadCrumb) {
+    public TestRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment, @Nullable String breadCrumb) {
         testList = dataInput;
         this.isFavoredFragment = isFavoredFragment;
         this.breadCrumb = breadCrumb;
@@ -77,7 +78,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
                         addToFavorite_imgbtn.setImageResource(R.drawable.ic_bookmark);
                         db.favoriteTestInsert(testList.get(getAdapterPosition()), breadCrumb);
                     }
-                    db.selectAllIdFavorites();
+//                    db.selectAllIdFavorites();
                 }
             });
 
@@ -130,7 +131,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
         final TestsTitleObj testsTitleObj = testList.get(position);
 
         if (isFavoredFragment) {
-            holder.breadCrumb_tv.setText(breadCrumb);
+            holder.breadCrumb_tv.setText(testsTitleObj.getBreadCrumb());
         } else {
             holder.breadCrumb_tv.setText(breadCrumb);
         }
@@ -179,6 +180,10 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
 
     /*Update Method*/
     public void updateTest() {
+        notifyDataSetChanged();
+    }
+
+    public void addMoreData() {
         notifyDataSetChanged();
     }
 }
