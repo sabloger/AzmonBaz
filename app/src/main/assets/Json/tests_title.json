@@ -19,6 +19,16 @@
       "hasNegativePoint": true,
       "testOrder": "1",
       "questionCount": 10
+    },
+    {
+      "idCat": 7,
+      "idTest": 5,
+      "testName": "آزمون ۲",
+      "description": "سخته نوشتنش",
+      "time": 930,
+      "hasNegativePoint": false,
+      "testOrder": "2",
+      "questionCount": 10
     }
   ]
 }

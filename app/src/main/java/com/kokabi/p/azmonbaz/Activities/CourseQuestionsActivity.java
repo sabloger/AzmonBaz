@@ -24,13 +24,12 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Components.CSpinner;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
+import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.BlurBuilder;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
-import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
@@ -49,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import de.greenrobot.event.EventBus;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
@@ -123,10 +123,11 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             breadCrumb = bundle.getString("breadCrumb", "");
         }
 
-        for (int i = 0; i < pageMaker().size(); i++) {
-            if (pageMaker().get(i).getIdTest() == idTest) {
-                pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
-                        , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage());
+        for (int i = 0; i < Constants.totalTestDef.size(); i++) {
+            if (Constants.totalTestDef.get(i).getIdTest() == idTest) {
+                pageTest = new TestDefinitionObj(Constants.totalTestDef.get(i).getIdTest()
+                        , Constants.totalTestDef.get(i).getQuestionNo()
+                        , Constants.totalTestDef.get(i).getQuestionInfo(), Constants.totalTestDef.get(i).getPercentage());
                 break;
             }
         }
@@ -407,23 +408,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         confirm_fab.setOnClickListener(this);
     }
 
-    private ArrayList<TestDefinitionObj> pageMaker() {
-        ArrayList<TestDefinitionObj> result = new ArrayList<>();
-        try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("test_definition.json")).getJSONArray("testDefinition");
-
-            int length = categoryArray.length();
-            for (int i = 0; i < length; ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), TestDefinitionObj.class));
-            }
-
-        } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
-        }
-        return result;
-    }
-
     private void timer(long milliSeconds) {
         countDownTimer = new CountDownTimer(milliSeconds, 1000) { // adjust the milli seconds here
 
@@ -665,6 +649,7 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         updateSavedTest();
 
         dialogResults.show();
+        EventBus.getDefault().post(new GeneralMSB("testAnswered"));
     }
 
     private void showDialogSaveTest() {

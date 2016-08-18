@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
+import com.kokabi.p.azmonbaz.Objects.GeneralObj;
+import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
+import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -21,6 +25,7 @@ public class Constants {
 
     /*Setting Parameters*/
     public static boolean isShortcutCreated = false;
+    public static boolean isDataLoaded = false;
 
     //Config
     public final static String appFolder = "/AzmonBaz";
@@ -31,6 +36,7 @@ public class Constants {
     public final static String questionsFolder = "/Questions";
     public final static String answersFolder = "/Answers";
 
+
     /*Fonts*/
     public interface font {
         String SANS = "fonts/sans.ttf";
@@ -39,17 +45,21 @@ public class Constants {
 
     /*TreeValues*/
     public final static ArrayList<CategoryObj> totalCategories = new ArrayList<>();
+    public final static ArrayList<TestsTitleObj> totalTestTitles = new ArrayList<>();
+    public final static ArrayList<TestDefinitionObj> totalTestDef = new ArrayList<>();
 
     public static void loadPreferences() {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         Constants.isShortcutCreated = pref.getBoolean(GS.isShortcutCreated, Constants.isShortcutCreated);
+        Constants.isDataLoaded = pref.getBoolean(GS.isDataLoaded, Constants.isDataLoaded);
     }
 
     public static void savePreferences() {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         pref.edit().putBoolean(GS.isShortcutCreated, Constants.isShortcutCreated).apply();
+        pref.edit().putBoolean(GS.isDataLoaded, Constants.isDataLoaded).apply();
     }
 
     public static void hideKeyboard() {
@@ -71,6 +81,35 @@ public class Constants {
 
     public static boolean containsKey(HashMap<Integer, Integer> hashMap, int key) {
         return hashMap.get(key) != null;
+    }
+
+    public static GeneralObj getChildSize(int id) {
+        int size = 0, done = 0;
+        for (int i = 0; i < totalTestTitles.size(); i++) {
+            if (totalTestTitles.get(i).getIdCat() == id) {
+                size++;
+                if (new DataBase().isTestAnswered(totalTestTitles.get(i).getIdTest())) {
+                    done++;
+                }
+            }
+        }
+
+        if (size == 0) {
+            for (int j = 0; j < totalCategories.size(); j++) {
+                if (totalCategories.get(j).getIdParent() == id) {
+                    for (int k = 0; k < totalTestTitles.size(); k++) {
+                        if (totalTestTitles.get(k).getIdCat() == totalCategories.get(j).getIdCat()) {
+                            size++;
+                            if (new DataBase().isTestAnswered(totalTestTitles.get(k).getIdTest())) {
+                                done++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return new GeneralObj(done, size);
     }
 
     /*SnackBar Actions*/

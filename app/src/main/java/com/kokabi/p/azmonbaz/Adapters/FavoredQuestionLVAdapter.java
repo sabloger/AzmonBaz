@@ -49,7 +49,7 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_tree, null);
+            convertView = inflater.inflate(R.layout.item_favored_question, null);
             holder = new ViewHolder();
 
             holder.breadCrumb_tv = (TextView) convertView.findViewById(R.id.breadCrumb_tv);
@@ -61,8 +61,6 @@ public class FavoredQuestionLVAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.delete_imgbtn.setVisibility(View.VISIBLE);
 
         final TestObj testItem = favoredList.get(position);
 

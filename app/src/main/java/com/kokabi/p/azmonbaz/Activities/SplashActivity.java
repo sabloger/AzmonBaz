@@ -5,13 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.WindowManager;
 
+import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Components.CPermissionDeniedDialog;
+import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Objects.CategoryObj;
+import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
+import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
 import com.splunk.mint.Mint;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -47,6 +60,12 @@ public class SplashActivity extends AppCompatActivity {
             addShortcut();
         }
 
+        if (!Constants.isDataLoaded){
+            Constants.totalCategories.addAll(categoryListMaker());
+            Constants.totalTestTitles.addAll(testsTitleMaker());
+            Constants.totalTestDef.addAll(testDefinitionMaker());
+        }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -75,5 +94,53 @@ public class SplashActivity extends AppCompatActivity {
         Constants.isShortcutCreated = true;
         Constants.savePreferences();
 
+    }
+
+    private ArrayList<CategoryObj> categoryListMaker() {
+        ArrayList<CategoryObj> result = new ArrayList<>();
+        try {
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("categories.json")).getJSONArray("categories");
+
+            for (int i = 0; i < categoryArray.length(); ++i) {
+                JSONObject event = categoryArray.getJSONObject(i);
+                result.add(new Gson().fromJson(event.toString(), CategoryObj.class));
+            }
+
+        } catch (JSONException e) {
+            Log.e(CoursesFragment.class.getName(), e.getMessage());
+        }
+        return result;
+    }
+
+    private ArrayList<TestsTitleObj> testsTitleMaker() {
+        ArrayList<TestsTitleObj> result = new ArrayList<>();
+        try {
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("tests_title.json")).getJSONArray("test_titles");
+
+            for (int i = 0; i < categoryArray.length(); ++i) {
+                JSONObject event = categoryArray.getJSONObject(i);
+                result.add(new Gson().fromJson(event.toString(), TestsTitleObj.class));
+            }
+
+        } catch (JSONException e) {
+            Log.e(CoursesFragment.class.getName(), e.getMessage());
+        }
+        return result;
+    }
+
+    private ArrayList<TestDefinitionObj> testDefinitionMaker() {
+        ArrayList<TestDefinitionObj> result = new ArrayList<>();
+        try {
+            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("test_definition.json")).getJSONArray("testDefinition");
+
+            for (int i = 0; i < categoryArray.length(); ++i) {
+                JSONObject event = categoryArray.getJSONObject(i);
+                result.add(new Gson().fromJson(event.toString(), TestDefinitionObj.class));
+            }
+
+        } catch (JSONException e) {
+            Log.e(CoursesFragment.class.getName(), e.getMessage());
+        }
+        return result;
     }
 }

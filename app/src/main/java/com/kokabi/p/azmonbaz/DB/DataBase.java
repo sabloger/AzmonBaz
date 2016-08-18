@@ -552,4 +552,27 @@ public class DataBase extends SQLiteOpenHelper {
         this.getReadableDatabase().close();
         return isCreated;
     }
+
+    public boolean isTestAnswered(int id) {
+        boolean isAnswered = false;
+        String query = "SELECT * FROM " + tableHistory
+                + " WHERE " + KEY_idTestHistory + " = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    if (id == cursor.getInt(1)) {
+                        isAnswered = true;
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.toString());
+        }
+        this.getReadableDatabase().close();
+        return isAnswered;
+    }
 }

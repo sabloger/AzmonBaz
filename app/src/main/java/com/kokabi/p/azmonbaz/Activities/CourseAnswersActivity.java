@@ -9,18 +9,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.DB.DataBase;
-import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
-import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.Objects.TestObj;
 import com.kokabi.p.azmonbaz.R;
@@ -29,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -75,10 +70,11 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             breadCrumb = bundle.getString("breadCrumb", "");
         }
 
-        for (int i = 0; i < pageMaker().size(); i++) {
-            if (pageMaker().get(i).getIdTest() == idTest) {
-                pageTest = new TestDefinitionObj(pageMaker().get(i).getIdTest(), pageMaker().get(i).getQuestionNo()
-                        , pageMaker().get(i).getQuestionInfo(), pageMaker().get(i).getPercentage());
+        for (int i = 0; i < Constants.totalTestDef.size(); i++) {
+            if (Constants.totalTestDef.get(i).getIdTest() == idTest) {
+                pageTest = new TestDefinitionObj(Constants.totalTestDef.get(i).getIdTest()
+                        , Constants.totalTestDef.get(i).getQuestionNo()
+                        , Constants.totalTestDef.get(i).getQuestionInfo(), Constants.totalTestDef.get(i).getPercentage());
                 break;
             }
         }
@@ -275,21 +271,4 @@ public class CourseAnswersActivity extends AppCompatActivity implements View.OnC
             nextQuestion_ly.setVisibility(View.INVISIBLE);
         }
     }
-
-    private ArrayList<TestDefinitionObj> pageMaker() {
-        ArrayList<TestDefinitionObj> result = new ArrayList<>();
-        try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("test_definition.json")).getJSONArray("testDefinition");
-
-            for (int i = 0; i < categoryArray.length(); ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), TestDefinitionObj.class));
-            }
-
-        } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
-        }
-        return result;
-    }
-
 }

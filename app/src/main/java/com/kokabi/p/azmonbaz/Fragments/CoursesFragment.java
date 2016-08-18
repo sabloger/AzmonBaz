@@ -8,25 +8,18 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Activities.TestActivity;
 import com.kokabi.p.azmonbaz.Activities.TreeActivity;
 import com.kokabi.p.azmonbaz.Adapters.CoursesRVAdapter;
 import com.kokabi.p.azmonbaz.Components.EndlessRecyclerList;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
-import com.kokabi.p.azmonbaz.Help.ReadJSON;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +34,6 @@ public class CoursesFragment extends Fragment {
     /*Fragment Values*/
     LinearLayoutManager linearLayoutManager;
     CoursesRVAdapter rvAdapter;
-    ArrayList<CategoryObj> totalCategories = new ArrayList<>();
     ArrayList<CategoryObj> rootCategories = new ArrayList<>();
     private boolean isIntent = false, isFirstTime = true;
 
@@ -63,12 +55,8 @@ public class CoursesFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         coursesRecycleView.setHasFixedSize(true);
 
-        Constants.totalCategories.clear();
-        totalCategories.clear();
         rootCategories.clear();
 
-        totalCategories.addAll(pageMaker());
-        Constants.totalCategories.addAll(pageMaker());
         loadData(0);
         loadMore();
         isFirstTime = false;
@@ -76,8 +64,8 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 isIntent = false;
-                for (int i = 0; i < totalCategories.size(); i++) {
-                    if (rootCategories.get(position).getIdCat() == totalCategories.get(i).getIdParent()) {
+                for (int i = 0; i < Constants.totalCategories.size(); i++) {
+                    if (rootCategories.get(position).getIdCat() == Constants.totalCategories.get(i).getIdParent()) {
                         isIntent = true;
                     }
                 }
@@ -107,9 +95,17 @@ public class CoursesFragment extends Fragment {
     }
 
     private void loadData(int pageIndex) {
-        for (int i = pageIndex; i < pageIndex + 10; i++) {
-            if (totalCategories.get(i).getIdParent() == 0) {
-                rootCategories.add(totalCategories.get(i));
+        if (Constants.totalCategories.size() > 10) {
+            for (int i = pageIndex; i < pageIndex + 10; i++) {
+                if (Constants.totalCategories.get(i).getIdParent() == 0) {
+                    rootCategories.add(Constants.totalCategories.get(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < Constants.totalCategories.size(); i++) {
+                if (Constants.totalCategories.get(i).getIdParent() == 0) {
+                    rootCategories.add(Constants.totalCategories.get(i));
+                }
             }
         }
 
@@ -132,22 +128,6 @@ public class CoursesFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private ArrayList<CategoryObj> pageMaker() {
-        ArrayList<CategoryObj> result = new ArrayList<>();
-        try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("categories.json")).getJSONArray("categories");
-
-            for (int i = 0; i < categoryArray.length(); ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), CategoryObj.class));
-            }
-
-        } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
-        }
-        return result;
     }
 
 }

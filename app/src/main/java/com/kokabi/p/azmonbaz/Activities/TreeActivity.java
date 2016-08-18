@@ -7,12 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.kokabi.p.azmonbaz.Adapters.TreeLVAdapter;
+import com.kokabi.p.azmonbaz.Adapters.TreeRVAdapter;
+import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Objects.CategoryObj;
@@ -20,6 +21,8 @@ import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by P.Kokabi on 6/30/16.
@@ -31,10 +34,10 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
     CoordinatorLayout mainContent;
     TextView title_tv;
     AppCompatImageButton back_imgbtn;
-    ListView childLV;
+    RecyclerView childRV;
 
     /*Activity Values*/
-    TreeLVAdapter treeLVAdapter;
+    TreeRVAdapter treeRVAdapter;
     int idCategory;
     String breadCrumb;
     private boolean isIntent = false;
@@ -47,6 +50,7 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
 
         context = this;
         AppController.setActivityContext(TreeActivity.this, this);
+        EventBus.getDefault().register(this);
         mainContent = (CoordinatorLayout) findViewById(R.id.mainContent);
 
         findViews();
@@ -57,6 +61,11 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
             breadCrumb = bundle.getString("breadCrumb", "");
         }
 
+        // use a linear layout manager
+        childRV.setLayoutManager(new LinearLayoutManager(context));
+        // in content do not change the layout size of the RecyclerView
+        childRV.setHasFixedSize(true);
+
         for (int i = 0; i < Constants.totalCategories.size(); i++) {
             if (Constants.totalCategories.get(i).getIdParent() == idCategory) {
                 pageCategories.add(Constants.totalCategories.get(i));
@@ -64,8 +73,8 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Collections.sort(pageCategories);
-        treeLVAdapter = new TreeLVAdapter(context, pageCategories, breadCrumb);
-        childLV.setAdapter(treeLVAdapter);
+        treeRVAdapter = new TreeRVAdapter(context, pageCategories, breadCrumb);
+        childRV.setAdapter(treeRVAdapter);
 
         for (int i = 0; i < Constants.totalCategories.size(); i++) {
             if (Constants.totalCategories.get(i).getIdCat() == pageCategories.get(0).getIdParent()) {
@@ -73,9 +82,9 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        childLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        childRV.addOnItemTouchListener(new TreeRVAdapter(context, new TreeRVAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public void onItemClick(View view, int position) {
                 isIntent = false;
                 for (int i = 0; i < Constants.totalCategories.size(); i++) {
                     if (pageCategories.get(position).getIdCat() == Constants.totalCategories.get(i).getIdParent()) {
@@ -92,13 +101,14 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
                             .putExtra("breadCrumb", breadCrumb + " - " + pageCategories.get(position).getCatName()));
                 }
             }
-        });
+        }));
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         Constants.freeMemory();
     }
 
@@ -116,13 +126,21 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
 
         back_imgbtn = (AppCompatImageButton) findViewById(R.id.back_imgbtn);
 
-        childLV = (ListView) findViewById(R.id.childLV);
+        childRV = (RecyclerView) findViewById(R.id.childRV);
 
         setOnClick();
     }
 
     private void setOnClick() {
         back_imgbtn.setOnClickListener(this);
+    }
+
+    public void onEvent(final GeneralMSB event) {
+        switch (event.getMessage()) {
+            case "testAnswered":
+                treeRVAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
 }

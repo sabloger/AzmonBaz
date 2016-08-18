@@ -23,6 +23,12 @@
         <item name="lpd_strokeSecondaryColor">@color/transparent</item>
     </style>
 
+    <!--Linear ProgressView-->
+    <style name="LinearProgressNormal" parent="Material.Drawable.LinearProgress.Determinate">
+        <item name="lpd_strokeColor">@color/green</item>
+        <item name="lpd_strokeSecondaryColor">@color/accentColor</item>
+    </style>
+
     <!--Circular ProgressView-->
     <style name="CircularProgress" parent="Material.Drawable.CircularProgress.Determinate">
         <item name="cpd_strokeColor">@color/accentColor</item>

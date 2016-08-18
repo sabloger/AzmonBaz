@@ -52,7 +52,7 @@ public class SavedTestFragment extends Fragment {
         findViews(v);
 
         // use a linear layout manager
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager = new LinearLayoutManager(context);
         savedTestRV.setLayoutManager(linearLayoutManager);
         // in content do not change the layout size of the RecyclerView
         savedTestRV.setHasFixedSize(true);
@@ -107,17 +107,19 @@ public class SavedTestFragment extends Fragment {
     }
 
     private void loadData(int pageIndex) {
-        if (historyRVAdapter.getSize() > 0) {
-            if (isFirstTime) {
-                historyRVAdapter = new SavedTestRVAdapter(db.selectAllSavedTest(pageIndex));
-                savedTestRV.setAdapter(historyRVAdapter);
-                isFirstTime = false;
-            } else {
-                historyRVAdapter.addMoreData(db.selectAllSavedTest(pageIndex));
-            }
+        if (isFirstTime) {
+            historyRVAdapter = new SavedTestRVAdapter(db.selectAllSavedTest(pageIndex));
+            savedTestRV.setAdapter(historyRVAdapter);
+            isFirstTime = false;
         } else {
+            historyRVAdapter.addMoreData(db.selectAllSavedTest(pageIndex));
+        }
+        if (historyRVAdapter.getSize() == 0) {
             savedTestRV.setVisibility(View.GONE);
             noItem_ly.setVisibility(View.VISIBLE);
+        } else {
+            savedTestRV.setVisibility(View.VISIBLE);
+            noItem_ly.setVisibility(View.GONE);
         }
     }
 

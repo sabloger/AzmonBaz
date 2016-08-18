@@ -11,46 +11,6 @@
       "idParent": 0
     },
     {
-      "idCat": 2,
-      "catName": "فیزیک",
-      "backColor": "#02AAFF",
-      "textColor": "#FFFFFF",
-      "backImage": 0,
-      "resIcon": "ic_physics",
-      "categoryOrder": "1",
-      "idParent": 0
-    },
-    {
-      "idCat": 3,
-      "catName": "شیمی",
-      "backColor": "#FFEC63",
-      "textColor": "#404040",
-      "backImage": 0,
-      "resIcon": "ic_chemistry",
-      "categoryOrder": "2",
-      "idParent": 0
-    },
-    {
-      "idCat": 4,
-      "catName": "ریاضی ۲",
-      "backColor": "",
-      "textColor": "#404040",
-      "backImage": 0,
-      "resIcon": "",
-      "categoryOrder": "2",
-      "idParent": 1
-    },
-    {
-      "idCat": 5,
-      "catName": "ریاضی ۱",
-      "backColor": "",
-      "textColor": "#404040",
-      "backImage": 0,
-      "resIcon": "",
-      "categoryOrder": "1",
-      "idParent": 1
-    },
-    {
       "idCat": 6,
       "catName": "ریاضی ۳",
       "backColor": "",
@@ -69,26 +29,6 @@
       "resIcon": "",
       "categoryOrder": "2",
       "idParent": 6
-    },
-    {
-      "idCat": 8,
-      "catName": "جبر",
-      "backColor": "",
-      "textColor": "#404040",
-      "backImage": 0,
-      "resIcon": "",
-      "categoryOrder": "1",
-      "idParent": 6
-    },
-    {
-      "idCat": 9,
-      "catName": "فیزیک ۱",
-      "backColor": "",
-      "textColor": "#404040",
-      "backImage": 0,
-      "resIcon": "",
-      "categoryOrder": "1",
-      "idParent": 2
     },
     {
       "idCat": 10,
