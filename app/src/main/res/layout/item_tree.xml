@@ -49,7 +49,7 @@
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            app:pv_autostart="true"
+            app:pv_autostart="false"
             app:pv_circular="false"
             app:pv_progressMode="determinate"
             app:pv_progressStyle="@style/LinearProgressNormal" />

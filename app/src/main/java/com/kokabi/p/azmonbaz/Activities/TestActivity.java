@@ -94,6 +94,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         testRVAdapter.updateTest();
+        AppController.setActivityContext(TestActivity.this, this);
     }
 
     @Override

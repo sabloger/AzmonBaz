@@ -124,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:padding="16dp"
-                            app:srcCompat="@drawable/ic_minus" />
+                            app:srcCompat="@drawable/ic_minus_outline" />
 
                         <android.support.v7.widget.AppCompatImageButton
                             android:id="@+id/cross_imgbtn"
@@ -132,7 +132,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:padding="16dp"
-                            app:srcCompat="@drawable/ic_clear" />
+                            app:srcCompat="@drawable/ic_cross_outline" />
 
                     </LinearLayout>
 

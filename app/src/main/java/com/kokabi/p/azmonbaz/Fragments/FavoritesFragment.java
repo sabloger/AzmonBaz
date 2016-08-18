@@ -8,13 +8,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
 import com.kokabi.p.azmonbaz.Components.DialogGeneral;
@@ -22,13 +20,9 @@ import com.kokabi.p.azmonbaz.Components.EndlessRecyclerList;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
-import com.kokabi.p.azmonbaz.Help.ReadJSON;
+import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 import com.kokabi.p.azmonbaz.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -79,6 +73,13 @@ public class FavoritesFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        testRVAdapter.updateTest();
+        AppController.setCurrentContext(context);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
@@ -97,10 +98,10 @@ public class FavoritesFragment extends Fragment {
         idFavoredTests.addAll(db.selectPagingIdFavorites(pageIndex));
         breadCrumbFavoredTests.addAll(db.selectAllBreadCrumbFavorites(pageIndex));
 
-        for (int i = 0; i < pageMaker().size(); i++) {
+        for (int i = 0; i < Constants.totalTestTitles.size(); i++) {
             for (int j = 0; j < idFavoredTests.size(); j++) {
-                if (pageMaker().get(i).getIdTest() == idFavoredTests.get(j)) {
-                    TestsTitleObj finalTest = pageMaker().get(i);
+                if (Constants.totalTestTitles.get(i).getIdTest() == idFavoredTests.get(j)) {
+                    TestsTitleObj finalTest = Constants.totalTestTitles.get(i);
                     finalTest.setBreadCrumb(breadCrumbFavoredTests.get(j));
                     favoritesTests.add(finalTest);
                 }
@@ -146,23 +147,6 @@ public class FavoritesFragment extends Fragment {
                 }.show();
                 break;
         }
-    }
-
-    private ArrayList<TestsTitleObj> pageMaker() {
-        ArrayList<TestsTitleObj> result = new ArrayList<>();
-        try {
-            JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("tests_title.json")).getJSONArray("test_titles");
-
-            int length = categoryArray.length();
-            for (int i = 0; i < length; ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), TestsTitleObj.class));
-            }
-
-        } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
-        }
-        return result;
     }
 
     private void loadMore() {

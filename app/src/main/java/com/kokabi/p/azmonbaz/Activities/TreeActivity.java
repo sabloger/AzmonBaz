@@ -106,6 +106,13 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+//        testRVAdapter.updateTest();
+//        AppController.setActivityContext(TestActivity.this, this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);

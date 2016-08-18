@@ -60,11 +60,11 @@ public class HistoryFragment extends Fragment {
             historyRVAdapter = new HistoryRVAdapter(db.selectAllHistory(0));
             historyRV.setAdapter(historyRVAdapter);
             loadMore();
-            isFirstTime = false;
         } else {
             historyRV.setVisibility(View.GONE);
             noItem_ly.setVisibility(View.VISIBLE);
         }
+        isFirstTime = false;
         return v;
     }
 
