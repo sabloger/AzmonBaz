@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class DataBase extends SQLiteOpenHelper {
 
-    static final int version = 1;
+    static final int version = 2;
     static final String name = "AzmonBaz";
     /*Favorite Test Table Info*/
     static final String tableFavoriteTests = "favoriteTests";

@@ -86,7 +86,7 @@ public class CoursesRVAdapter extends RecyclerView.Adapter<CoursesRVAdapter.View
         /*get path of saved file to show the backImages*/
         AssetManager assetManager = context.getAssets();
         try {
-            InputStream is = assetManager.open("Categories/Backgrounds" + courses.get(position).getBackImage());
+            InputStream is = assetManager.open("Backgrounds" + courses.get(position).getBackImage());
             Bitmap bitmap = BitmapFactory.decodeStream(is);
             Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
             holder.course_fr.setBackground(drawable);
