@@ -131,6 +131,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.ViewHolder
 
         if (isFavoredFragment) {
             holder.breadCrumb_tv.setText(testsTitleObj.getBreadCrumb());
+            breadCrumb = testsTitleObj.getBreadCrumb();
         } else {
             holder.breadCrumb_tv.setText(breadCrumb);
         }
