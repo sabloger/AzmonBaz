@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_cav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:layoutDirection="rtl"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/course_imgv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/categoryHeight"
+        android:scaleType="fitXY" />
+
+</android.support.v7.widget.CardView>

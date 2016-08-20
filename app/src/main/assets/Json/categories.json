@@ -3,40 +3,28 @@
     {
       "idCat": 1,
       "catName": "ریاضی",
-      "backColor": "#FF2E62",
-      "textColor": "#FFFFFF",
-      "backImage": 0,
-      "resIcon": "ic_math",
+      "backImage": "math.png",
       "categoryOrder": "3",
       "idParent": 0
     },
     {
       "idCat": 6,
       "catName": "ریاضی ۳",
-      "backColor": "",
-      "textColor": "#404040",
-      "backImage": 0,
-      "resIcon": "",
+      "backImage": "",
       "categoryOrder": "3",
       "idParent": 1
     },
     {
       "idCat": 7,
       "catName": "حسابان",
-      "backColor": "",
-      "textColor": "#404040",
       "backImage": 0,
-      "resIcon": "",
       "categoryOrder": "2",
       "idParent": 6
     },
     {
       "idCat": 10,
       "catName": "دیفرانسیل",
-      "backColor": "",
-      "textColor": "#404040",
       "backImage": 0,
-      "resIcon": "",
       "categoryOrder": "4",
       "idParent": 1
     }

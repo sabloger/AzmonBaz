@@ -7,61 +7,35 @@ import android.support.annotation.NonNull;
  */
 public class CategoryObj implements Comparable<CategoryObj> {
 
-    int idCat, backImage, idParent;
-    String catName, resIcon, categoryOrder, backColor, textColor;
+    int idCat, idParent;
+    String catName, backImage, categoryOrder;
 
     public int getIdCat() {
         return idCat;
-    }
-
-    public int getBackImage() {
-        return backImage;
-    }
-
-    public String getResIcon() {
-        return resIcon;
     }
 
     public int getIdParent() {
         return idParent;
     }
 
-    public String getCategoryOrder() {
-        return categoryOrder;
-    }
-
     public String getCatName() {
         return catName;
     }
 
-    public String getBackColor() {
-        return backColor;
+    public String getBackImage() {
+        return backImage;
     }
 
-    public String getTextColor() {
-        return textColor;
-    }
-
-    public void setTextColor(String textColor) {
-        this.textColor = textColor;
+    public String getCategoryOrder() {
+        return categoryOrder;
     }
 
     @Override
     public int compareTo(@NonNull CategoryObj c) {
-        return this.getCategoryOrder().compareTo(c.getCategoryOrder());
-    }
-
-    @Override
-    public String toString() {
-        return "CategoryObj{" +
-                "idCat=" + idCat +
-                ", backImage=" + backImage +
-                ", idParent=" + idParent +
-                ", catName='" + catName + '\'' +
-                ", resIcon='" + resIcon + '\'' +
-                ", categoryOrder='" + categoryOrder + '\'' +
-                ", backColor='" + backColor + '\'' +
-                ", textColor='" + textColor + '\'' +
-                '}';
+        try {
+            return this.categoryOrder.compareTo(c.getCategoryOrder());
+        } catch (Exception e) {
+            return Integer.parseInt(e.toString());
+        }
     }
 }

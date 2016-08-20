@@ -8,15 +8,17 @@ android {
         applicationId "com.kokabi.p.azmonbaz"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 6
-        versionName "beta6.0"
+        versionCode 1
+        versionName "1"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 19;
         renderscriptSupportModeEnabled true;
     }
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

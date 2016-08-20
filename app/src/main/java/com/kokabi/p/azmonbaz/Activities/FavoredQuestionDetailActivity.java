@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.Help.AppController;
@@ -25,7 +25,7 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
     Context context;
     DataBase db;
 
-    ImageView questionAnswer_imgv;
+    AppCompatImageView questionAnswer_imgv;
     AppCompatImageButton questionAnswer_imgbtn, close_imgbtn;
 
     /*Activity Values*/
@@ -89,7 +89,7 @@ public class FavoredQuestionDetailActivity extends AppCompatActivity implements 
     }
 
     private void findViews() {
-        questionAnswer_imgv = (ImageView) findViewById(R.id.questionAnswer_imgv);
+        questionAnswer_imgv = (AppCompatImageView) findViewById(R.id.questionAnswer_imgv);
 
         close_imgbtn = (AppCompatImageButton) findViewById(R.id.close_imgbtn);
         questionAnswer_imgbtn = (AppCompatImageButton) findViewById(R.id.questionAnswer_imgbtn);

@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
@@ -21,7 +21,7 @@ public class FullPageImageActivity extends AppCompatActivity implements View.OnC
 
     Context context;
 
-    ImageView question_imgv;
+    AppCompatImageView question_imgv;
     AppCompatImageButton exit_full_imgbtn;
 
     /*Activity Values*/
@@ -64,7 +64,7 @@ public class FullPageImageActivity extends AppCompatActivity implements View.OnC
     }
 
     private void findViews() {
-        question_imgv = (ImageView) findViewById(R.id.question_imgv);
+        question_imgv = (AppCompatImageView) findViewById(R.id.question_imgv);
 
         exit_full_imgbtn = (AppCompatImageButton) findViewById(R.id.exit_full_imgbtn);
 

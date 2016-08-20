@@ -20,7 +20,6 @@ import com.kokabi.p.azmonbaz.Objects.CategoryObj;
 import com.kokabi.p.azmonbaz.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import de.greenrobot.event.EventBus;
 
@@ -72,7 +71,7 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        Collections.sort(pageCategories);
+//        Collections.sort(pageCategories);
         treeRVAdapter = new TreeRVAdapter(context, pageCategories, breadCrumb);
         childRV.setAdapter(treeRVAdapter);
 

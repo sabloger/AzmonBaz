@@ -3,8 +3,8 @@ package com.kokabi.p.azmonbaz.Help;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
 
@@ -17,9 +17,9 @@ import java.io.InputStream;
 public class ImageLoad {
 
     String path;
-    ImageView view;
+    AppCompatImageView view;
 
-    public ImageLoad(String path, ImageView view) {
+    public ImageLoad(String path, AppCompatImageView view) {
         this.path = path;
         this.view = view;
         loadImage();

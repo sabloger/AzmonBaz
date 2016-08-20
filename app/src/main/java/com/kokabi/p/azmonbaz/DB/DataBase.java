@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class DataBase extends SQLiteOpenHelper {
 
-    static final int version = 2;
+    static final int version = 1;
     static final String name = "AzmonBaz";
     /*Favorite Test Table Info*/
     static final String tableFavoriteTests = "favoriteTests";
@@ -97,7 +97,6 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL(createFavoredQuestion);
         db.execSQL(createQuestionState);
         db.execSQL(createSavedTest);
-        Log.i(Constants.TAG, createSavedTest);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + tableHistory);
         db.execSQL("DROP TABLE IF EXISTS " + tableFavoredQuestion);
         db.execSQL("DROP TABLE IF EXISTS " + tableQuestionState);
-        db.execSQL("DROP TABLE IF EXISTS " + createSavedTest);
+        db.execSQL("DROP TABLE IF EXISTS " + tableSavedTest);
         onCreate(db);
     }
 
