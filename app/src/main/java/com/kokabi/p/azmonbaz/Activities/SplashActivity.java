@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.google.gson.Gson;
-import com.kokabi.p.azmonbaz.Components.CPermissionDeniedDialog;
-import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
 import com.kokabi.p.azmonbaz.Help.ReadJSON;
@@ -30,7 +28,6 @@ import java.util.ArrayList;
 public class SplashActivity extends AppCompatActivity {
 
     Context context;
-    CPermissionDeniedDialog dialogPermissionDenied;
 
     /*Activity Values*/
     int SPLASH_TIME_OUT = 500;
@@ -45,7 +42,6 @@ public class SplashActivity extends AppCompatActivity {
 
         context = this;
         AppController.setActivityContext(SplashActivity.this, this);
-        dialogPermissionDenied = new CPermissionDeniedDialog();
 
         Constants.loadPreferences();
         welcomeScreen();
@@ -60,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
             addShortcut();
         }
 
-        if (!Constants.isDataLoaded){
+        if (!Constants.isDataLoaded) {
             Constants.totalCategories.addAll(categoryListMaker());
             Constants.totalTestTitles.addAll(testsTitleMaker());
             Constants.totalTestDef.addAll(testDefinitionMaker());
@@ -99,15 +95,13 @@ public class SplashActivity extends AppCompatActivity {
     private ArrayList<CategoryObj> categoryListMaker() {
         ArrayList<CategoryObj> result = new ArrayList<>();
         try {
+//            Log.i("========", new MCrypt().encrypt(ReadJSON.readRawResource("categories.json") + ""));
             JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("categories.json")).getJSONArray("categories");
-
             for (int i = 0; i < categoryArray.length(); ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), CategoryObj.class));
+                result.add(new Gson().fromJson(categoryArray.getJSONObject(i).toString(), CategoryObj.class));
             }
-
         } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
+            Log.e(SplashActivity.class.getName(), e.getMessage());
         }
         return result;
     }
@@ -116,14 +110,11 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<TestsTitleObj> result = new ArrayList<>();
         try {
             JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("tests_title.json")).getJSONArray("test_titles");
-
             for (int i = 0; i < categoryArray.length(); ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), TestsTitleObj.class));
+                result.add(new Gson().fromJson(categoryArray.getJSONObject(i).toString(), TestsTitleObj.class));
             }
-
         } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
+            Log.e(SplashActivity.class.getName(), e.getMessage());
         }
         return result;
     }
@@ -132,14 +123,11 @@ public class SplashActivity extends AppCompatActivity {
         ArrayList<TestDefinitionObj> result = new ArrayList<>();
         try {
             JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("test_definition.json")).getJSONArray("testDefinition");
-
             for (int i = 0; i < categoryArray.length(); ++i) {
-                JSONObject event = categoryArray.getJSONObject(i);
-                result.add(new Gson().fromJson(event.toString(), TestDefinitionObj.class));
+                result.add(new Gson().fromJson(categoryArray.getJSONObject(i).toString(), TestDefinitionObj.class));
             }
-
         } catch (JSONException e) {
-            Log.e(CoursesFragment.class.getName(), e.getMessage());
+            Log.e(SplashActivity.class.getName(), e.getMessage());
         }
         return result;
     }

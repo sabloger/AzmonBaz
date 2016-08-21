@@ -11,18 +11,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Components.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Fragments.AboutFragment;
 import com.kokabi.p.azmonbaz.Fragments.CoursesFragment;
 import com.kokabi.p.azmonbaz.Fragments.FavoredQuestionFragment;
@@ -31,7 +30,6 @@ import com.kokabi.p.azmonbaz.Fragments.HistoryFragment;
 import com.kokabi.p.azmonbaz.Fragments.SavedTestFragment;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.Constants;
-import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.CustomTypefaceSpan;
 import com.kokabi.p.azmonbaz.Help.FontChange;
 import com.kokabi.p.azmonbaz.R;
@@ -41,9 +39,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context context;
-    ActionBar actionbar;
     boolean doubleBackToExitPressedOnce = false;
-    public static CustomSnackBar snackBar;
 
     CoordinatorLayout mainContent;
     DrawerLayout drawerLayout;
@@ -51,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ActionBarDrawerToggle drawerToggle;
     Toolbar toolBar;
     AppCompatImageButton menu_imgbtn;
-    public static TextView title_tv;
+    TextView title_tv;
 
     /*Activity Values*/
     ArrayList<Fragment> listFragments = new ArrayList<>();
@@ -99,9 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 this.doubleBackToExitPressedOnce = true;
-
-                snackBar = new CustomSnackBar(mainContent, "لطفا برای خروج  مجددا دکمه بازگشت را فشار دهید.", Constants.SNACK.WARNING);
-
+                new CustomSnackBar(mainContent, "لطفا برای خروج  مجددا دکمه بازگشت را فشار دهید.", Constants.SNACK.WARNING);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -146,11 +140,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setupDrawer() {
         /*Setting Custom ActionBar*/
         setSupportActionBar(toolBar);
-        actionbar = getSupportActionBar();
-        assert actionbar != null;
-        actionbar.setDisplayShowHomeEnabled(false);
-        actionbar.setDisplayShowTitleEnabled(false);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         // Find our drawer view
         drawerToggle = setupDrawerToggle();
         // Tie DrawerLayout events to the ActionBarToggle
@@ -233,10 +226,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setMenuFont() {
-        Menu m = navDrawer.getMenu();
-        for (int i = 0; i < m.size(); i++) {
-            MenuItem mi = m.getItem(i);
-            applyFontToMenuItem(mi);
+        for (int i = 0; i < navDrawer.getMenu().size(); i++) {
+            applyFontToMenuItem(navDrawer.getMenu().getItem(i));
         }
     }
 }

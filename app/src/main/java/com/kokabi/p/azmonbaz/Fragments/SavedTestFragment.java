@@ -64,6 +64,7 @@ public class SavedTestFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        AppController.setCurrentContext(context);
         loadData(0);
         loadMore();
         isFirstTime = true;

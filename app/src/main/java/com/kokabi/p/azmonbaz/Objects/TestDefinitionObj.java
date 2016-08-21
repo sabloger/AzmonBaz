@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class TestDefinitionObj {
 
-    int idTest, questionNo, percentage;
+    int idTest = 0, questionNo = 0, percentage = 0;
     ArrayList<TestObj> questionInfo = new ArrayList<>();
 
     public TestDefinitionObj(int idTest, int questionNo, ArrayList<TestObj> questionInfo, int percentage) {
@@ -31,15 +31,5 @@ public class TestDefinitionObj {
 
     public ArrayList<TestObj> getQuestionInfo() {
         return questionInfo;
-    }
-
-    @Override
-    public String toString() {
-        return "TestDefinitionObj{" +
-                "idTest=" + idTest +
-                ", questionNo=" + questionNo +
-                ", percentage=" + percentage +
-                ", questionInfo=" + questionInfo +
-                '}';
     }
 }

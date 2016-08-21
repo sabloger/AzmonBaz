@@ -1,4 +1,4 @@
-package com.kokabi.p.azmonbaz.Help;
+package com.kokabi.p.azmonbaz.Components;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -8,6 +8,9 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
+import com.kokabi.p.azmonbaz.Help.AppController;
+import com.kokabi.p.azmonbaz.Help.Constants;
+import com.kokabi.p.azmonbaz.Help.FontChange;
 import com.kokabi.p.azmonbaz.R;
 
 /**

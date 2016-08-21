@@ -87,6 +87,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        AppController.setCurrentContext(context);
         isFirstTime = true;
     }
 

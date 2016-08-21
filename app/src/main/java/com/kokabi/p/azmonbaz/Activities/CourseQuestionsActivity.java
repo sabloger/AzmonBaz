@@ -23,12 +23,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.kokabi.p.azmonbaz.Components.CSpinner;
+import com.kokabi.p.azmonbaz.Components.CustomSnackBar;
 import com.kokabi.p.azmonbaz.DB.DataBase;
 import com.kokabi.p.azmonbaz.EventBuss.GeneralMSB;
 import com.kokabi.p.azmonbaz.Help.AppController;
 import com.kokabi.p.azmonbaz.Help.BlurBuilder;
 import com.kokabi.p.azmonbaz.Help.Constants;
-import com.kokabi.p.azmonbaz.Help.CustomSnackBar;
 import com.kokabi.p.azmonbaz.Help.ImageLoad;
 import com.kokabi.p.azmonbaz.Objects.HistoryObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
@@ -145,10 +145,9 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
             }
         }
 
-        timer(time * 1000);
-
         progressBar.setProgress(0f);
         progressBar.start();
+        timer(time * 1000);
 
         totalQuestion = pageTest.getQuestionNo() - 1;
         hideShowBackForward(question + 1);
@@ -425,7 +424,6 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         thirdChoice_btn.setOnClickListener(this);
         fourthChoice_btn.setOnClickListener(this);
         confirm_fab.setOnClickListener(this);
-        confirm_fab.setOnClickListener(this);
     }
 
     private void timer(long milliSeconds) {
@@ -609,10 +607,10 @@ public class CourseQuestionsActivity extends AppCompatActivity implements Droppy
         if (question == 1) {
             nextQuestion_ly.setVisibility(View.VISIBLE);
             previousQuestion_ly.setVisibility(View.INVISIBLE);
-        } else if (question > 1 && question < 10) {
+        } else if (question > 1 && question < totalQuestion + 1) {
             nextQuestion_ly.setVisibility(View.VISIBLE);
             previousQuestion_ly.setVisibility(View.VISIBLE);
-        } else if (question == 10) {
+        } else if (question == totalQuestion + 1) {
             nextQuestion_ly.setVisibility(View.INVISIBLE);
             previousQuestion_ly.setVisibility(View.VISIBLE);
         }

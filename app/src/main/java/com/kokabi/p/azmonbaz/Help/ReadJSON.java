@@ -1,5 +1,7 @@
 package com.kokabi.p.azmonbaz.Help;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -13,8 +15,8 @@ public class ReadJSON {
         try {
             return readStream(AppController.getCurrentContext().getAssets().open("Json/" + jsonPathName));
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            Log.i(Constants.TAG, e.toString());
+            return e.toString();
         }
     }
 

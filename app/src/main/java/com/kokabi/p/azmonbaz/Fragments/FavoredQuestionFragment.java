@@ -58,6 +58,12 @@ public class FavoredQuestionFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        AppController.setCurrentContext(context);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
