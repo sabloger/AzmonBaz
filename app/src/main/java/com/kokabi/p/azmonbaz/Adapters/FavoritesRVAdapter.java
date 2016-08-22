@@ -31,10 +31,9 @@ public class FavoritesRVAdapter extends RecyclerView.Adapter<FavoritesRVAdapter.
     boolean isFavoredFragment = false;
     String decimal = "%02d : %02d", breadCrumb;
 
-    public FavoritesRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment, String breadCrumb) {
+    public FavoritesRVAdapter(ArrayList<TestsTitleObj> dataInput, boolean isFavoredFragment) {
         testList = dataInput;
         this.isFavoredFragment = isFavoredFragment;
-        this.breadCrumb = breadCrumb;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -91,7 +90,7 @@ public class FavoritesRVAdapter extends RecyclerView.Adapter<FavoritesRVAdapter.
                                 .putExtra("hasNegativePoint", testList.get(getAdapterPosition()).isHasNegativePoint())
                                 .putExtra("isResumeTest", false)
                                 .putExtra("initTime", testList.get(getAdapterPosition()).getTime())
-                                .putExtra("breadCrumb", breadCrumb));
+                                .putExtra("breadCrumb", testList.get(getAdapterPosition()).getBreadCrumb()));
                     } else {
                         EventBus.getDefault().post(new GeneralMSB("isResume"
                                 , testList.get(getAdapterPosition())));
@@ -110,7 +109,7 @@ public class FavoritesRVAdapter extends RecyclerView.Adapter<FavoritesRVAdapter.
                             .putExtra("hasNegativePoint", resumeTestObj.isHasNegativePoint())
                             .putExtra("isResumeTest", true)
                             .putExtra("initTime", resumeTestObj.getTime())
-                            .putExtra("breadCrumb", breadCrumb));
+                            .putExtra("breadCrumb", testList.get(getAdapterPosition()).getBreadCrumb()));
                 }
             });
         }
@@ -128,7 +127,7 @@ public class FavoritesRVAdapter extends RecyclerView.Adapter<FavoritesRVAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         final TestsTitleObj testsTitleObj = testList.get(position);
 
-        holder.breadCrumb_tv.setText(breadCrumb);
+        holder.breadCrumb_tv.setText(testsTitleObj.getBreadCrumb());
         holder.testTitle_tv.setText(testsTitleObj.getTestName());
         holder.testTime_tv.setText(String.format(decimal,
                 TimeUnit.MILLISECONDS.toSeconds(testsTitleObj.getTime() * 1000) -

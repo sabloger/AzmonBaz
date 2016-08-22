@@ -95,7 +95,6 @@ public class SplashActivity extends AppCompatActivity {
     private ArrayList<CategoryObj> categoryListMaker() {
         ArrayList<CategoryObj> result = new ArrayList<>();
         try {
-//            Log.i("========", new MCrypt().encrypt(ReadJSON.readRawResource("categories.json") + ""));
             JSONArray categoryArray = new JSONObject(ReadJSON.readRawResource("categories.json")).getJSONArray("categories");
             for (int i = 0; i < categoryArray.length(); ++i) {
                 result.add(new Gson().fromJson(categoryArray.getJSONObject(i).toString(), CategoryObj.class));

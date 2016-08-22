@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
-import com.kokabi.p.azmonbaz.Adapters.TestRVAdapter;
+import com.kokabi.p.azmonbaz.Adapters.FavoritesRVAdapter;
 import com.kokabi.p.azmonbaz.Components.DialogGeneral;
 import com.kokabi.p.azmonbaz.Components.EndlessRecyclerList;
 import com.kokabi.p.azmonbaz.DB.DataBase;
@@ -38,7 +38,7 @@ public class FavoritesFragment extends Fragment {
     RecyclerView favoriteTestRV;
 
     /*Activity Values*/
-    TestRVAdapter testRVAdapter;
+    FavoritesRVAdapter favRVAdapter;
     LinearLayoutManager linearLayoutManager;
     ArrayList<TestsTitleObj> favoritesTests = new ArrayList<>();
     ArrayList<Integer> idFavoredTests = new ArrayList<>();
@@ -75,7 +75,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        testRVAdapter.updateTest();
+        favRVAdapter.updateTest();
         AppController.setCurrentContext(context);
     }
 
@@ -84,7 +84,7 @@ public class FavoritesFragment extends Fragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         idFavoredTests.clear();
-        testRVAdapter.clearTest();
+        favRVAdapter.clearTest();
         breadCrumbFavoredTests.clear();
     }
 
@@ -114,11 +114,11 @@ public class FavoritesFragment extends Fragment {
         }
 
         if (isFirstTime) {
-            testRVAdapter = new TestRVAdapter(favoritesTests, true, null);
-            favoriteTestRV.setAdapter(testRVAdapter);
+            favRVAdapter = new FavoritesRVAdapter(favoritesTests, true);
+            favoriteTestRV.setAdapter(favRVAdapter);
             isFirstTime = false;
         } else {
-            testRVAdapter.addMoreData();
+            favRVAdapter.updateTest();
         }
     }
 
