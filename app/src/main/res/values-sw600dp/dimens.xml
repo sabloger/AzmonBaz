@@ -1,8 +1,5 @@
 <resources>
 
-    <!--Drawer-->
-    <dimen name="drawerWidth">320dp</dimen>
-
     <!--Calender-->
     <dimen name="fab_margin">16dp</dimen>
 
