@@ -112,7 +112,7 @@ public class HistoryRVAdapter extends RecyclerView.Adapter<HistoryRVAdapter.View
         jCal.GregorianToPersian(year, month, day);
         holder.updateTime_tv.setText(String.valueOf(jCal.getYear() + " / " + jCal.getMonth() + " / " + jCal.getDay()));
         /*set Percentage*/
-        holder.percentage_tv.setText(String.valueOf(historyObj.getTestPercentage() + " % "));
+        holder.percentage_tv.setText(String.valueOf(historyObj.getTestPercentage()));
         /*set Elapsed Time*/
         float elapsedTime = (float) Integer.parseInt(historyObj.getTestTime()) / 60;
         if (elapsedTime < 1) {

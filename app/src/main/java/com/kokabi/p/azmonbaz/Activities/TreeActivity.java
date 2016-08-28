@@ -71,7 +71,6 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-//        Collections.sort(pageCategories);
         treeRVAdapter = new TreeRVAdapter(context, pageCategories, breadCrumb);
         childRV.setAdapter(treeRVAdapter);
 
@@ -102,13 +101,6 @@ public class TreeActivity extends AppCompatActivity implements View.OnClickListe
             }
         }));
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        testRVAdapter.updateTest();
-//        AppController.setActivityContext(TestActivity.this, this);
     }
 
     @Override

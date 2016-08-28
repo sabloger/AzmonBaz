@@ -37,12 +37,18 @@ public class Constants {
     public final static ArrayList<CategoryObj> totalCategories = new ArrayList<>();
     public final static ArrayList<TestsTitleObj> totalTestTitles = new ArrayList<>();
     public final static ArrayList<TestDefinitionObj> totalTestDef = new ArrayList<>();
+    public static String totalCategoriesAsString = "";
+    public static String totalTestTitlesAsString = "";
+    public static String totalTestDefAsString = "";
 
     public static void loadPreferences() {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         Constants.isShortcutCreated = pref.getBoolean(GS.isShortcutCreated, Constants.isShortcutCreated);
         Constants.isDataLoaded = pref.getBoolean(GS.isDataLoaded, Constants.isDataLoaded);
+        Constants.totalCategoriesAsString = pref.getString(GS.totalCategoriesAsString, Constants.totalCategoriesAsString);
+        Constants.totalTestTitlesAsString = pref.getString(GS.totalTestTitlesAsString, Constants.totalTestTitlesAsString);
+        Constants.totalTestDefAsString = pref.getString(GS.totalTestDefAsString, Constants.totalTestDefAsString);
     }
 
     public static void savePreferences() {
@@ -50,6 +56,9 @@ public class Constants {
 
         pref.edit().putBoolean(GS.isShortcutCreated, Constants.isShortcutCreated).apply();
         pref.edit().putBoolean(GS.isDataLoaded, Constants.isDataLoaded).apply();
+        pref.edit().putString(GS.totalCategoriesAsString, Constants.totalCategoriesAsString).apply();
+        pref.edit().putString(GS.totalTestTitlesAsString, Constants.totalTestTitlesAsString).apply();
+        pref.edit().putString(GS.totalTestDefAsString, Constants.totalTestDefAsString).apply();
     }
 
     public static void freeMemory() {

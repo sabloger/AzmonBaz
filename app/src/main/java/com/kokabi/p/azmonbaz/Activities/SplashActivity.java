@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -44,6 +45,9 @@ public class SplashActivity extends AppCompatActivity {
         AppController.setActivityContext(SplashActivity.this, this);
 
         Constants.loadPreferences();
+        Constants.totalCategories.clear();
+        Constants.totalTestTitles.clear();
+        Constants.totalTestDef.clear();
         welcomeScreen();
     }
 
@@ -56,10 +60,22 @@ public class SplashActivity extends AppCompatActivity {
             addShortcut();
         }
 
+        Gson gson = new Gson();
         if (!Constants.isDataLoaded) {
             Constants.totalCategories.addAll(categoryListMaker());
             Constants.totalTestTitles.addAll(testsTitleMaker());
             Constants.totalTestDef.addAll(testDefinitionMaker());
+            Constants.totalCategoriesAsString = gson.toJson(Constants.totalCategories);
+            Constants.totalTestTitlesAsString = gson.toJson(Constants.totalTestTitles);
+            Constants.totalTestDefAsString = gson.toJson(Constants.totalTestDef);
+            Constants.freeMemory();
+            Constants.isDataLoaded = true;
+            Constants.savePreferences();
+        } else {
+            Constants.totalCategories.addAll(Arrays.asList(gson.fromJson(Constants.totalCategoriesAsString, CategoryObj[].class)));
+            Constants.totalTestTitles.addAll(Arrays.asList(gson.fromJson(Constants.totalTestTitlesAsString, TestsTitleObj[].class)));
+            Constants.totalTestDef.addAll(Arrays.asList(gson.fromJson(Constants.totalTestDefAsString, TestDefinitionObj[].class)));
+            Constants.freeMemory();
         }
 
         new Handler().postDelayed(new Runnable() {
