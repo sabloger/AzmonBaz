@@ -96,7 +96,7 @@ public class SavedTestFragment extends Fragment {
                 noItem_ly.setVisibility(View.VISIBLE);
                 break;
             case "isDelete":
-                new DialogGeneral(getString(R.string.titleDelete), getString(R.string.confirm), getString(R.string.cancel)) {
+                new DialogGeneral(getString(R.string.titleDelete), getString(R.string.confirm), getString(R.string.cancel), true) {
                     @Override
                     public void onConfirm() {
                         db.savedTestDelete(event.getId());

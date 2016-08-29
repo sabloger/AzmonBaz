@@ -37,6 +37,4 @@ public class NetworkUtil {
         }
         return status;
     }
-
-
 }

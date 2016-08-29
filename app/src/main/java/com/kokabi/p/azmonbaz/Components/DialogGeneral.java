@@ -21,12 +21,14 @@ public abstract class DialogGeneral extends Dialog implements View.OnClickListen
     private CButton confirm_btn, cancel_btn;
     TextView title_tv;
     String titleText, confirmTitle, cancelTitle;
+    boolean isCancelVisible = true;
 
-    public DialogGeneral(@Nullable String titleText, @Nullable String confirmTitle, @Nullable String cancelTitle) {
+    public DialogGeneral(@Nullable String titleText, @Nullable String confirmTitle, @Nullable String cancelTitle, boolean isCancelVisible) {
         super(AppController.getCurrentContext());
         this.titleText = titleText;
         this.confirmTitle = confirmTitle;
         this.cancelTitle = cancelTitle;
+        this.isCancelVisible = isCancelVisible;
     }
 
     @Override
@@ -46,6 +48,13 @@ public abstract class DialogGeneral extends Dialog implements View.OnClickListen
         }
         if (confirmTitle != null) {
             cancel_btn.setText(cancelTitle);
+        }
+        if (!isCancelVisible) {
+            cancel_btn.setVisibility(View.GONE);
+            setCancelable(false);
+        } else {
+            cancel_btn.setVisibility(View.VISIBLE);
+            setCancelable(true);
         }
     }
 

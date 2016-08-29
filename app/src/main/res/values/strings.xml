@@ -71,4 +71,7 @@
     <!--Dialog Resume-->
     <string name="resumeTestTitle">این آزمون قبلا ذخیره شده.\nمایل به شروع مجدد هستید؟</string>
 
+    <string name="unzipFailure">متاسفانه فایل‌های مربوط به نرم‌افزار بصورت کامل بارگذاری نگردیده ، لطفا مجدد تلاش نمایید.</string>
+    <string name="tryAgain">تلاش مجدد</string>
+
 </resources>

@@ -12,6 +12,10 @@ import com.kokabi.p.azmonbaz.Objects.GeneralObj;
 import com.kokabi.p.azmonbaz.Objects.TestDefinitionObj;
 import com.kokabi.p.azmonbaz.Objects.TestsTitleObj;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -23,8 +27,14 @@ public class Constants {
     static SharedPreferences pref;
     public static String TAG = "AzmonBaz";
 
+    /*Zip File Params*/
+    public static String appFolderName = "AzmonBaz";
+    public static String fileNameZip = "Content.zip";
+    public static String password = "123456789";
+
     /*Setting Parameters*/
     public static boolean isShortcutCreated = false;
+    public static boolean isUnzipped = false;
     public static boolean isDataLoaded = false;
 
     /*Fonts*/
@@ -45,6 +55,7 @@ public class Constants {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         Constants.isShortcutCreated = pref.getBoolean(GS.isShortcutCreated, Constants.isShortcutCreated);
+        Constants.isUnzipped = pref.getBoolean(GS.isUnzipped, Constants.isUnzipped);
         Constants.isDataLoaded = pref.getBoolean(GS.isDataLoaded, Constants.isDataLoaded);
         Constants.totalCategoriesAsString = pref.getString(GS.totalCategoriesAsString, Constants.totalCategoriesAsString);
         Constants.totalTestTitlesAsString = pref.getString(GS.totalTestTitlesAsString, Constants.totalTestTitlesAsString);
@@ -55,6 +66,7 @@ public class Constants {
         pref = AppController.getCurrentContext().getSharedPreferences("i", Context.MODE_PRIVATE);
 
         pref.edit().putBoolean(GS.isShortcutCreated, Constants.isShortcutCreated).apply();
+        pref.edit().putBoolean(GS.isUnzipped, Constants.isUnzipped).apply();
         pref.edit().putBoolean(GS.isDataLoaded, Constants.isDataLoaded).apply();
         pref.edit().putString(GS.totalCategoriesAsString, Constants.totalCategoriesAsString).apply();
         pref.edit().putString(GS.totalTestTitlesAsString, Constants.totalTestTitlesAsString).apply();
@@ -98,6 +110,23 @@ public class Constants {
         }
 
         return new GeneralObj(done, size);
+    }
+
+    public static String readFile(String filename) {
+        File fileEvents = new File(AppController.getCurrentContext().getApplicationInfo().dataDir + "/app_" + appFolderName + "/" + filename);
+        StringBuilder text = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileEvents));
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+            return text.toString();
+        } catch (IOException e) {
+            return "";
+        }
     }
 
     /*SnackBar Actions*/

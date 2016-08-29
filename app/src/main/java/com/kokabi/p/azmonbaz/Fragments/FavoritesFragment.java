@@ -131,7 +131,7 @@ public class FavoritesFragment extends Fragment {
             case "isResume":
                 new DialogGeneral(context.getResources().getString(R.string.resumeTestTitle)
                         , context.getResources().getString(R.string.startTest)
-                        , context.getResources().getString(R.string.cancel)) {
+                        , context.getResources().getString(R.string.cancel), true) {
                     @Override
                     public void onConfirm() {
                         context.startActivity(new Intent(context, CourseQuestionsActivity.class)

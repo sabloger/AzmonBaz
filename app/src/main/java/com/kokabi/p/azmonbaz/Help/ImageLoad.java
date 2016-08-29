@@ -1,15 +1,11 @@
 package com.kokabi.p.azmonbaz.Help;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 
-import com.kokabi.p.azmonbaz.Activities.CourseQuestionsActivity;
-
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
 
 /**
  * Created by P.kokabi on 7/20/2016.
@@ -26,13 +22,13 @@ public class ImageLoad {
     }
 
     private void loadImage() {
-        AssetManager assetManager = AppController.getCurrentContext().getAssets();
         try {
-            InputStream is = assetManager.open(path);
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            File fileEvents = new File(AppController.getCurrentContext().getApplicationInfo().dataDir
+                    + "/app_" + Constants.appFolderName + "/" + path);
+            Bitmap bitmap = BitmapFactory.decodeFile(fileEvents.getAbsolutePath());
             view.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Log.e(CourseQuestionsActivity.class.getName(), e.getMessage());
+        } catch (Exception e) {
+            Log.i(Constants.TAG, e.getMessage());
         }
     }
 }
